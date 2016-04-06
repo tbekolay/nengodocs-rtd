@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Designing networks &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="../index.html"/>
+        <link rel="up" title="Networks" href="../networks.html"/>
+        <link rel="next" title="Additional tips and tricks for designing networks" href="network_design_advanced.html"/>
+        <link rel="prev" title="Networks" href="../networks.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../user_api.html">Nengo Modelling API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../networks.html">Networks</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Designing networks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#group-related-objects-in-networks-with-with">1. Group related objects in networks with <code class="docutils literal"><span class="pre">with</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reuse-networks-by-defining-functions">2. Reuse networks by defining functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameterize-functions-for-more-flexible-reuse">3. Parameterize functions for more flexible reuse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#longer-example-double-integrator-network">Longer example: double integrator network</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="network_design_advanced.html">Additional tips and tricks for designing networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config.html">The <code class="docutils literal"><span class="pre">config</span></code> system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#ensemble-array">Ensemble Array</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#action-selection">Action Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#working-memory">Working Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#product">Product</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#circular-convolution">Circular Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#integrator">Integrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#oscillator">Oscillator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html">Release History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../user_guide.html">User Guide</a> &raquo;</li>
+      
+          <li><a href="../networks.html">Networks</a> &raquo;</li>
+      
+    <li>Designing networks</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/examples/network_design.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="designing-networks">
+<h1>Designing networks<a class="headerlink" href="#designing-networks" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal"><span class="pre">Networks</span></code> are how Nengo encapsulates functionally complementary
+objects. Networks can contain ensembles, nodes, connection, even other
+networks. Models are often made much more readable my grouping objects
+into networks. Tools for visualizing networks will often use the network
+structure to produce cleaner images.</p>
+<p>Here, we will go over some general principles of network design. In the
+first section, we will go over these principles with a simple example.
+In the second section, we will apply these principles to a more
+complicated example.</p>
+<p>Briefly, the general principles we will go over in this tutorial are</p>
+<ol class="arabic simple" start="0">
+<li>Group related objects in networks with <code class="docutils literal"><span class="pre">with</span></code></li>
+<li>Reuse networks by defining functions</li>
+<li>Parameterize functions for more flexible reuse</li>
+</ol>
+<p>We will demonstrate these principles with a network consisting of two
+connected integrators as an example.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">nengo</span>
+<span class="o">%</span><span class="n">load_ext</span> <span class="n">nengo</span><span class="o">.</span><span class="n">ipynb</span>
+<span class="kn">from</span> <span class="nn">nengo.dists</span> <span class="kn">import</span> <span class="n">Choice</span>
+<span class="kn">from</span> <span class="nn">nengo.utils.functions</span> <span class="kn">import</span> <span class="n">piecewise</span>
+<span class="kn">from</span> <span class="nn">nengo.utils.ipython</span> <span class="kn">import</span> <span class="n">hide_input</span>
+<span class="k">def</span> <span class="nf">test_integrators</span><span class="p">(</span><span class="n">net</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+        <span class="n">piecewise_f</span> <span class="o">=</span> <span class="n">piecewise</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="n">piecewise_inp</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">piecewise_f</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">piecewise_inp</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+        <span class="n">input_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">piecewise_inp</span><span class="p">)</span>
+        <span class="n">pre_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">post_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">input_probe</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pre_probe</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">post_probe</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">hide_input</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;IPython.core.display.Javascript object&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[1]:
+</pre></div>
+</div>
+<div class="container">
+<a id="572800784" href="javascript:toggle_input_572800784()"
+  >Show Input</a>
+
+<script type="text/javascript">
+var toggle_input_572800784;
+(function() {
+    if (typeof jQuery == 'undefined') {
+        // no jQuery
+        var link_572800784 = document.getElementById("572800784");
+        var cell = link_572800784;
+        while (cell.className.split(' ')[0] != "cell") {
+            cell = cell.parentNode;
+        }
+        var input_572800784;
+        for (var i = 0; i < cell.children.length; i++) {
+            if (cell.children[i].className.split(' ')[0] == "input")
+                input_572800784 = cell.children[i];
+        }
+        input_572800784.style.display = "none"; // hide
+
+        toggle_input_572800784 = function() {
+            if (input_572800784.style.display == "none") {
+                input_572800784.style.display = ""; // show
+                link_572800784.innerHTML = "Hide Input";
+            } else {
+                input_572800784.style.display = "none"; // hide
+                link_572800784.innerHTML = "Show Input";
+            }
+        }
+
+    } else {
+        // jQuery
+        var link_572800784 = $("a[id='572800784']");
+        var cell_572800784 = link_572800784.parents("div.cell:first");
+        var input_572800784 = cell_572800784.children("div.input");
+        input_572800784.hide();
+
+        toggle_input_572800784 = function() {
+            if (input_572800784.is(':hidden')) {
+                input_572800784.slideDown();
+                link_572800784[0].innerHTML = "Hide Input";
+            } else {
+                input_572800784.slideUp();
+                link_572800784[0].innerHTML = "Show Input";
+            }
+        }
+    }
+}());
+</script></div>
+</div>
+<div class="section" id="group-related-objects-in-networks-with-with">
+<h2>1. Group related objects in networks with <code class="docutils literal"><span class="pre">with</span></code><a class="headerlink" href="#group-related-objects-in-networks-with-with" title="Permalink to this headline">¶</a></h2>
+<p>All Nengo objects must be created in the context of some network. We use
+the <code class="docutils literal"><span class="pre">with</span></code> keyword to denote the network context in which a Nengo
+object is created.</p>
+<p>These <code class="docutils literal"><span class="pre">with</span></code> statements can be nested to group objects in
+appropriately named networks.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Example: two connected integrators</span>
+<span class="c1">#  (See integrator example network for more details)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Two integrators&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">pre_integrator</span><span class="p">:</span>
+        <span class="n">pre_input</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">size_in</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">pre_ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_ensemble</span><span class="p">,</span> <span class="n">pre_ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_input</span><span class="p">,</span> <span class="n">pre_ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">post_integrator</span><span class="p">:</span>
+        <span class="n">post_input</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">size_in</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">post_ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">post_ensemble</span><span class="p">,</span> <span class="n">post_ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">post_input</span><span class="p">,</span> <span class="n">post_ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_ensemble</span><span class="p">,</span> <span class="n">post_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Test the integrators by giving piecewise input and plotting</span>
+<span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">piecewise_f</span> <span class="o">=</span> <span class="n">piecewise</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="n">piecewise_inp</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">piecewise_f</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">piecewise_inp</span><span class="p">,</span> <span class="n">pre_input</span><span class="p">)</span>
+    <span class="n">input_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">piecewise_inp</span><span class="p">)</span>
+    <span class="n">pre_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">pre_ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">post_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">post_ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">input_probe</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pre_probe</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;pre integrator&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">post_probe</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;post integrator&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_4_0.png" src="../_images/examples_network_design_4_0.png" />
+</div>
+</div>
+<p>Note that the <code class="docutils literal"><span class="pre">with</span></code> statements are not just cosmetic; Nengo objects
+are stored in the network that they&#8217;re constructed in.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">assert</span> <span class="n">pre_input</span> <span class="ow">in</span> <span class="n">pre_integrator</span>
+<span class="k">assert</span> <span class="n">pre_input</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">net</span>
+<span class="k">assert</span> <span class="n">pre_integrator</span> <span class="ow">in</span> <span class="n">net</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="reuse-networks-by-defining-functions">
+<h2>2. Reuse networks by defining functions<a class="headerlink" href="#reuse-networks-by-defining-functions" title="Permalink to this headline">¶</a></h2>
+<p>Often, the same network is constructed more than once, resulting in
+duplicated code. We can reduce this code duplication by defining a
+function that creates the network and returns it.</p>
+<p>Even if you only use the network once, it can be helpful to define all
+of your subnetworks in functions to keep your code cleaner. Determining
+when a network should be defined in a function is informed by experience
+designing large networks and personal preference.</p>
+<div class="section" id="store-useful-objects-on-the-network">
+<h3>Store useful objects on the network<a class="headerlink" href="#store-useful-objects-on-the-network" title="Permalink to this headline">¶</a></h3>
+<p>A corollary to putting networks in functions is that any objects that
+you might want access to outside of that function should be stored on
+the network. Functions that create networks should only return that
+network. While all objects in that network are stored somewhere (e.g.,
+ensembles are stored in a <code class="docutils literal"><span class="pre">net.ensembles</span></code> list), that list can be
+large and difficult to search. Therefore, we recommend storing objects
+on the network itself to make them accessible outside of the function.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Example: two connected integrators. Now with functions!</span>
+<span class="k">def</span> <span class="nf">Integrator</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">integrator</span><span class="p">:</span>
+        <span class="n">integrator</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">size_in</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span>
+                         <span class="n">synapse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">integrator</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Two integrators&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span> <span class="o">=</span> <span class="n">Integrator</span><span class="p">()</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span> <span class="o">=</span> <span class="n">Integrator</span><span class="p">()</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># This function does the same as the previous example</span>
+<span class="n">test_integrators</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_9_0.png" src="../_images/examples_network_design_9_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="parameterize-functions-for-more-flexible-reuse">
+<h2>3. Parameterize functions for more flexible reuse<a class="headerlink" href="#parameterize-functions-for-more-flexible-reuse" title="Permalink to this headline">¶</a></h2>
+<p>Now that your network is created in a function, you can add parameters
+to your function to change how your network is constructed. This could
+be a huge change, allowing you to compare two different approaches to
+some component of your model, or it could something straightforward like
+changing the number of neurons in the ensembles in the network.</p>
+<p>Unlike other languages, Python allows you to add two different types of
+parameters: <strong>positional</strong> and <strong>keyword</strong> arguments. Positional
+arguments must be passed to your function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_network</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_network</span><span class="p">()</span>
+<span class="go">TypeError: my_network() takes exactly 2 arguments (0 given)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_network</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;0 0&#39;</span>
+</pre></div>
+</div>
+<p>Keyword arguments are assigned a default value, and so do not have to be
+passed to your function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_network</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_network</span><span class="p">()</span>
+<span class="go">&#39;0 0&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_network</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;1 0&#39;</span>
+</pre></div>
+</div>
+<p>Order does not matter if you explicitly label the argument in your
+function call.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_network</span><span class="p">(</span><span class="n">arg2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">arg1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;1 2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_network</span><span class="p">(</span><span class="n">arg2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;0 2&#39;</span>
+</pre></div>
+</div>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Example: two connected integrators. Functions have parameters!</span>
+<span class="k">def</span> <span class="nf">Integrator</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">integrator</span><span class="p">:</span>
+        <span class="n">integrator</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">size_in</span><span class="o">=</span><span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span>
+                         <span class="n">synapse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">integrator</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Try 50 neuron ensembles</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Two integrators&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span> <span class="o">=</span> <span class="n">Integrator</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span> <span class="o">=</span> <span class="n">Integrator</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+<span class="n">test_integrators</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_12_0.png" src="../_images/examples_network_design_12_0.png" />
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Try shorter tau (spoiler: it fails to integrate well)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Two integrators&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span> <span class="o">=</span> <span class="n">Integrator</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span> <span class="o">=</span> <span class="n">Integrator</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">pre_integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">post_integrator</span><span class="o">.</span><span class="n">input</span><span class="p">)</span>
+<span class="n">test_integrators</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_13_0.png" src="../_images/examples_network_design_13_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="longer-example-double-integrator-network">
+<h2>Longer example: double integrator network<a class="headerlink" href="#longer-example-double-integrator-network" title="Permalink to this headline">¶</a></h2>
+<p>While the coupled integrator model above seems like a toy example, it is
+in fact a critical component of many models that capture
+neurophysiological and behavioral data. Let&#8217;s looks at a more
+complicated network that uses coupled integrators, and show how the
+network design principles discussed above improve model organization. We
+will look at a simplified version of the network described in <a class="reference external" href="http://compneuro.uwaterloo.ca/files/publications/bekolay.2014a.pdf">Bekolay
+et al.,
+2014</a>.</p>
+<p>This network uses two coupled integrators in the context of a simple
+reaction time task. The subject presses down a lever, and should release
+that lever between 0.6 and 1.0 seconds later. In order to time the
+interval, the lever press starts the coupled integrators, which are
+tuned such that the second integrator should reach a high point by
+around 0.6 seconds. The second integrator effects the lever release.</p>
+<p>We&#8217;ll start with a completely disorganized network. Even if you&#8217;ve read
+the paper, the code is quite hard to follow.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="n">pre_integrator</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_integrator</span><span class="p">,</span> <span class="n">pre_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                     <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">synapse</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">post_integrator</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">post_integrator</span><span class="p">,</span> <span class="n">post_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                     <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">synapse</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">post_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
+    <span class="n">press</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                           <span class="n">encoders</span><span class="o">=</span><span class="n">Choice</span><span class="p">([[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">intercepts</span><span class="o">=</span><span class="n">Choice</span><span class="p">([</span><span class="mf">0.85</span><span class="p">]))</span>
+    <span class="n">release</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">encoders</span><span class="o">=</span><span class="n">Choice</span><span class="p">([[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">intercepts</span><span class="o">=</span><span class="n">Choice</span><span class="p">([</span><span class="mf">0.85</span><span class="p">]))</span>
+
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">pre_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">tau</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">post_integrator</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=-</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">6</span><span class="p">)</span>
+
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">post_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">release</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">0.2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">),</span> <span class="n">press</span><span class="p">)</span>
+
+    <span class="n">pr_press</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pr_release</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">release</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pr_pre_int</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">pre_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pr_post_int</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">post_integrator</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_doubleintegrator</span><span class="p">(</span><span class="n">net</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_press</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Press&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_release</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Release&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_pre_int</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Pre Integrator&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_post_int</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Post Integrator&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+
+<span class="n">test_doubleintegrator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_15_0.png" src="../_images/examples_network_design_15_0.png" />
+</div>
+</div>
+<p>Recall that the goal is to release the lever 0.6-1.0 seconds after the
+press. The blue &#8220;Press&#8221; line in the upper plot represents the activity
+of neurons in motor cortex which effect the lever press. If we assume
+that the press occurs at 0.2 seconds, then the release window is between
+0.8 and 1.2 seconds (shown in green). This will occur if the &#8220;Post
+Integrator&#8221; (see lower plot) is sufficiently high during this window. If
+you rerun the cell above several times, you can see that it usually
+achieves this, but not all of the time.</p>
+<p>Looking at the code, it&#8217;s difficult to tell how we achieve this result.
+It&#8217;s also difficult to see what parameters needed tweaking. Rather than
+just showing one parameter set that works, we should investigate
+reasonable ranges for each parameter. It would be easy to think that
+there is only one parameter, <code class="docutils literal"><span class="pre">tau</span></code>, in the model as presented, but
+this is not the case.</p>
+<p>Let&#8217;s start with the first network design principle: group objects into
+networks with <code class="docutils literal"><span class="pre">with</span></code>.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">medial_pfc</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">pre_integrator</span><span class="p">:</span>
+            <span class="n">pre_ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_ensemble</span><span class="p">,</span> <span class="n">pre_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">synapse</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">post_integrator</span><span class="p">:</span>
+            <span class="n">post_ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">post_ensemble</span><span class="p">,</span> <span class="n">post_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">synapse</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">pre_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">post_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">motor</span><span class="p">:</span>
+        <span class="n">press</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">encoders</span><span class="o">=</span><span class="n">Choice</span><span class="p">([[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">intercepts</span><span class="o">=</span><span class="n">Choice</span><span class="p">([</span><span class="mf">0.85</span><span class="p">]))</span>
+        <span class="n">release</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                 <span class="n">encoders</span><span class="o">=</span><span class="n">Choice</span><span class="p">([[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">intercepts</span><span class="o">=</span><span class="n">Choice</span><span class="p">([</span><span class="mf">0.85</span><span class="p">]))</span>
+
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">pre_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">tau</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">post_ensemble</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">transform</span><span class="o">=-</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">6</span><span class="p">)</span>
+
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">post_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">release</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">0.2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">),</span> <span class="n">press</span><span class="p">)</span>
+
+    <span class="n">pr_press</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pr_release</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">release</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pr_pre_int</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">pre_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pr_post_int</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">post_ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="n">test_doubleintegrator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_17_0.png" src="../_images/examples_network_design_17_0.png" />
+</div>
+</div>
+<p>This exhibits some of the hypotheses of this model; specifically, that
+the medial prefrontal cortex contains these integrators, and that they
+can be involved in control of motor actions.</p>
+<p>Let&#8217;s do both of the remaining principles by making some parameterized
+functions to get a sense of all of the knobs that be be tweaked in this
+model.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">controlled_integrator</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">integrator</span><span class="p">:</span>
+        <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="n">dimensions</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">,</span> <span class="n">integrator</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[:</span><span class="n">dimensions</span><span class="p">],</span>
+                         <span class="n">function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">synapse</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">integrator</span>
+
+<span class="k">def</span> <span class="nf">medial_pfc</span><span class="p">(</span><span class="n">coupling_strength</span><span class="p">,</span> <span class="n">n_neurons_per_integrator</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">medial_pfc</span><span class="p">:</span>
+        <span class="n">medial_pfc</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">controlled_integrator</span><span class="p">(</span><span class="n">n_neurons_per_integrator</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="n">medial_pfc</span><span class="o">.</span><span class="n">post</span> <span class="o">=</span> <span class="n">controlled_integrator</span><span class="p">(</span><span class="n">n_neurons_per_integrator</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">medial_pfc</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">medial_pfc</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                         <span class="n">transform</span><span class="o">=</span><span class="n">coupling_strength</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">medial_pfc</span>
+
+<span class="k">def</span> <span class="nf">motor_cortex</span><span class="p">(</span><span class="n">command_threshold</span><span class="p">,</span> <span class="n">n_neurons_per_command</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">motor_cortex</span><span class="p">:</span>
+        <span class="n">ens_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s1">&#39;encoders&#39;</span><span class="p">:</span> <span class="n">Choice</span><span class="p">([[</span><span class="mi">1</span><span class="p">]]),</span>
+                    <span class="s1">&#39;intercepts&#39;</span><span class="p">:</span> <span class="n">Choice</span><span class="p">([</span><span class="n">command_threshold</span><span class="p">])}</span>
+        <span class="n">motor_cortex</span><span class="o">.</span><span class="n">press</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">n_neurons_per_command</span><span class="p">,</span> <span class="o">**</span><span class="n">ens_args</span><span class="p">)</span>
+        <span class="n">motor_cortex</span><span class="o">.</span><span class="n">release</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">n_neurons_per_command</span><span class="p">,</span> <span class="o">**</span><span class="n">ens_args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">motor_cortex</span>
+
+<span class="k">def</span> <span class="nf">double_integrator</span><span class="p">(</span><span class="n">mpfc_coupling_strength</span><span class="p">,</span>
+                      <span class="n">command_threshold</span><span class="p">,</span>
+                      <span class="n">press_to_pre_gain</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                      <span class="n">press_to_post_control</span><span class="o">=-</span><span class="mi">6</span><span class="p">,</span>
+                      <span class="n">recurrent_tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                      <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">mpfc</span> <span class="o">=</span> <span class="n">medial_pfc</span><span class="p">(</span><span class="n">mpfc_coupling_strength</span><span class="p">)</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">motor</span> <span class="o">=</span> <span class="n">motor_cortex</span><span class="p">(</span><span class="n">command_threshold</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">press</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">mpfc</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                         <span class="n">transform</span><span class="o">=</span><span class="n">recurrent_tau</span> <span class="o">*</span> <span class="n">press_to_pre_gain</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">press</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">mpfc</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                         <span class="n">transform</span><span class="o">=</span><span class="n">press_to_post_control</span><span class="p">)</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">mpfc</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">net</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">release</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">net</span>
+
+<span class="k">def</span> <span class="nf">test_doubleintegrator</span><span class="p">(</span><span class="n">net</span><span class="p">):</span>
+    <span class="c1"># Provide input and probe outside of network construction, for more flexibility</span>
+    <span class="k">with</span> <span class="n">net</span><span class="p">:</span>
+        <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">0.2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">),</span> <span class="n">net</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">press</span><span class="p">)</span>
+        <span class="n">pr_press</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">press</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">pr_release</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">release</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">pr_pre_int</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">mpfc</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">pr_post_int</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">mpfc</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_press</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Press&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_release</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Release&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_pre_int</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Pre Integrator&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">pr_post_int</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Post Integrator&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">double_integrator</span><span class="p">(</span><span class="n">mpfc_coupling_strength</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">command_threshold</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+<span class="n">test_doubleintegrator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_19_0.png" src="../_images/examples_network_design_19_0.png" />
+</div>
+</div>
+<p>While this does add some complexity and length, the effort is worth it,
+as we can now do simple parameters sweeps to investigate the effects of
+changing various parameters.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">coupling_strength</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">):</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">double_integrator</span><span class="p">(</span><span class="n">mpfc_coupling_strength</span><span class="o">=</span><span class="n">coupling_strength</span><span class="p">,</span>
+                            <span class="n">command_threshold</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
+                            <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">test_doubleintegrator</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_21_0.png" src="../_images/examples_network_design_21_0.png" />
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_21_1.png" src="../_images/examples_network_design_21_1.png" />
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_network_design_21_2.png" src="../_images/examples_network_design_21_2.png" />
+</div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">coupling_strength</span></code> changes how quickly the &#8220;Post Integrator&#8221;
+rises, which causes the release to occur at different times. Of the
+values tested, only a coupling strength of 0.16 effects the release
+during the release window (for this particular network seed).</p>
+<p>We will looks at some more techniques for cleaning up this network code
+and making it more flexible in &#8220;Additional tips and tricks for designing
+networks&#8221;.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="network_design_advanced.html" class="btn btn-neutral float-right" title="Additional tips and tricks for designing networks" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../networks.html" class="btn btn-neutral" title="Networks" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

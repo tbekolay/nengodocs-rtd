@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nengo.builder.ensemble &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>nengo.builder.ensemble</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<h1>Source code for nengo.builder.ensemble</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">nengo.utils.numpy</span> <span class="kn">as</span> <span class="nn">npext</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.builder</span> <span class="kn">import</span> <span class="n">Builder</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.operator</span> <span class="kn">import</span> <span class="n">Copy</span><span class="p">,</span> <span class="n">DotInc</span><span class="p">,</span> <span class="n">Reset</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.signal</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">nengo.dists</span> <span class="kn">import</span> <span class="n">Distribution</span>
+<span class="kn">from</span> <span class="nn">nengo.ensemble</span> <span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="kn">from</span> <span class="nn">nengo.neurons</span> <span class="kn">import</span> <span class="n">Direct</span>
+<span class="kn">from</span> <span class="nn">nengo.utils.builder</span> <span class="kn">import</span> <span class="n">default_n_eval_points</span>
+
+<span class="n">BuiltEnsemble</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s1">&#39;BuiltEnsemble&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;eval_points&#39;</span><span class="p">,</span> <span class="s1">&#39;encoders&#39;</span><span class="p">,</span> <span class="s1">&#39;intercepts&#39;</span><span class="p">,</span> <span class="s1">&#39;max_rates&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;scaled_encoders&#39;</span><span class="p">,</span> <span class="s1">&#39;gain&#39;</span><span class="p">,</span> <span class="s1">&#39;bias&#39;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">Distribution</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">gen_eval_points</span><span class="p">(</span><span class="n">ens</span><span class="p">,</span> <span class="n">eval_points</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">scale_eval_points</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eval_points</span><span class="p">,</span> <span class="n">Distribution</span><span class="p">):</span>
+        <span class="n">n_points</span> <span class="o">=</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_eval_points</span>
+        <span class="k">if</span> <span class="n">n_points</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">n_points</span> <span class="o">=</span> <span class="n">default_n_eval_points</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)</span>
+        <span class="n">eval_points</span> <span class="o">=</span> <span class="n">eval_points</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">n_eval_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+                <span class="ow">and</span> <span class="n">eval_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_eval_points</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Number of eval_points doesn&#39;t match &quot;</span>
+                          <span class="s2">&quot;n_eval_points. Ignoring n_eval_points.&quot;</span><span class="p">)</span>
+        <span class="n">eval_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eval_points</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">eval_points</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="n">scale_eval_points</span><span class="p">:</span>
+        <span class="n">eval_points</span> <span class="o">*=</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span>  <span class="c1"># scale by ensemble radius</span>
+    <span class="k">return</span> <span class="n">eval_points</span>
+
+
+<span class="k">def</span> <span class="nf">get_activities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ens</span><span class="p">,</span> <span class="n">eval_points</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">eval_points</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">ens</span><span class="p">]</span><span class="o">.</span><span class="n">encoders</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ens</span><span class="o">.</span><span class="n">neuron_type</span><span class="o">.</span><span class="n">rates</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">ens</span><span class="p">]</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">ens</span><span class="p">]</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_gain_bias</span><span class="p">(</span><span class="n">ens</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ens</span><span class="o">.</span><span class="n">gain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ens</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+        <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>  <span class="c1"># TODO: determine from gain &amp; bias</span>
+    <span class="k">elif</span> <span class="n">ens</span><span class="o">.</span><span class="n">gain</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">ens</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># TODO: handle this instead of error</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;gain or bias set for </span><span class="si">%s</span><span class="s2">, but not both. &quot;</span>
+                                  <span class="s2">&quot;Solving for one given the other is not &quot;</span>
+                                  <span class="s2">&quot;implemented yet.&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">max_rates</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">max_rates</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+        <span class="n">intercepts</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">intercepts</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+        <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span> <span class="o">=</span> <span class="n">ens</span><span class="o">.</span><span class="n">neuron_type</span><span class="o">.</span><span class="n">gain_bias</span><span class="p">(</span><span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span>
+
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">Ensemble</span><span class="p">)</span>  <span class="c1"># noqa: C901</span>
+<div class="viewcode-block" id="build_ensemble"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.build_ensemble">[docs]</a><span class="k">def</span> <span class="nf">build_ensemble</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ens</span><span class="p">):</span>
+    <span class="c1"># Create random number generator</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">seeds</span><span class="p">[</span><span class="n">ens</span><span class="p">])</span>
+
+    <span class="n">eval_points</span> <span class="o">=</span> <span class="n">gen_eval_points</span><span class="p">(</span><span class="n">ens</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">eval_points</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+    <span class="c1"># Set up signal</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">dimensions</span><span class="p">),</span>
+                                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.signal&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]))</span>
+
+    <span class="c1"># Set up encoders</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">,</span> <span class="n">Direct</span><span class="p">):</span>
+        <span class="n">encoders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">encoders</span><span class="p">,</span> <span class="n">Distribution</span><span class="p">):</span>
+        <span class="n">encoders</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">encoders</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">encoders</span> <span class="o">=</span> <span class="n">npext</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">encoders</span><span class="p">,</span> <span class="n">min_dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">encoders</span> <span class="o">/=</span> <span class="n">npext</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">encoders</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># Build the neurons</span>
+    <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span> <span class="o">=</span> <span class="n">get_gain_bias</span><span class="p">(</span><span class="n">ens</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">,</span> <span class="n">Direct</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">dimensions</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.neuron_in&#39;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.neuron_in&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.neuron_out&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">)</span>
+        <span class="n">bias_sig</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.bias&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Copy</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">bias_sig</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]))</span>
+        <span class="c1"># This adds the neuron&#39;s operator and sets other signals</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">,</span> <span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">)</span>
+
+    <span class="c1"># Scale the encoders</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">,</span> <span class="n">Direct</span><span class="p">):</span>
+        <span class="n">scaled_encoders</span> <span class="o">=</span> <span class="n">encoders</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">scaled_encoders</span> <span class="o">=</span> <span class="n">encoders</span> <span class="o">*</span> <span class="p">(</span><span class="n">gain</span> <span class="o">/</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="p">][</span><span class="s1">&#39;encoders&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+        <span class="n">scaled_encoders</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.scaled_encoders&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># Inject noise if specified</span>
+    <span class="k">if</span> <span class="n">ens</span><span class="o">.</span><span class="n">noise</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">noise</span><span class="p">,</span> <span class="n">sig_out</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">],</span> <span class="n">inc</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># Create output signal, using built Neurons</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">DotInc</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="p">][</span><span class="s1">&#39;encoders&#39;</span><span class="p">],</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">],</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">],</span>
+        <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> encoding&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="p">))</span>
+
+    <span class="c1"># Output is neural output</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">ens</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">ens</span><span class="p">]</span> <span class="o">=</span> <span class="n">BuiltEnsemble</span><span class="p">(</span><span class="n">eval_points</span><span class="o">=</span><span class="n">eval_points</span><span class="p">,</span>
+                                      <span class="n">encoders</span><span class="o">=</span><span class="n">encoders</span><span class="p">,</span>
+                                      <span class="n">intercepts</span><span class="o">=</span><span class="n">intercepts</span><span class="p">,</span>
+                                      <span class="n">max_rates</span><span class="o">=</span><span class="n">max_rates</span><span class="p">,</span>
+                                      <span class="n">scaled_encoders</span><span class="o">=</span><span class="n">scaled_encoders</span><span class="p">,</span>
+                                      <span class="n">gain</span><span class="o">=</span><span class="n">gain</span><span class="p">,</span>
+                                      <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nengo.connection &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>nengo.connection</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<h1>Source code for nengo.connection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">nengo.base</span> <span class="kn">import</span> <span class="n">NengoObject</span><span class="p">,</span> <span class="n">NengoObjectParam</span><span class="p">,</span> <span class="n">ObjView</span>
+<span class="kn">from</span> <span class="nn">nengo.dists</span> <span class="kn">import</span> <span class="n">Distribution</span><span class="p">,</span> <span class="n">DistOrArrayParam</span>
+<span class="kn">from</span> <span class="nn">nengo.ensemble</span> <span class="kn">import</span> <span class="n">Ensemble</span><span class="p">,</span> <span class="n">Neurons</span>
+<span class="kn">from</span> <span class="nn">nengo.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">nengo.learning_rules</span> <span class="kn">import</span> <span class="n">LearningRuleType</span><span class="p">,</span> <span class="n">LearningRuleTypeParam</span>
+<span class="kn">from</span> <span class="nn">nengo.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">nengo.params</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Default</span><span class="p">,</span> <span class="n">Unconfigurable</span><span class="p">,</span> <span class="n">ObsoleteParam</span><span class="p">,</span>
+                          <span class="n">BoolParam</span><span class="p">,</span> <span class="n">FunctionParam</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nengo.solvers</span> <span class="kn">import</span> <span class="n">LstsqL2</span><span class="p">,</span> <span class="n">SolverParam</span>
+<span class="kn">from</span> <span class="nn">nengo.synapses</span> <span class="kn">import</span> <span class="n">Lowpass</span><span class="p">,</span> <span class="n">SynapseParam</span>
+<span class="kn">from</span> <span class="nn">nengo.utils.compat</span> <span class="kn">import</span> <span class="n">is_iterable</span><span class="p">,</span> <span class="n">iteritems</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">PrePostParam</span><span class="p">(</span><span class="n">NengoObjectParam</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">nengo_obj</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PrePostParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">nengo_obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nengo_obj</span><span class="p">,</span> <span class="n">Connection</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot connect to or from connections. &quot;</span>
+                <span class="s2">&quot;Did you mean to connect to the connection&#39;s learning rule?&quot;</span><span class="p">,</span>
+                <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ConnectionLearningRuleTypeParam</span><span class="p">(</span><span class="n">LearningRuleTypeParam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Connection-specific validation for learning rules.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">_learning_rule</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ConnectionLearningRuleTypeParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__set__</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">validate_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ConnectionLearningRuleTypeParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate_rule</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>
+
+        <span class="c1"># --- Check pre object</span>
+        <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">modifies</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;decoders&#39;</span><span class="p">,</span> <span class="s1">&#39;weights&#39;</span><span class="p">):</span>
+            <span class="c1"># pre object must be neural</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">Ensemble</span><span class="p">,</span> <span class="n">Neurons</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;pre&#39; must be of type &#39;Ensemble&#39; or &#39;Neurons&#39; for &quot;</span>
+                    <span class="s2">&quot;learning rule &#39;</span><span class="si">%s</span><span class="s2">&#39; (got type </span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">rule</span><span class="p">,</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">),</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+        <span class="c1"># --- Check post object</span>
+        <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">modifies</span> <span class="o">==</span> <span class="s1">&#39;encoders&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;&#39;post&#39; must be of type &#39;Ensemble&#39; (got </span><span class="si">%r</span><span class="s2">) &quot;</span>
+                    <span class="s2">&quot;for learning rule &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">rule</span><span class="p">),</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">Ensemble</span><span class="p">,</span> <span class="n">Neurons</span><span class="p">,</span> <span class="n">Node</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;&#39;post&#39; must be of type &#39;Ensemble&#39;, &#39;Neurons&#39; or &#39;Node&#39; &quot;</span>
+                    <span class="s2">&quot;(got </span><span class="si">%r</span><span class="s2">) for learning rule &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">rule</span><span class="p">),</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">modifies</span> <span class="o">==</span> <span class="s1">&#39;weights&#39;</span><span class="p">:</span>
+            <span class="c1"># If the rule modifies &#39;weights&#39;, then it must have full weights</span>
+            <span class="k">if</span> <span class="n">conn</span><span class="o">.</span><span class="n">is_decoded</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Learning rule &#39;</span><span class="si">%s</span><span class="s2">&#39; can not be applied to decoded &quot;</span>
+                    <span class="s2">&quot;connections. Try setting solver.weights to True or &quot;</span>
+                    <span class="s2">&quot;connecting between two Neurons objects.&quot;</span> <span class="o">%</span> <span class="n">rule</span><span class="p">,</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+            <span class="c1"># transform matrix must be 2D</span>
+            <span class="n">pre_size</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">n_neurons</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size_out</span><span class="p">)</span>
+            <span class="n">post_size</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size_in</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">conn</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">weights</span> <span class="ow">and</span>
+                    <span class="n">conn</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">post_size</span><span class="p">,</span> <span class="n">pre_size</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Transform must be 2D array with shape post_neurons x &quot;</span>
+                    <span class="s2">&quot;pre_neurons (</span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pre_size</span><span class="p">,</span> <span class="n">post_size</span><span class="p">),</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ConnectionSolverParam</span><span class="p">(</span><span class="n">SolverParam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Connection-specific validation for decoder solvers.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">solver</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ConnectionSolverParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">weights</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;weight solvers only work for connections from ensembles &quot;</span>
+                    <span class="s2">&quot;(got </span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">weights</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;weight solvers only work for connections to ensembles &quot;</span>
+                    <span class="s2">&quot;(got </span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">EvalPointsParam</span><span class="p">(</span><span class="n">DistOrArrayParam</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">distorarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Eval points are only valid when pre is an ensemble.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;eval_points are only valid on connections from ensembles &quot;</span>
+                   <span class="s2">&quot;(got type &#39;</span><span class="si">%s</span><span class="s2">&#39;)&quot;</span> <span class="o">%</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">EvalPointsParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">distorarray</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ConnectionFunctionParam</span><span class="p">(</span><span class="n">FunctionParam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Connection-specific validation for functions.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">function_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">eval_points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_iterable</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">eval_points</span><span class="p">)</span>
+             <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">size_in</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">function_info</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ConnectionFunctionParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">function_info</span><span class="p">)</span>
+        <span class="n">fn_ok</span> <span class="o">=</span> <span class="p">(</span><span class="n">Node</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">)</span>
+        <span class="n">function</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">function_info</span>
+
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">fn_ok</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;function can only be set for connections from an Ensemble or &quot;</span>
+                <span class="s2">&quot;Node (got type </span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+        <span class="n">type_pre</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">transform</span>
+        <span class="n">size_mid</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">size_in</span> <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">size</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">size_mid</span> <span class="o">!=</span> <span class="n">conn</span><span class="o">.</span><span class="n">size_out</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;function output size is incorrect; should return a &quot;</span>
+                    <span class="s2">&quot;vector of size </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">conn</span><span class="o">.</span><span class="n">size_out</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">size_mid</span> <span class="o">!=</span> <span class="n">transform</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="c1"># check input dimensionality matches transform</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> output size (</span><span class="si">%d</span><span class="s2">) not equal to transform input size &quot;</span>
+                    <span class="s2">&quot;(</span><span class="si">%d</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">type_pre</span><span class="p">,</span> <span class="n">size_mid</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">Node</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">output</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot apply functions to passthrough nodes&quot;</span><span class="p">,</span>
+                <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TransformParam</span><span class="p">(</span><span class="n">DistOrArrayParam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The transform additionally validates size_out.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="p">(),</span> <span class="n">optional</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">Distribution</span><span class="p">):</span>
+            <span class="c1"># if transform is an array, figure out what the correct shape</span>
+            <span class="c1"># should be</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">elif</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;size_out&#39;</span><span class="p">,)</span>
+            <span class="k">elif</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c1"># Actually (size_out, size_mid) but Function handles size_mid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;size_out&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
+
+                <span class="c1"># check for repeated dimensions in lists, as these don&#39;t work</span>
+                <span class="c1"># for two-dimensional transforms</span>
+                <span class="k">def</span> <span class="nf">repeated_inds</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">slice</span><span class="p">)</span> <span class="ow">and</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">repeated_inds</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_slice</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                        <span class="s2">&quot;Input object selection has repeated indices&quot;</span><span class="p">,</span>
+                        <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">repeated_inds</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_slice</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                        <span class="s2">&quot;Output object selection has repeated indices&quot;</span><span class="p">,</span>
+                        <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot handle transforms with dimensions &gt; 2&quot;</span><span class="p">,</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">transform</span>
+
+
+<div class="viewcode-block" id="Connection"><a class="viewcode-back" href="../../user_api.html#nengo.connection.Connection">[docs]</a><span class="k">class</span> <span class="nc">Connection</span><span class="p">(</span><span class="n">NengoObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Connects two objects together.</span>
+
+<span class="sd">    Almost any Nengo object can act as the pre or post side of a connection.</span>
+<span class="sd">    Additionally, you can use Python slice syntax to access only some of the</span>
+<span class="sd">    dimensions of the pre or post object.</span>
+
+<span class="sd">    For example, if ``node`` has ``size_out=2`` and ``ensemble`` has</span>
+<span class="sd">    ``size_in=1``, we could not create the following connection::</span>
+
+<span class="sd">        nengo.Connection(node, ensemble)</span>
+
+<span class="sd">    But, we could create either of these two connections.</span>
+
+<span class="sd">        nengo.Connection(node[0], ensemble)</span>
+<span class="sd">        nengo.Connection(ndoe[1], ensemble)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre : Ensemble or Neurons or Node</span>
+<span class="sd">        The source Nengo object for the connection.</span>
+<span class="sd">    post : Ensemble or Neurons or Node or Probe</span>
+<span class="sd">        The destination object for the connection.</span>
+
+<span class="sd">    label : string</span>
+<span class="sd">        A descriptive label for the connection.</span>
+<span class="sd">    dimensions : int</span>
+<span class="sd">        The number of output dimensions of the pre object, including</span>
+<span class="sd">        `function`, but not including `transform`.</span>
+<span class="sd">    eval_points : (n_eval_points, pre_size) array_like or int</span>
+<span class="sd">        Points at which to evaluate `function` when computing decoders,</span>
+<span class="sd">        spanning the interval (-pre.radius, pre.radius) in each dimension.</span>
+<span class="sd">    synapse : float, optional</span>
+<span class="sd">        Post-synaptic time constant (PSTC) to use for filtering.</span>
+<span class="sd">    transform : (post_size, pre_size) array_like, optional</span>
+<span class="sd">        Linear transform mapping the pre output to the post input.</span>
+<span class="sd">        This transform is in terms of the sliced size; if either pre</span>
+<span class="sd">        or post is a slice, the transform must be of shape</span>
+<span class="sd">        (len(pre_slice), len(post_slice)).</span>
+<span class="sd">    solver : Solver</span>
+<span class="sd">        Instance of a Solver class to compute decoders or weights</span>
+<span class="sd">        (see `nengo.solvers`). If `solver.weights` is True, a full</span>
+<span class="sd">        connection weight matrix is computed instead of decoders.</span>
+<span class="sd">    function : callable, optional</span>
+<span class="sd">        Function to compute using the pre population (pre must be Ensemble).</span>
+<span class="sd">    eval_points : (n_eval_points, pre_size) array_like or int, optional</span>
+<span class="sd">        Points at which to evaluate `function` when computing decoders,</span>
+<span class="sd">        spanning the interval (-pre.radius, pre.radius) in each dimension.</span>
+<span class="sd">    scale_eval_points : bool</span>
+<span class="sd">        Indicates whether the eval_points should be scaled by the radius of</span>
+<span class="sd">        the pre Ensemble. Defaults to True.</span>
+<span class="sd">    learning_rule_type : instance or list or dict of LearningRuleType, optional</span>
+<span class="sd">        Methods of modifying the connection weights during simulation.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dimensions : int</span>
+<span class="sd">        The number of output dimensions of the pre object, including</span>
+<span class="sd">        `function`, but before applying the `transform`.</span>
+<span class="sd">    function : callable</span>
+<span class="sd">        The given function.</span>
+<span class="sd">    function_size : int</span>
+<span class="sd">        The output dimensionality of the given function. Defaults to 0.</span>
+<span class="sd">    is_decoded: bool</span>
+<span class="sd">        True if and only if the connection is decoded. This will not occur</span>
+<span class="sd">        when `solver.weights` is True or both `pre` and `post` are `Neurons`.</span>
+<span class="sd">    label : str</span>
+<span class="sd">        A human-readable connection label for debugging and visualization.</span>
+<span class="sd">        Incorporates the labels of the pre and post objects.</span>
+<span class="sd">    learning_rule : LearningRule or collection of LearningRule</span>
+<span class="sd">        The LearningRule objects corresponding to `learning_rule_type`, and in</span>
+<span class="sd">        the same format. Use these to probe the learning rules.</span>
+<span class="sd">    learning_rule_type : instance or list or dict of LearningRuleType, optional</span>
+<span class="sd">        The learning rule types.</span>
+<span class="sd">    post : Ensemble or Neurons or Node or Probe</span>
+<span class="sd">        The given pre object.</span>
+<span class="sd">    pre : Ensemble or Neurons or Node</span>
+<span class="sd">        The given pre object.</span>
+<span class="sd">    transform : (post_size, pre_size) array_like</span>
+<span class="sd">        Linear transform mapping the pre output to the post input.</span>
+<span class="sd">    seed : int</span>
+<span class="sd">        The seed used for random number generation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">PrePostParam</span><span class="p">(</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span> <span class="n">nonzero_size_out</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">PrePostParam</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">nonzero_size_in</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">synapse</span> <span class="o">=</span> <span class="n">SynapseParam</span><span class="p">(</span><span class="s1">&#39;synapse&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Lowpass</span><span class="p">(</span><span class="mf">0.005</span><span class="p">))</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">TransformParam</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">ConnectionSolverParam</span><span class="p">(</span><span class="s1">&#39;solver&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">LstsqL2</span><span class="p">())</span>
+    <span class="n">learning_rule_type</span> <span class="o">=</span> <span class="n">ConnectionLearningRuleTypeParam</span><span class="p">(</span>
+        <span class="s1">&#39;learning_rule_type&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">function_info</span> <span class="o">=</span> <span class="n">ConnectionFunctionParam</span><span class="p">(</span>
+        <span class="s1">&#39;function&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">eval_points</span> <span class="o">=</span> <span class="n">EvalPointsParam</span><span class="p">(</span><span class="s1">&#39;eval_points&#39;</span><span class="p">,</span>
+                                  <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                  <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                  <span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;size_in&#39;</span><span class="p">))</span>
+    <span class="n">scale_eval_points</span> <span class="o">=</span> <span class="n">BoolParam</span><span class="p">(</span><span class="s1">&#39;scale_eval_points&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">modulatory</span> <span class="o">=</span> <span class="n">ObsoleteParam</span><span class="p">(</span>
+        <span class="s1">&#39;modulatory&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;Modulatory connections have been removed. &quot;</span>
+        <span class="s2">&quot;Connect to a learning rule instead.&quot;</span><span class="p">,</span>
+        <span class="n">since</span><span class="o">=</span><span class="s2">&quot;v2.1.0&quot;</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://github.com/nengo/nengo/issues/632#issuecomment-71663849&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span>
+                 <span class="n">solver</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">learning_rule_type</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span>
+                 <span class="n">eval_points</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">scale_eval_points</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">modulatory</span><span class="o">=</span><span class="n">Unconfigurable</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Connection</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">pre</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="o">=</span> <span class="n">post</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">synapse</span> <span class="o">=</span> <span class="n">synapse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_eval_points</span> <span class="o">=</span> <span class="n">scale_eval_points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_points</span> <span class="o">=</span> <span class="n">eval_points</span>  <span class="c1"># Must be set before function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function_info</span> <span class="o">=</span> <span class="n">function</span>  <span class="c1"># Must be set after transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>  <span class="c1"># Must be set before learning rule</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span> <span class="o">=</span> <span class="n">learning_rule_type</span>  <span class="c1"># set after transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modulatory</span> <span class="o">=</span> <span class="n">modulatory</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_info</span><span class="o">.</span><span class="n">function</span>
+
+    <span class="nd">@function.setter</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function_info</span> <span class="o">=</span> <span class="n">function</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">probeable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;weights&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pre_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">ObjView</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pre_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">slice</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">ObjView</span><span class="p">)</span> <span class="k">else</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">post_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">ObjView</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">post_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">slice</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">ObjView</span><span class="p">)</span>
+                <span class="k">else</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size_in</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Output size of sliced `pre`; input size of the function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">size_out</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size_mid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Output size of the function; input size of the transform.</span>
+
+<span class="sd">        If the function is None, then `size_in == size_mid`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_info</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_in</span> <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size_out</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Output size of the transform; input size to the sliced post.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">size_in</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
+
+        <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&quot; computing &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="s2">&quot;from </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Connection </span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Connection at 0x</span><span class="si">%x</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">learning_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_learning_rule</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">types</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_learning_rule</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">__class__</span><span class="p">()</span>  <span class="c1"># dict of same type</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">types</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_learning_rule</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">LearningRule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">is_iterable</span><span class="p">(</span><span class="n">types</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_learning_rule</span> <span class="o">=</span> <span class="p">[</span><span class="n">LearningRule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">types</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">types</span><span class="p">,</span> <span class="n">LearningRuleType</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_learning_rule</span> <span class="o">=</span> <span class="n">LearningRule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">types</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid type </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">types</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                    <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;learning_rule_type&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_learning_rule</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_decoded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">weights</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">Neurons</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_obj</span><span class="p">,</span> <span class="n">Neurons</span><span class="p">)))</span></div>
+
+
+<span class="k">class</span> <span class="nc">LearningRule</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">learning_rule_type</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span> <span class="o">=</span> <span class="n">learning_rule_type</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;LearningRule at 0x</span><span class="si">%x</span><span class="s2"> modifying </span><span class="si">%r</span><span class="s2"> with type </span><span class="si">%r</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;LearningRule modifying </span><span class="si">%s</span><span class="s2"> with type </span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">error_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="o">.</span><span class="n">error_type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modifies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="o">.</span><span class="n">modifies</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">probeable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="o">.</span><span class="n">probeable</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size_in</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># size of error signal</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_type</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_type</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_type</span> <span class="o">==</span> <span class="s1">&#39;decoded&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_obj</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">size_in</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">post_obj</span><span class="p">,</span> <span class="n">Neurons</span><span class="p">)</span> <span class="k">else</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">size_out</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_type</span> <span class="o">==</span> <span class="s1">&#39;neuron&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;Unrecognized error type </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_type</span><span class="p">,</span>
+                <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;error_type&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size_out</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># since a learning rule can&#39;t connect to anything</span>
+        <span class="c1"># TODO: allow probing individual learning rules</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

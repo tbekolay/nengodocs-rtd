@@ -1,0 +1,1121 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The config system &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="../index.html"/>
+        <link rel="up" title="Networks" href="../networks.html"/>
+        <link rel="next" title="Release History" href="../changelog.html"/>
+        <link rel="prev" title="Additional tips and tricks for designing networks" href="network_design_advanced.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../user_api.html">Nengo Modelling API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../networks.html">Networks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="network_design.html">Designing networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="network_design_advanced.html">Additional tips and tricks for designing networks</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The <code class="docutils literal"><span class="pre">config</span></code> system</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-default-parameters">Setting default parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-adding-new-parameters">Advanced: adding new parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#ensemble-array">Ensemble Array</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#action-selection">Action Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#working-memory">Working Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#product">Product</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#circular-convolution">Circular Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#integrator">Integrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../networks.html#oscillator">Oscillator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html">Release History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../user_guide.html">User Guide</a> &raquo;</li>
+      
+          <li><a href="../networks.html">Networks</a> &raquo;</li>
+      
+    <li>The <code class="docutils literal"><span class="pre">config</span></code> system</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/examples/config.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="the-config-system">
+<h1>The <code class="docutils literal"><span class="pre">config</span></code> system<a class="headerlink" href="#the-config-system" title="Permalink to this headline">¶</a></h1>
+<p>Nengo objects have many parameters that can be modified. Some of these
+parameters are critical characteristics of that object, and others are
+hints or suggestions that a backend can use or ignore.</p>
+<p>Nengo&#8217;s <code class="docutils literal"><span class="pre">config</span></code> system is designed to make setting large numbers of
+parameters easy, and to allow backends to introduce additional
+parameters without changing core Nengo objects.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">nengo</span>
+<span class="o">%</span><span class="n">load_ext</span> <span class="n">nengo</span><span class="o">.</span><span class="n">ipynb</span>
+<span class="kn">from</span> <span class="nn">nengo.utils.functions</span> <span class="kn">import</span> <span class="n">piecewise</span>
+<span class="kn">from</span> <span class="nn">nengo.utils.ipython</span> <span class="kn">import</span> <span class="n">hide_input</span>
+<span class="n">hide_input</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput container">
+<div class="container">
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;IPython.core.display.Javascript object&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[1]:
+</pre></div>
+</div>
+<div class="container">
+<a id="433999074" href="javascript:toggle_input_433999074()"
+  >Show Input</a>
+
+<script type="text/javascript">
+var toggle_input_433999074;
+(function() {
+    if (typeof jQuery == 'undefined') {
+        // no jQuery
+        var link_433999074 = document.getElementById("433999074");
+        var cell = link_433999074;
+        while (cell.className.split(' ')[0] != "cell") {
+            cell = cell.parentNode;
+        }
+        var input_433999074;
+        for (var i = 0; i < cell.children.length; i++) {
+            if (cell.children[i].className.split(' ')[0] == "input")
+                input_433999074 = cell.children[i];
+        }
+        input_433999074.style.display = "none"; // hide
+
+        toggle_input_433999074 = function() {
+            if (input_433999074.style.display == "none") {
+                input_433999074.style.display = ""; // show
+                link_433999074.innerHTML = "Hide Input";
+            } else {
+                input_433999074.style.display = "none"; // hide
+                link_433999074.innerHTML = "Show Input";
+            }
+        }
+
+    } else {
+        // jQuery
+        var link_433999074 = $("a[id='433999074']");
+        var cell_433999074 = link_433999074.parents("div.cell:first");
+        var input_433999074 = cell_433999074.children("div.input");
+        input_433999074.hide();
+
+        toggle_input_433999074 = function() {
+            if (input_433999074.is(':hidden')) {
+                input_433999074.slideDown();
+                link_433999074[0].innerHTML = "Hide Input";
+            } else {
+                input_433999074.slideUp();
+                link_433999074[0].innerHTML = "Show Input";
+            }
+        }
+    }
+}());
+</script></div>
+</div>
+<div class="section" id="setting-default-parameters">
+<h2>Setting default parameters<a class="headerlink" href="#setting-default-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">config</span></code> system aids in setting many parameters with a <strong>hierarchy
+of defaults</strong>. When you create a Nengo object, any parameters not
+specified will be given the value <code class="docutils literal"><span class="pre">nengo.Default</span></code>. This value tells
+Nengo to use the default value with the highest precendence in the
+hierarchy. Every <code class="docutils literal"><span class="pre">Network</span></code> has an associated <code class="docutils literal"><span class="pre">config</span></code> object, on
+which defaults can be set. The network hierarchy is traversed from most
+to least specific and the first network with a default set for that
+particular parameter is used. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subnet</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subsubnet</span><span class="p">:</span>
+            <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When filling in defaults for <code class="docutils literal"><span class="pre">ens</span></code>, the hierarchy looks like</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>└── net                &lt;- least specific
+    └── subnet
+        └── subsubnet  &lt;- most specific
+</pre></div>
+</div>
+<p>so defaults set in <code class="docutils literal"><span class="pre">subsubnet</span></code> will take precedence over those in
+<code class="docutils literal"><span class="pre">subnet</span></code>, which take precedence over those in <code class="docutils literal"><span class="pre">net</span></code>.</p>
+<p>If no default has been set in the network hierarchy, then the parameter
+default is used. These defaults are specified when the Nengo objects are
+created. We can investigate these defaults by printing the class
+attributes associated with them.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Get all info about the radius</span>
+<span class="k">print</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+<span class="c1"># Just get the default</span>
+<span class="k">print</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="o">.</span><span class="n">radius</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+NumberParam(default=1.0, optional=False, readonly=False)
+1.0
+</pre></div></div>
+</div>
+<p>We can inspect which defaults have been overridden in a particular
+<code class="docutils literal"><span class="pre">config</span></code> object by printing it.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+No parameters configured for Node.
+No parameters configured for Probe.
+No parameters configured for Connection.
+No parameters configured for Ensemble.
+</pre></div></div>
+</div>
+<p>To configure a parameter (i.e., change its network-local default), set
+it as shown below.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Parameters configured for Ensemble:
+  radius: 1.5
+</pre></div></div>
+</div>
+<p>Within this network, the default radius will be 1.5.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+    <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Normal network: ens.radius = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Configured network: ens.radius = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Normal network: ens.radius = 1.0
+Configured network: ens.radius = 1.5
+</pre></div></div>
+</div>
+<p>Note that if a radius is explicitly passed in, it will always be used.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+    <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Normal network: ens.radius = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Configured network: ens.radius = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ens</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Normal network: ens.radius = 2.0
+Configured network: ens.radius = 2.0
+</pre></div></div>
+</div>
+<p>When networks are nested within one another, the most specific network
+configuration is used. For example, if you create an Ensemble without
+specifying a radius, it will first check the network that the Ensemble
+is a part of; if that network has not configured a default, then it will
+check the network that that network is part of, and so on.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subnet</span><span class="p">:</span>
+        <span class="n">subnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">LIFRate</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subsubnet</span><span class="p">:</span>
+            <span class="n">subsubnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.0</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating e1 in subsubnet&quot;</span><span class="p">)</span>
+            <span class="n">e1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Uses subsubnet.config value for radius</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  radius =&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+            <span class="c1"># Uses subnet.config value for neuron_type</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  neuron_type =&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating e2 in subnet&quot;</span><span class="p">)</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Uses model.config value for radius</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  radius =&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+        <span class="c1"># Uses subnet.config value for neuron_type</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  neuron_type =&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating e3 in model&quot;</span><span class="p">)</span>
+    <span class="n">e3</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Uses model.config value for radius</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  radius =&quot;</span><span class="p">,</span> <span class="n">e3</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+    <span class="c1"># Uses nengo.Ensemble default for neuron_type</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  neuron_type =&quot;</span><span class="p">,</span> <span class="n">e3</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Creating e1 in subsubnet
+  radius = 2.0
+  neuron_type = LIFRate()
+Creating e2 in subnet
+  radius = 1.5
+  neuron_type = LIFRate()
+Creating e3 in model
+  radius = 1.5
+  neuron_type = LIF()
+</pre></div></div>
+</div>
+<p>Note that each <code class="docutils literal"><span class="pre">config</span></code> object only knows about the defaults set on
+itself.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subnet</span><span class="p">:</span>
+        <span class="n">subnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">LIFRate</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subsubnet</span><span class="p">:</span>
+            <span class="n">subsubnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;subsubnet:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">subsubnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">subnet:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">subnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">model:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+subsubnet:
+Parameters configured for Ensemble:
+  radius: 2.0
+
+subnet:
+Parameters configured for Ensemble:
+  neuron_type: LIFRate()
+
+model:
+Parameters configured for Ensemble:
+  radius: 1.5
+</pre></div></div>
+</div>
+<p>If you want a more global picture of the defaults in the <em>current
+context</em>, you can query the <code class="docutils literal"><span class="pre">Config</span></code> class itself (all <code class="docutils literal"><span class="pre">config</span></code>
+objects are instances of <code class="docutils literal"><span class="pre">Config</span></code>).</p>
+<p>To query all parameters, print <code class="docutils literal"><span class="pre">Config.all_defaults()</span></code>. You may pass a
+Nengo object class to this function to filter the results. For example,
+to get all defaults set for <code class="docutils literal"><span class="pre">Ensemble</span></code>, use
+<code class="docutils literal"><span class="pre">Config.all_defaults(nengo.Ensemble)</span></code>.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;In &#39;model&#39; context:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">all_defaults</span><span class="p">())</span>
+
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subnet</span><span class="p">:</span>
+        <span class="n">subnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">LIFRate</span><span class="p">()</span>
+        <span class="n">subnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">3.0</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">In &#39;subnet&#39; context:&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">all_defaults</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subsubnet</span><span class="p">:</span>
+            <span class="n">subsubnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Direct</span><span class="p">()</span>
+            <span class="n">subsubnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.0</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">In &#39;subsubnet&#39; context:&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">all_defaults</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+In &apos;model&apos; context:
+Current defaults for Ensemble:
+  bias: None
+  dimensions: None
+  encoders: UniformHypersphere(surface=True)
+  eval_points: UniformHypersphere()
+  gain: None
+  intercepts: Uniform(low=-1.0, high=1.0)
+  label: None
+  max_rates: Uniform(low=200, high=400)
+  n_eval_points: None
+  n_neurons: None
+  neuron_type: LIF()
+  noise: None
+  radius: 1.5
+  seed: None
+Current defaults for Probe:
+  attr: None
+  label: None
+  sample_every: None
+  seed: None
+  solver: ConnectionDefault
+  synapse: None
+Current defaults for Node:
+  label: None
+  output: None
+  seed: None
+  size_in: None
+  size_out: None
+Current defaults for Connection:
+  eval_points: None
+  function_info: None
+  label: None
+  learning_rule_type: None
+  scale_eval_points: True
+  seed: None
+  solver: LstsqL2(kwargs={}, weights=False, reg=0.1, solver=&lt;function cholesky at 0x7f508cb189b0&gt;)
+  synapse: Lowpass(0.005)
+  transform: 1.0
+
+In &apos;subnet&apos; context:
+Current defaults for Ensemble:
+  bias: None
+  dimensions: None
+  encoders: UniformHypersphere(surface=True)
+  eval_points: UniformHypersphere()
+  gain: None
+  intercepts: Uniform(low=-1.0, high=1.0)
+  label: None
+  max_rates: Uniform(low=200, high=400)
+  n_eval_points: None
+  n_neurons: None
+  neuron_type: LIFRate()
+  noise: None
+  radius: 3.0
+  seed: None
+
+In &apos;subsubnet&apos; context:
+Current defaults for Ensemble:
+  bias: None
+  dimensions: None
+  encoders: UniformHypersphere(surface=True)
+  eval_points: UniformHypersphere()
+  gain: None
+  intercepts: Uniform(low=-1.0, high=1.0)
+  label: None
+  max_rates: Uniform(low=200, high=400)
+  n_eval_points: None
+  n_neurons: None
+  neuron_type: Direct()
+  noise: None
+  radius: 2.0
+  seed: None
+</pre></div></div>
+</div>
+<p>The default value for a particular parameter can be queried from the
+global context with the <code class="docutils literal"><span class="pre">nengo.Config.default</span></code> function.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="n">help</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+Help on function default in module nengo.config:
+
+default(nengo_cls, param)
+    Look up the current default value for a parameter.
+
+    The default is found by going through the config stack, from most
+    specific to least specific. The network that an object is in
+    is the most specific; the top-level network is the least specific.
+    If no default is found there, then the parameter&apos;s default value
+    is returned.
+
+</pre></div></div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">print_defaults</span><span class="p">():</span>
+    <span class="n">def_radius</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">,</span> <span class="s1">&#39;radius&#39;</span><span class="p">)</span>
+    <span class="n">def_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">,</span> <span class="s1">&#39;neuron_type&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  default radius: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">def_radius</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;  default neuron_type: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">def_type</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subnet</span><span class="p">:</span>
+        <span class="n">subnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">LIFRate</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span> <span class="k">as</span> <span class="n">subsubnet</span><span class="p">:</span>
+            <span class="n">subsubnet</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.0</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;subsubnet:&quot;</span><span class="p">)</span>
+            <span class="n">print_defaults</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">subnet:&quot;</span><span class="p">)</span>
+        <span class="n">print_defaults</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">model:&quot;</span><span class="p">)</span>
+    <span class="n">print_defaults</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+subsubnet:
+  default radius: 2.0
+  default neuron_type: LIFRate()
+
+subnet:
+  default radius: 1.5
+  default neuron_type: LIFRate()
+
+model:
+  default radius: 1.5
+  default neuron_type: LIF()
+</pre></div></div>
+</div>
+<div class="section" id="defaults-are-filled-in-immediately">
+<h3>Defaults are filled in immediately<a class="headerlink" href="#defaults-are-filled-in-immediately" title="Permalink to this headline">¶</a></h3>
+<p>One important feature about the defaults hierarchy is that defaults are
+filled in <strong>immediately</strong>. When you create a Nengo object, the
+attributes are filled in with the <strong>current</strong> defaults that are set.
+Changing the defaults after object creation will not update objects
+already created.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;e1.radius =&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Changing default radius to 2.0&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;e1.radius =&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;e2.radius =&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+e1.radius = 1.5
+Changing default radius to 2.0
+e1.radius = 1.5
+e2.radius = 2.0
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="resetting-to-default">
+<h3>Resetting to default<a class="headerlink" href="#resetting-to-default" title="Permalink to this headline">¶</a></h3>
+<p>If you ever wish to reset a value back to the default, you can remove it
+from the <code class="docutils literal"><span class="pre">config</span></code> object you modified.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;e1.radius =&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Resetting radius back to default&quot;</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;e2.radius =&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+e1.radius = 2.0
+Resetting radius back to default
+
+No parameters configured for Ensemble.
+
+e2.radius = 1.0
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="making-new-configs">
+<h3>Making new <code class="docutils literal"><span class="pre">config</span></code>s<a class="headerlink" href="#making-new-configs" title="Permalink to this headline">¶</a></h3>
+<p>Typically, several Nengo objects will share a set of parameters, but
+won&#8217;t make sense to encapsulate in a network. One method of having those
+objects share parameters is to use dictionary unpacking.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+    <span class="n">hippocampus_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;radius&#39;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;neuron_type&#39;</span><span class="p">:</span> <span class="n">nengo</span><span class="o">.</span><span class="n">LIFRate</span><span class="p">()}</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">hippocampus_args</span><span class="p">)</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">hippocampus_args</span><span class="p">)</span>
+    <span class="n">e3</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">hippocampus_args</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">e3</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+1.5 1.5 1.5
+</pre></div></div>
+</div>
+<p>An alternative method that can be very useful for large networks and for
+more readable models is to create a new <code class="docutils literal"><span class="pre">config</span></code> object to encapsulate
+those parameter settings.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [15]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="n">in_hippocampus</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">)</span>
+<span class="n">in_hippocampus</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">in_hippocampus</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">LIFRate</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">in_hippocampus</span><span class="p">:</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">e3</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">e3</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+1.5 1.5 1.5
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-adding-new-parameters">
+<h2>Advanced: adding new parameters<a class="headerlink" href="#advanced-adding-new-parameters" title="Permalink to this headline">¶</a></h2>
+<p>This section is targetted to those implementing new backends or large
+libraries of networks (like, for example, <code class="docutils literal"><span class="pre">nengo.SPA</span></code>).</p>
+<p>Often, you want to associate some kind of metadata with a Nengo object,
+or a type of Nengo objects. For example, in backends that communicate
+with specific hardware, it can be helpful to mark certain nodes as being
+time-dependent, or to assign certain ensembles to a particular portion
+of the hardware memory.</p>
+<p>Python allows us to make new attributes on Nengo objects. However, we
+highly discourage this activity, because a Nengo object should be a
+backend-agnostic part of a model. The parameters pre-defined on Nengo
+objects make up the parameters that all backends should deal with in
+some way.</p>
+<p>For this reason, we raise a warning when creating a new attribute.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+    <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ens</span><span class="o">.</span><span class="n">memory_location</span> <span class="o">=</span> <span class="mh">0x1000</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="stderr container">
+<div class="highlight"><pre>
+/home/tbekolay/Code/nengo/nengo/base.py:72: SyntaxWarning: Creating new attribute &apos;memory_location&apos; on &apos;&lt;Ensemble (unlabeled) at 0x7f508cab9090&gt;&apos;. Did you mean to change an existing attribute?
+  SyntaxWarning)
+</pre></div></div>
+</div>
+<p>So how should backends associate arbitrary information with Nengo
+objects? The <code class="docutils literal"><span class="pre">config</span></code> system!</p>
+<p>We saw above that we can create new <code class="docutils literal"><span class="pre">config</span></code> objects by specifying
+which Nengo objects they can configure. We can also create new
+parameters on those <code class="docutils literal"><span class="pre">config</span></code> objects.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">nengo.params</span>
+<span class="n">my_config</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">)</span>
+<span class="c1"># memory_location must be a positive integer</span>
+<span class="n">my_config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span>
+    <span class="s1">&#39;memory_location&#39;</span><span class="p">,</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">IntParam</span><span class="p">(</span><span class="s1">&#39;memory_location&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Now, we can set that parameter for the <code class="docutils literal"><span class="pre">nengo.Ensemble</span></code> class as a
+whole, or with individual instances.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="c1"># Make the network (this code is backend-agnostic)</span>
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Set backend-specific parameters</span>
+<span class="n">my_config</span><span class="p">[</span><span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">]</span><span class="o">.</span><span class="n">memory_location</span> <span class="o">=</span> <span class="mh">0x1000</span>  <span class="c1"># Set Ensemble default</span>
+<span class="n">my_config</span><span class="p">[</span><span class="n">e2</span><span class="p">]</span><span class="o">.</span><span class="n">memory_location</span> <span class="o">=</span> <span class="mh">0x2000</span>  <span class="c1"># Set value for e2</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;e1 will be stored at 0x</span><span class="si">%x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">my_config</span><span class="p">[</span><span class="n">e1</span><span class="p">]</span><span class="o">.</span><span class="n">memory_location</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;e2 will be stored at 0x</span><span class="si">%x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">my_config</span><span class="p">[</span><span class="n">e2</span><span class="p">]</span><span class="o">.</span><span class="n">memory_location</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<div class="highlight"><pre>
+e1 will be stored at 0x1000
+e2 will be stored at 0x2000
+</pre></div></div>
+</div>
+<p><code class="docutils literal"><span class="pre">Parameter</span></code> types for the most common Python objects are available in
+<code class="docutils literal"><span class="pre">nengo.params</span></code>, as well as other types that Nengo uses frequently, but
+it is possible to implement your own in order to do additional
+processing like validation. See the <code class="docutils literal"><span class="pre">nengo.params</span></code> source for
+examples.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="p">[</span><span class="n">cls</span> <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;Param&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>Out[19]:
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;BoolParam&#39;,
+ &#39;DictParam&#39;,
+ &#39;EnumParam&#39;,
+ &#39;FunctionParam&#39;,
+ &#39;IntParam&#39;,
+ &#39;NdarrayParam&#39;,
+ &#39;NumberParam&#39;,
+ &#39;ObsoleteParam&#39;,
+ &#39;StringParam&#39;,
+ &#39;TupleParam&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../changelog.html" class="btn btn-neutral float-right" title="Release History" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="network_design_advanced.html" class="btn btn-neutral" title="Additional tips and tricks for designing networks" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

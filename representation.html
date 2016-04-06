@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Principle 1: Representation &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="Examples" href="examples.html"/>
+        <link rel="next" title="Nengo Example: A Single Neuron" href="examples/single_neuron.html"/>
+        <link rel="prev" title="Introduction" href="examples/nef_summary.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html#principle-1-representation">Principle 1: Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html#principle-2-transformation">Principle 2: Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html#principle-3-dynamics">Principle 3: Dynamics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Principle 1: Representation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/single_neuron.html">Nengo Example: A Single Neuron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/two_neurons.html">Nengo Example: Two Neurons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/many_neurons.html">Nengo Example: Many neurons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/2d_representation.html">Nengo Example: 2-Dimensional Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/combining.html">Nengo Example: Combining</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/addition.html">Nengo Example: Addition</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="transformation.html">Principle 2: Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamics.html">Principle 3: Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#nodes">Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#ensembles">Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#connections">Connections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#learning">Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#networks">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#semantic-pointer-architecture">Semantic Pointer Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#extending-nengo">Extending Nengo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+      
+    <li>Principle 1: Representation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/representation.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="principle-1-representation">
+<h1>Principle 1: Representation<a class="headerlink" href="#principle-1-representation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/single_neuron.html">Nengo Example: A Single Neuron</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/single_neuron.html#step-1-create-the-neuron">Step 1: Create the Neuron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/single_neuron.html#step-2-provide-input-to-the-model">Step 2: Provide Input to the Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/single_neuron.html#step-3-connect-the-network-elements">Step 3: Connect the Network Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/single_neuron.html#step-4-add-probes">Step 4: Add Probes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/single_neuron.html#step-5-run-the-model">Step 5: Run the Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/single_neuron.html#step-6-plot-the-results">Step 6: Plot the Results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/two_neurons.html">Nengo Example: Two Neurons</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/two_neurons.html#step-1-create-the-neurons">Step 1: Create the neurons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/two_neurons.html#step-2-create-input-for-the-model">Step 2: Create input for the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/two_neurons.html#step-3-connect-the-network-elements">Step 3: Connect the network elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/two_neurons.html#step-4-probe-outputs">Step 4: Probe outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/two_neurons.html#step-5-run-the-model">Step 5: Run the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/two_neurons.html#step-6-plot-the-results">Step 6: Plot the results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/many_neurons.html">Nengo Example: Many neurons</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/many_neurons.html#step-1-create-the-neural-population">Step 1: Create the neural population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/many_neurons.html#step-2-create-input-for-the-model">Step 2: Create input for the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/many_neurons.html#step-3-connect-the-network-elements">Step 3: Connect the network elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/many_neurons.html#step-4-probe-outputs">Step 4: Probe outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/many_neurons.html#step-5-run-the-model">Step 5: Run the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/many_neurons.html#step-6-plot-the-results">Step 6: Plot the results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/2d_representation.html">Nengo Example: 2-Dimensional Representation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/2d_representation.html#step-1-create-the-network">Step 1: Create the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/2d_representation.html#step-2-provide-input-to-the-model">Step 2: Provide input to the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/2d_representation.html#step-3-connect-the-input-to-the-ensemble">Step 3: Connect the input to the ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/2d_representation.html#step-4-probe-outputs">Step 4: Probe outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/2d_representation.html#step-5-run-the-model">Step 5: Run the model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/combining.html">Nengo Example: Combining</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/combining.html#step-1-create-the-neural-populations">Step 1: Create the neural populations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/combining.html#step-2-create-input-for-the-model">Step 2: Create input for the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/combining.html#step-3-connect-the-network-elements">Step 3: Connect the network elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/combining.html#step-4-probe-outputs">Step 4: Probe outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/combining.html#step-5-run-the-model">Step 5: Run the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/combining.html#step-6-plot-the-results">Step 6: Plot the results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/addition.html">Nengo Example: Addition</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/addition.html#step-1-create-the-model">Step 1: Create the Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/addition.html#step-2-provide-input-to-the-model">Step 2: Provide Input to the Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/addition.html#step-3-probe-output">Step 3: Probe Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/addition.html#step-4-run-the-model">Step 4: Run the Model</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples/single_neuron.html" class="btn btn-neutral float-right" title="Nengo Example: A Single Neuron" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples/nef_summary.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

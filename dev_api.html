@@ -1,0 +1,676 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reference simulator API &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="Developer Guide" href="dev_guide.html"/>
+        <link rel="next" title="The NEF Algorithm" href="nef_minimal.html"/>
+        <link rel="prev" title="Introduction for developers" href="dev_introduction.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="dev_guide.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev_introduction.html">Introduction for developers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reference simulator API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-step">Build step</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#signals">Signals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operators">Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-functions">Build functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nef_minimal.html">The NEF Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Development workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasing.html">Making Nengo releases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">Nengo license</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html#licensed-code">Licensed code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html#contributor-assignment-agreement">Contributor Assignment Agreement</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="dev_guide.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Reference simulator API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/dev_api.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="reference-simulator-api">
+<h1>Reference simulator API<a class="headerlink" href="#reference-simulator-api" title="Permalink to this headline">¶</a></h1>
+<p>Understanding how the reference simulator works
+is important for debugging problems,
+and implementing your own simulator.</p>
+<p>In general, there are two steps to the reference simulator.
+The first is a build step, in which a <code class="docutils literal"><span class="pre">Network</span></code>
+is converted into a <code class="docutils literal"><span class="pre">Model</span></code> which consists of
+<code class="docutils literal"><span class="pre">Signals</span></code> (values that can be manipulated)
+and <code class="docutils literal"><span class="pre">Operators</span></code> (operations to be done on those values).
+The second is the simulator, which runs
+<code class="docutils literal"><span class="pre">Operator</span></code> functions and collects probed data.
+The simulator API is described in the
+<a class="reference external" href="user_api.html">user API</a>.</p>
+<p><a class="reference external" href="http://compneuro.uwaterloo.ca/publications/bekolay2014.html">Bekolay et al., 2014</a>
+provides a high-level description
+and detailed picture of the build process,
+which may helpful.</p>
+<div class="section" id="build-step">
+<h2>Build step<a class="headerlink" href="#build-step" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nengo.builder.Model">
+<em class="property">class </em><code class="descclassname">nengo.builder.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>dt=0.001</em>, <em>label=None</em>, <em>decoder_cache=&lt;nengo.cache.NoDecoderCache object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output of the Builder, used by the Simulator.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>config</td>
+<td>(Config instance or None) Build functions can set a config object here to affect sub-builders.</td>
+</tr>
+<tr class="row-even"><td>decoder_cache</td>
+<td>(DecoderCache instance) An object that will be used to cache decoders for faster builds.</td>
+</tr>
+<tr class="row-odd"><td>dt</td>
+<td>(float) The length of each timestep, in seconds.</td>
+</tr>
+<tr class="row-even"><td>label</td>
+<td>(str or None) A name or description to differentiate different models.</td>
+</tr>
+<tr class="row-odd"><td>operators</td>
+<td>(list of Operator instances) List of all operators created in the build process. All operators must be added to this list, as it is used by Simulator.</td>
+</tr>
+<tr class="row-even"><td>params</td>
+<td>(dict (NengoObject -&gt; namedtuple)) Mapping from objects to namedtuples containing parameters generated in the build process.</td>
+</tr>
+<tr class="row-odd"><td>probes</td>
+<td>(list of Probe) List of all probes. Probes must be added to this list in the build process, as this list is used by Simulator.</td>
+</tr>
+<tr class="row-even"><td>seeded</td>
+<td>(dict (NengoObject -&gt; bool)) All objects are assigned a seed, whether the user defined the seed or it was automatically generated. &#8216;seeded&#8217; keeps track of whether the seed is user-defined. We consider the seed to be user-defined if it was set directly on the object, or if a seed was set on the network in which the object resides, or if a seed was set on any ancestor network of the network in which the object resides.</td>
+</tr>
+<tr class="row-odd"><td>seeds</td>
+<td>(dict (NengoObject -&gt; int)) Mapping from objects to the integer seed assigned to that object.</td>
+</tr>
+<tr class="row-even"><td>sig</td>
+<td>(dict (str -&gt; dict (object -&gt; Signal))) A dictionary of dictionaries that organizes all of the signals created in the build process, as build functions often need to access signals created by other build functions.</td>
+</tr>
+<tr class="row-odd"><td>step</td>
+<td>(Signal(dtype=int64)) The current step (i.e., how many timesteps have occurred thus far).</td>
+</tr>
+<tr class="row-even"><td>time</td>
+<td>(Signal(dtype=float64)) The current point in time.</td>
+</tr>
+<tr class="row-odd"><td>toplevel</td>
+<td>(Network instance) The top-level network being built. This is sometimes useful for accessing network elements after build, or for the network builder to determine if it is the top-level network.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.builder.Model.has_built">
+<code class="descname">has_built</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Model.has_built"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Model.has_built" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if obj has built parameters.</p>
+<p>Some objects (e.g. synapses) do not add params and can be built more
+than once (i.e. this function returns false), allowing re-use.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.Builder">
+<em class="property">class </em><code class="descclassname">nengo.builder.</code><code class="descname">Builder</code><a class="reference internal" href="_modules/nengo/builder/builder.html#Builder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Builder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="section" id="signals">
+<h3>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="nengo.builder.signal.Signal">
+<em class="property">class </em><code class="descclassname">nengo.builder.signal.</code><code class="descname">Signal</code><span class="sig-paren">(</span><em>initial_value</em>, <em>name=None</em>, <em>base=None</em>, <em>readonly=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents data or views onto data within Nengo</p>
+<dl class="method">
+<dt id="nengo.builder.signal.Signal.column">
+<code class="descname">column</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal.column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape into a column vector.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.signal.Signal.elemoffset">
+<code class="descname">elemoffset</code><a class="headerlink" href="#nengo.builder.signal.Signal.elemoffset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offset of data from base in elements</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.signal.Signal.elemstrides">
+<code class="descname">elemstrides</code><a class="headerlink" href="#nengo.builder.signal.Signal.elemstrides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strides of data in elements</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.signal.Signal.offset">
+<code class="descname">offset</code><a class="headerlink" href="#nengo.builder.signal.Signal.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offset of data from base in bytes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.signal.Signal.row">
+<code class="descname">row</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal.row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape into a row vector.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.signal.Signal.strides">
+<code class="descname">strides</code><a class="headerlink" href="#nengo.builder.signal.Signal.strides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strides of data in bytes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="operators">
+<h3>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="nengo.builder.operator.Operator">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">Operator</code><span class="sig-paren">(</span><em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for operator instances understood by nengo.Simulator.</p>
+<p>The lifetime of a Signal during one simulator timestep:</p>
+<ol class="arabic simple" start="0">
+<li>at most one set operator (optional)</li>
+<li>any number of increments</li>
+<li>any number of reads</li>
+<li>at most one update</li>
+</ol>
+<p>A signal that is only read can be considered a &#8220;constant&#8221;.</p>
+<p>A signal that is both set <em>and</em> updated can be a problem:
+since reads must come after the set, and the set will destroy
+whatever were the contents of the update, it can be the case
+that the update is completely hidden and rendered irrelevant.
+There are however at least two reasons to use both a set and an update:</p>
+<ul class="simple">
+<li>to use a signal as scratch space (updating means destroying it)</li>
+<li>to use sets and updates on partly overlapping views of the same
+memory.</li>
+</ul>
+<p>N.B.: It is done on purpose that there are no default values for
+reads, sets, incs, and updates.</p>
+<p>Each operator should explicitly set each of these properties.</p>
+<dl class="attribute">
+<dt id="nengo.builder.operator.Operator.incs">
+<code class="descname">incs</code><a class="headerlink" href="#nengo.builder.operator.Operator.incs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals incremented by this operator</p>
+<p>Increments will be applied after this signal has been
+set (if it is set), and before reads.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.operator.Operator.init_signals">
+<code class="descname">init_signals</code><span class="sig-paren">(</span><em>signals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator.init_signals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Operator.init_signals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize simulator.signals</p>
+<p>Install any buffers into the signals view that
+this operator will need. Classes for neurons
+that use extra buffers should create them here.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.operator.Operator.reads">
+<code class="descname">reads</code><a class="headerlink" href="#nengo.builder.operator.Operator.reads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals that are read and not modified</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.operator.Operator.sets">
+<code class="descname">sets</code><a class="headerlink" href="#nengo.builder.operator.Operator.sets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals assigned by this operator</p>
+<p>A signal that is set here cannot be set or updated
+by any other operator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.operator.Operator.updates">
+<code class="descname">updates</code><a class="headerlink" href="#nengo.builder.operator.Operator.updates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals assigned their value for time t + 1</p>
+<p>This operator will be scheduled so that updates appear after
+all sets, increments and reads of this signal.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.Reset">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">Reset</code><span class="sig-paren">(</span><em>dst</em>, <em>value=0</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign a constant value to a Signal.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.Copy">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">Copy</code><span class="sig-paren">(</span><em>dst</em>, <em>src</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign the value of one signal to another.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.DotInc">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">DotInc</code><span class="sig-paren">(</span><em>A</em>, <em>X</em>, <em>Y</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#DotInc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.DotInc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment signal Y by dot(A, X)</p>
+<p>Currently, this only supports matrix-vector multiplies for compatibility
+with NengoOCL.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.node.SimPyFunc">
+<em class="property">class </em><code class="descclassname">nengo.builder.node.</code><code class="descname">SimPyFunc</code><span class="sig-paren">(</span><em>output</em>, <em>fn</em>, <em>t</em>, <em>x</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#SimPyFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.node.SimPyFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set signal <cite>output</cite> by some Python function of x, possibly t.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.neurons.SimNeurons">
+<em class="property">class </em><code class="descclassname">nengo.builder.neurons.</code><code class="descname">SimNeurons</code><span class="sig-paren">(</span><em>neurons</em>, <em>J</em>, <em>output</em>, <em>states=[]</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#SimNeurons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.SimNeurons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set output to neuron model output for the given input current.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.learning_rules.SimOja">
+<em class="property">class </em><code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">SimOja</code><span class="sig-paren">(</span><em>pre_filtered</em>, <em>post_filtered</em>, <em>weights</em>, <em>delta</em>, <em>learning_rate</em>, <em>beta</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#SimOja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.SimOja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate delta omega according to the Oja rule.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.learning_rules.SimBCM">
+<em class="property">class </em><code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">SimBCM</code><span class="sig-paren">(</span><em>pre_filtered</em>, <em>post_filtered</em>, <em>theta</em>, <em>delta</em>, <em>learning_rate</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#SimBCM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.SimBCM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate delta omega according to the BCM rule.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="build-functions">
+<h3>Build functions<a class="headerlink" href="#build-functions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="nengo-objects">
+<h4>Nengo Objects<a class="headerlink" href="#nengo-objects" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="nengo.builder.build_network">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_network</code><span class="sig-paren">(</span><em>model</em>, <em>network</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/network.html#build_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a Network object and returns a Model.</p>
+<p>This determines the signals and operators necessary to simulate that model.</p>
+<p>Builder does this by mapping each high-level object to its associated
+signals and operators one-by-one, in the following order:</p>
+<ol class="arabic simple">
+<li>Ensembles, Nodes, Neurons</li>
+<li>Subnetworks (recursively)</li>
+<li>Connections</li>
+<li>Learning Rules</li>
+<li>Probes</li>
+</ol>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_ensemble">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_ensemble</code><span class="sig-paren">(</span><em>model</em>, <em>ens</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/ensemble.html#build_ensemble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_ensemble" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_node">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_node</code><span class="sig-paren">(</span><em>model</em>, <em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/node.html#build_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_probe">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_probe</code><span class="sig-paren">(</span><em>model</em>, <em>probe</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/probe.html#build_probe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_probe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_connection">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_connection</code><span class="sig-paren">(</span><em>model</em>, <em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/connection.html#build_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_connection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="neurons">
+<h4>Neurons<a class="headerlink" href="#neurons" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="nengo.builder.build_lifrate">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_lifrate</code><span class="sig-paren">(</span><em>model</em>, <em>lifrate</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_lifrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_lifrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_lif">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_lif</code><span class="sig-paren">(</span><em>model</em>, <em>lif</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_lif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_lif" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_alifrate">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_alifrate</code><span class="sig-paren">(</span><em>model</em>, <em>alifrate</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_alifrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_alifrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_alif">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_alif</code><span class="sig-paren">(</span><em>model</em>, <em>alif</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_alif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_alif" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="learning-rules">
+<h4>Learning rules<a class="headerlink" href="#learning-rules" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="nengo.builder.build_pes">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_pes</code><span class="sig-paren">(</span><em>model</em>, <em>pes</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_pes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_pes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_bcm">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_bcm</code><span class="sig-paren">(</span><em>model</em>, <em>bcm</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_bcm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_bcm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.build_oja">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_oja</code><span class="sig-paren">(</span><em>model</em>, <em>oja</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_oja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_oja" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="synapses">
+<h4>Synapses<a class="headerlink" href="#synapses" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="nengo.builder.build_synapse">
+<code class="descclassname">nengo.builder.</code><code class="descname">build_synapse</code><span class="sig-paren">(</span><em>model</em>, <em>synapse</em>, <em>sig_in</em>, <em>sig_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/processes.html#build_synapse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.build_synapse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nef_minimal.html" class="btn btn-neutral float-right" title="The NEF Algorithm" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dev_introduction.html" class="btn btn-neutral" title="Introduction for developers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

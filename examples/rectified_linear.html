@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Adding new objects to Nengo &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="../index.html"/>
+        <link rel="up" title="Examples" href="../examples.html"/>
+        <link rel="next" title="User Guide" href="../user_guide.html"/>
+        <link rel="prev" title="Nengo example: Parsing simple commands" href="spa_parser.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="nef_summary.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nef_summary.html#principle-1-representation">Principle 1: Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nef_summary.html#principle-2-transformation">Principle 2: Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nef_summary.html#principle-3-dynamics">Principle 3: Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../representation.html">Principle 1: Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transformation.html">Principle 2: Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dynamics.html">Principle 3: Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#nodes">Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#ensembles">Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#connections">Connections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#learning">Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#networks">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#semantic-pointer-architecture">Semantic Pointer Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../examples.html#extending-nengo">Extending Nengo</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Adding new objects to Nengo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-frontend-neurons-subclass">Step 1: Create a frontend Neurons subclass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-create-a-backend-operator-subclass">Step 2: Create a backend Operator subclass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-create-a-build-function">Step 3: Create a build function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tuning-curves">Tuning curves</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#d-representation-example">2D Representation example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../examples.html">Examples</a> &raquo;</li>
+      
+    <li>Adding new objects to Nengo</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/examples/rectified_linear.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="adding-new-objects-to-nengo">
+<h1>Adding new objects to Nengo<a class="headerlink" href="#adding-new-objects-to-nengo" title="Permalink to this headline">¶</a></h1>
+<p>It is possible to add new objects to the Nengo reference simulator. This
+involves several steps and the creation of several objects. In this
+example, we&#8217;ll go through these steps in order to add a new neuron type
+to Nengo: a rectified linear neuron.</p>
+<div class="section" id="step-1-create-a-frontend-neurons-subclass">
+<h2>Step 1: Create a frontend Neurons subclass<a class="headerlink" href="#step-1-create-a-frontend-neurons-subclass" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">RectifiedLinear</span></code> class is what you will use in model scripts to
+denote that a particular ensemble should be simulated using a rectified
+linear neuron instead of one of the existing neuron types (e.g.,
+<code class="docutils literal"><span class="pre">LIF</span></code>).</p>
+<p>Normally, these kinds of frontend classes exist in either
+<code class="docutils literal"><span class="pre">nengo/objects.py</span></code> or <code class="docutils literal"><span class="pre">nengo/neurons.py</span></code>. Look at these files for
+examples of how to make your own. In this case, becuase we&#8217;re making a
+neuron type, we&#8217;ll use <code class="docutils literal"><span class="pre">nengo.neurons.LIF</span></code> as an example of how to
+make <code class="docutils literal"><span class="pre">RectifiedLinear</span></code>.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">import</span> <span class="nn">nengo</span>
+<span class="o">%</span><span class="n">load_ext</span> <span class="n">nengo</span><span class="o">.</span><span class="n">ipynb</span>
+
+<span class="k">class</span> <span class="nc">RectifiedLinear</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">neurons</span><span class="o">.</span><span class="n">NeuronType</span><span class="p">):</span>  <span class="c1"># Neuron types must subclass `nengo.Neurons`</span>
+    <span class="sd">&quot;&quot;&quot;A rectified linear neuron model.&quot;&quot;&quot;</span>
+
+    <span class="c1"># We don&#39;t need any additional parameters here;</span>
+    <span class="c1"># gain and bias are sufficient. But, if we wanted</span>
+    <span class="c1"># more parameters, we could accept them by creating</span>
+    <span class="c1"># an __init__ method.</span>
+
+    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return gain and bias given maximum firing rate and x-intercept.&quot;&quot;&quot;</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="n">max_rates</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">intercepts</span><span class="p">)</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">intercepts</span> <span class="o">*</span> <span class="n">gain</span>
+        <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span>
+
+    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute rates in Hz for input current (incl. bias)&quot;&quot;&quot;</span>
+        <span class="n">output</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>&lt;IPython.core.display.Javascript object&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="step-2-create-a-backend-operator-subclass">
+<h2>Step 2: Create a backend Operator subclass<a class="headerlink" href="#step-2-create-a-backend-operator-subclass" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Operator</span></code> (located in <code class="docutils literal"><span class="pre">nengo/builder.py</span></code>) defines the function
+that the reference simulator will execute on every timestep. Most new
+neuron types and learning rules will require a new <code class="docutils literal"><span class="pre">Operator</span></code>, unless
+the function being computed can be done by combining several existing
+operators.</p>
+<p>In this case, we will make a new operator that outputs the firing rate
+of each neuron on every timestep.</p>
+<p>Note that for neuron types specifically, there is a <code class="docutils literal"><span class="pre">SimNeurons</span></code>
+operator that calls <code class="docutils literal"><span class="pre">step_math</span></code>. However, we will implement a new
+operator here to demonstrate how to build a simple operator.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">nengo.builder.operator</span> <span class="kn">import</span> <span class="n">Operator</span>
+
+<span class="k">class</span> <span class="nc">SimRectifiedLinear</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set output to the firing rate of a rectified linear neuron model.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">neurons</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>  <span class="c1"># Output signal of the ensemble</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">J</span>  <span class="c1"># Input current from the ensmble</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neurons</span> <span class="o">=</span> <span class="n">neurons</span>  <span class="c1"># The RectifiedLinear instance</span>
+
+        <span class="c1"># Operators must explicitly tell the simulator what signals</span>
+        <span class="c1"># they read, set, update, and increment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reads</span> <span class="o">=</span> <span class="p">[</span><span class="n">J</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># If we needed additional signals that aren&#39;t in one of the</span>
+    <span class="c1"># reads, updates, sets, or incs lists, we can initialize them</span>
+    <span class="c1"># by making an `init_signals(self, signals, dt)` method.</span>
+
+    <span class="k">def</span> <span class="nf">make_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a function that the Simulator will execute on each step.</span>
+
+<span class="sd">        `signals` contains a dictionary mapping each signal to</span>
+<span class="sd">        an ndarray which can be used in the step function.</span>
+<span class="sd">        `dt` is the simulator timestep (which we don&#39;t use).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">J</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
+        <span class="k">def</span> <span class="nf">step_simrectifiedlinear</span><span class="p">():</span>
+            <span class="c1"># Gain and bias are already taken into account here,</span>
+            <span class="c1"># so we just need to rectify</span>
+            <span class="n">output</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">step_simrectifiedlinear</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="step-3-create-a-build-function">
+<h2>Step 3: Create a build function<a class="headerlink" href="#step-3-create-a-build-function" title="Permalink to this headline">¶</a></h2>
+<p>In order for <code class="docutils literal"><span class="pre">nengo.builder.Builder</span></code> to construct signals and
+operators for the Simulator to use, you must create and register a build
+function with <code class="docutils literal"><span class="pre">nengo.builder.Builder</span></code>. This function should take as
+arguments a <code class="docutils literal"><span class="pre">RectifiedLinear</span></code> instance, some other arguments specific
+to the type, and a <code class="docutils literal"><span class="pre">nengo.builder.Model</span></code> instance. The function should
+add the approrpiate signals, operators, and other artifacts to the
+<code class="docutils literal"><span class="pre">Model</span></code> instance, and then register the build function with
+<code class="docutils literal"><span class="pre">nengo.builder.Builder</span></code>.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">nengo.builder</span> <span class="kn">import</span> <span class="n">Builder</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.operator</span> <span class="kn">import</span> <span class="n">Copy</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.signal</span> <span class="kn">import</span> <span class="n">Signal</span>
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">RectifiedLinear</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">build_rectified_linear</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">neuron_type</span><span class="p">,</span> <span class="n">neurons</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SimRectifiedLinear</span><span class="p">(</span>
+        <span class="n">output</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">],</span> <span class="n">J</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">],</span> <span class="n">neurons</span><span class="o">=</span><span class="n">neuron_type</span><span class="p">))</span>
+
+</pre></div>
+</div>
+</div>
+<p>Now you can use <code class="docutils literal"><span class="pre">RectifiedLinear</span></code> like any other neuron type!</p>
+</div>
+</div>
+<div class="section" id="tuning-curves">
+<h1>Tuning curves<a class="headerlink" href="#tuning-curves" title="Permalink to this headline">¶</a></h1>
+<p>We can build a small network just to see the tuning curves.</p>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">nengo.utils.ensemble</span> <span class="kn">import</span> <span class="n">tuning_curves</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">encoders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">intercepts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">intercepts</span> <span class="o">*=</span> <span class="n">encoders</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">intercepts</span><span class="o">=</span><span class="n">intercepts</span><span class="p">,</span> <span class="n">neuron_type</span><span class="o">=</span><span class="n">RectifiedLinear</span><span class="p">(),</span>
+                       <span class="n">max_rates</span><span class="o">=</span><span class="n">nengo</span><span class="o">.</span><span class="n">dists</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                       <span class="n">encoders</span><span class="o">=</span><span class="n">encoders</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+    <span class="n">eval_points</span><span class="p">,</span> <span class="n">activities</span> <span class="o">=</span> <span class="n">tuning_curves</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">sim</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">eval_points</span><span class="p">,</span> <span class="n">activities</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Input signal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Firing rate (Hz)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_rectified_linear_7_0.png" src="../_images/examples_rectified_linear_7_0.png" />
+</div>
+</div>
+<div class="section" id="d-representation-example">
+<h2>2D Representation example<a class="headerlink" href="#d-representation-example" title="Permalink to this headline">¶</a></h2>
+<p>Below is the same model as is made in the 2d_representation example,
+except now using <code class="docutils literal"><span class="pre">RectifiedLinear</span></code> neurons insated of <code class="docutils literal"><span class="pre">nengo.LIF</span></code>.</p>
+<div class="nbinput nblast container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;2D Representation&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">neurons</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">neuron_type</span><span class="o">=</span><span class="n">RectifiedLinear</span><span class="p">())</span>
+    <span class="n">sin</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">)</span>
+    <span class="n">cos</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">neurons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">cos</span><span class="p">,</span> <span class="n">neurons</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">sin_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">)</span>
+    <span class="n">cos_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">cos</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">)</span>
+    <span class="n">neurons_probe</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="s1">&#39;decoded_output&#39;</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput container">
+<div class="highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">neurons_probe</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Decoded output&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sin_probe</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sine&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trange</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">cos_probe</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Cosine&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast container">
+<div class="container">
+</div>
+<div class="container">
+<img alt="../_images/examples_rectified_linear_10_0.png" src="../_images/examples_rectified_linear_10_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../user_guide.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="spa_parser.html" class="btn btn-neutral" title="Nengo example: Parsing simple commands" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

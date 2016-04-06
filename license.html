@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Nengo license &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="Developer Guide" href="dev_guide.html"/>
+        <link rel="prev" title="Making Nengo releases" href="releasing.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="dev_guide.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev_introduction.html">Introduction for developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev_api.html">Reference simulator API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nef_minimal.html">The NEF Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Development workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releasing.html">Making Nengo releases</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Nengo license</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licensed-code">Licensed code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributor-assignment-agreement">Contributor Assignment Agreement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nengo-individual-contributor-assignment-agreement">Nengo Individual Contributor Assignment Agreement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#definitions">1. Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#grant-of-rights">2. Grant of Rights</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agreement">3. Agreement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disclaimer">4. Disclaimer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#consequential-damage-waiver">5. Consequential Damage Waiver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#miscellaneous">6. Miscellaneous</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="dev_guide.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Nengo license</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/license.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="nengo-license">
+<h1>Nengo license<a class="headerlink" href="#nengo-license" title="Permalink to this headline">¶</a></h1>
+<p>Nengo is made available under a proprietary license that permits
+using, copying, sharing, and making derivative works
+from Nengo and its source code for any non-commercial purpose.</p>
+<p>If you would like to use Nengo commercially, licenses can be
+purchased from Applied Brain Research, Inc. Please contact
+<a class="reference external" href="mailto:info&#37;&#52;&#48;appliedbrainresearch&#46;com">info<span>&#64;</span>appliedbrainresearch<span>&#46;</span>com</a> for more information.</p>
+</div>
+<div class="section" id="licensed-code">
+<h1>Licensed code<a class="headerlink" href="#licensed-code" title="Permalink to this headline">¶</a></h1>
+<p>Nengo imports several open source libraries.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.numpy.org/">NumPy</a> - Used under
+<a class="reference external" href="http://www.numpy.org/license.html">BSD license</a></li>
+<li><a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> - Used under
+<a class="reference external" href="https://bitbucket.org/birkenfeld/sphinx/src/be5bd373a1a47fb68d70523b6e980e654e070e9f/LICENSE?at=default">BSD license</a></li>
+<li><a class="reference external" href="https://github.com/numpy/numpydoc">numpydoc</a> - Used under
+<a class="reference external" href="https://github.com/numpy/numpydoc/blob/master/LICENSE.txt">BSD license</a></li>
+<li><a class="reference external" href="http://matplotlib.org/">matplotlib</a> - Used under
+<a class="reference external" href="http://matplotlib.org/users/license.html">modified PSF license</a></li>
+<li><a class="reference external" href="http://ipython.org/">IPython</a> - Used under
+<a class="reference external" href="https://github.com/ipython/ipython/blob/master/COPYING.rst">BSD license</a></li>
+<li><a class="reference external" href="http://pytest.org/latest/">pytest</a> - Used under
+<a class="reference external" href="https://bitbucket.org/hpk42/pytest/src/95655acb1f906fbe0a737c2676094aad77bbab1d/LICENSE?at=default">MIT license</a></li>
+</ul>
+<p>Nengo also includes code modified from other libraries.</p>
+<hr class="docutils" />
+<p>The file <code class="docutils literal"><span class="pre">nengo/builder/operator.py</span></code> contains code with the following
+license:</p>
+<p>Copyright (c) 2014, James Bergstra
+All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:</p>
+<ol class="arabic simple">
+<li>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the
+distribution.</li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+&#8220;AS IS&#8221; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<hr class="docutils" />
+<p>The file <code class="docutils literal"><span class="pre">nengo/utils/magic.py</span></code> contains code with the
+following license:</p>
+<p>Copyright (c) 2013, Graham Dumpleton. All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:</p>
+<ul class="simple">
+<li>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+&#8220;AS IS&#8221; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<hr class="docutils" />
+<p>The file <code class="docutils literal"><span class="pre">nengo/utils/graphs.py</span></code> contains code with the following
+license:</p>
+<p>Theano is copyright (c) 2008-2013 Theano Development Team.</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:</p>
+<ul class="simple">
+<li>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Theano nor the names of its contributors may be
+used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS &#8216;&#8217;AS IS&#8217;&#8217; AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<hr class="docutils" />
+<p>The file <code class="docutils literal"><span class="pre">nengo/utils/filter_design.py</span></code> contains code with the
+following license:</p>
+<p>Copyright (c) 2001, 2002 Enthought, Inc.
+All rights reserved.</p>
+<p>Copyright (c) 2003-2012 SciPy Developers.
+All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<ol class="loweralpha simple">
+<li>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the
+distribution.</li>
+<li>Neither the name of Enthought nor the names of the SciPy Developers
+may be used to endorse or promote products derived from this
+software without specific prior written permission.</li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.</p>
+</div>
+<div class="section" id="contributor-assignment-agreement">
+<h1>Contributor Assignment Agreement<a class="headerlink" href="#contributor-assignment-agreement" title="Permalink to this headline">¶</a></h1>
+<p>Harmony (HA-CAA-I-ANY) Version 1.0</p>
+<div class="section" id="nengo-individual-contributor-assignment-agreement">
+<h2>Nengo Individual Contributor Assignment Agreement<a class="headerlink" href="#nengo-individual-contributor-assignment-agreement" title="Permalink to this headline">¶</a></h2>
+<p>Thank you for your interest in contributing to Nengo (&#8220;We&#8221; or &#8220;Us&#8221;).
+This contributor agreement (&#8220;Agreement&#8221;) documents the rights granted
+by contributors to Us. To make this document effective, please sign it
+and send it to Us by electronic submission, following the instructions
+at
+&lt;<a class="reference external" href="https://github.com/nengo/nengo/blob/master/CONTRIBUTORS.rst">https://github.com/nengo/nengo/blob/master/CONTRIBUTORS.rst</a>&gt;.
+This is a legally binding document, so please read it carefully before
+agreeing to it. The Agreement may cover more than one software project
+managed by Us.</p>
+<div class="section" id="definitions">
+<h3>1. Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h3>
+<p>&#8220;You&#8221; means the individual who Submits a Contribution to Us.</p>
+<p>&#8220;Contribution&#8221; means any work of authorship that is Submitted by You
+to Us in which You own or assert ownership of the Copyright. If You do
+not own the Copyright in the entire work of authorship, please follow
+the instructions in
+&lt;<a class="reference external" href="https://github.com/nengo/nengo/blob/master/CONTRIBUTORS.rst">https://github.com/nengo/nengo/blob/master/CONTRIBUTORS.rst</a>&gt;.</p>
+<p>&#8220;Copyright&#8221; means all rights protecting works of authorship owned or
+controlled by You, including copyright, moral and neighboring rights,
+as appropriate, for the full term of their existence including any
+extensions by You.</p>
+<p>&#8220;Material&#8221; means the work of authorship which is made available by Us
+to third parties. When this Agreement covers more than one software
+project, the Material means the work of authorship to which the
+Contribution was Submitted. After You Submit the Contribution, it may
+be included in the Material.</p>
+<p>&#8220;Submit&#8221; means any form of electronic, verbal, or written
+communication sent to Us or our representatives, including but not
+limited to electronic mailing lists, source code control systems, and
+issue tracking systems that are managed by, or on behalf of, Us for
+the purpose of discussing and improving the Material, but excluding
+communication that is conspicuously marked or otherwise designated in
+writing by You as &#8220;Not a Contribution.&#8221;</p>
+<p>&#8220;Submission Date&#8221; means the date on which You Submit a Contribution to
+Us.</p>
+<p>&#8220;Effective Date&#8221; means the date You execute this Agreement or the date
+You first Submit a Contribution to Us, whichever is earlier.</p>
+</div>
+<div class="section" id="grant-of-rights">
+<h3>2. Grant of Rights<a class="headerlink" href="#grant-of-rights" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="copyright-assignment">
+<h4>2.1 Copyright Assignment<a class="headerlink" href="#copyright-assignment" title="Permalink to this headline">¶</a></h4>
+<ol class="loweralpha simple">
+<li>At the time the Contribution is Submitted, You assign to Us all
+right, title, and interest worldwide in all Copyright covering the
+Contribution; provided that this transfer is conditioned upon
+compliance with Section 2.3.</li>
+<li>To the extent that any of the rights in Section 2.1(a) cannot be
+assigned by You to Us, You grant to Us a perpetual, worldwide,
+exclusive, royalty-free, transferable, irrevocable license under
+such non-assigned rights, with rights to sublicense through
+multiple tiers of sublicensees, to practice such non-assigned
+rights, including, but not limited to, the right to reproduce,
+modify, display, perform and distribute the Contribution; provided
+that this license is conditioned upon compliance with Section 2.3.</li>
+<li>To the extent that any of the rights in Section 2.1(a) can neither
+be assigned nor licensed by You to Us, You irrevocably waive and
+agree never to assert such rights against Us, any of our
+successors in interest, or any of our licensees, either direct or
+indirect; provided that this agreement not to assert is
+conditioned upon compliance with Section 2.3.</li>
+<li>Upon such transfer of rights to Us, to the maximum extent
+possible, We immediately grant to You a perpetual, worldwide,
+non-exclusive, royalty-free, transferable, irrevocable license
+under such rights covering the Contribution, with rights to
+sublicense through multiple tiers of sublicensees, to reproduce,
+modify, display, perform, and distribute the Contribution. The
+intention of the parties is that this license will be as broad as
+possible and to provide You with rights as similar as possible to
+the owner of the rights that You transferred. This license back is
+limited to the Contribution and does not provide any rights to the
+Material.</li>
+</ol>
+</div>
+<div class="section" id="patent-license">
+<h4>2.2 Patent License<a class="headerlink" href="#patent-license" title="Permalink to this headline">¶</a></h4>
+<p>For patent claims including, without limitation, method, process, and
+apparatus claims which You own, control or have the right to grant,
+now or in the future, You grant to Us a perpetual, worldwide,
+non-exclusive, transferable, royalty-free, irrevocable patent license,
+with the right to sublicense these rights to multiple tiers of
+sublicensees, to make, have made, use, sell, offer for sale, import
+and otherwise transfer the Contribution and the Contribution in
+combination with the Material (and portions of such combination). This
+license is granted only to the extent that the exercise of the
+licensed rights infringes such patent claims; and provided that this
+license is conditioned upon compliance with Section 2.3.</p>
+</div>
+<div class="section" id="outbound-license">
+<h4>2.3 Outbound License<a class="headerlink" href="#outbound-license" title="Permalink to this headline">¶</a></h4>
+<p>Based on the grant of rights in Sections 2.1 and 2.2, if We include
+Your Contribution in a Material, We may license the Contribution under
+any license, including copyleft, permissive, commercial, or
+proprietary licenses. As a condition on the exercise of this right, We
+agree to also license the Contribution under the terms of the license
+or licenses which We are using for the Material on the Submission
+Date.</p>
+</div>
+<div class="section" id="moral-rights">
+<h4>2.4 Moral Rights<a class="headerlink" href="#moral-rights" title="Permalink to this headline">¶</a></h4>
+<p>If moral rights apply to the Contribution, to the maximum extent
+permitted by law, You waive and agree not to assert such moral rights
+against Us or our successors in interest, or any of our licensees,
+either direct or indirect.</p>
+</div>
+<div class="section" id="our-rights">
+<h4>2.5 Our Rights<a class="headerlink" href="#our-rights" title="Permalink to this headline">¶</a></h4>
+<p>You acknowledge that We are not obligated to use Your Contribution as
+part of the Material and may decide to include any Contribution We
+consider appropriate.</p>
+</div>
+<div class="section" id="reservation-of-rights">
+<h4>2.6 Reservation of Rights<a class="headerlink" href="#reservation-of-rights" title="Permalink to this headline">¶</a></h4>
+<p>Any rights not expressly assigned or licensed under this section are
+expressly reserved by You.</p>
+</div>
+</div>
+<div class="section" id="agreement">
+<h3>3. Agreement<a class="headerlink" href="#agreement" title="Permalink to this headline">¶</a></h3>
+<p>You confirm that:</p>
+<ol class="loweralpha simple">
+<li>You have the legal authority to enter into this Agreement.</li>
+<li>You own the Copyright and patent claims covering the Contribution
+which are required to grant the rights under Section 2.</li>
+<li>The grant of rights under Section 2 does not violate any grant of
+rights which You have made to third parties, including Your
+employer. If You are an employee, You have had Your employer
+approve this Agreement or sign the Entity version of this
+document. If You are less than eighteen years old, please have
+Your parents or guardian sign the Agreement.</li>
+<li>You have followed the instructions in
+&lt;<a class="reference external" href="https://github.com/nengo/nengo/blob/master/CONTRIBUTORS.rst">https://github.com/nengo/nengo/blob/master/CONTRIBUTORS.rst</a>&gt;,
+if You do not own the Copyright in the entire work of authorship
+Submitted.</li>
+</ol>
+</div>
+<div class="section" id="disclaimer">
+<h3>4. Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h3>
+<p>EXCEPT FOR THE EXPRESS WARRANTIES IN SECTION 3, THE CONTRIBUTION IS
+PROVIDED &#8220;AS IS&#8221;. MORE PARTICULARLY, ALL EXPRESS OR IMPLIED WARRANTIES
+INCLUDING, WITHOUT LIMITATION, ANY IMPLIED WARRANTY OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+ARE EXPRESSLY DISCLAIMED BY YOU TO US AND BY US TO YOU. TO THE EXTENT
+THAT ANY SUCH WARRANTIES CANNOT BE DISCLAIMED, SUCH WARRANTY IS
+LIMITED IN DURATION TO THE MINIMUM PERIOD PERMITTED BY LAW.</p>
+</div>
+<div class="section" id="consequential-damage-waiver">
+<h3>5. Consequential Damage Waiver<a class="headerlink" href="#consequential-damage-waiver" title="Permalink to this headline">¶</a></h3>
+<p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL
+YOU OR US BE LIABLE FOR ANY LOSS OF PROFITS, LOSS OF ANTICIPATED
+SAVINGS, LOSS OF DATA, INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL
+AND EXEMPLARY DAMAGES ARISING OUT OF THIS AGREEMENT REGARDLESS OF THE
+LEGAL OR EQUITABLE THEORY (CONTRACT, TORT OR OTHERWISE) UPON WHICH THE
+CLAIM IS BASED.</p>
+</div>
+<div class="section" id="miscellaneous">
+<h3>6. Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h3>
+<p><strong>6.1</strong> This Agreement will be governed by and construed in accordance
+with the laws of Applied Brain Research Inc. excluding its conflicts
+of law provisions. Under certain circumstances, the governing law in
+this section might be superseded by the United Nations Convention on
+Contracts for the International Sale of Goods (&#8220;UN Convention&#8221;) and
+the parties intend to avoid the application of the UN Convention to
+this Agreement and, thus, exclude the application of the UN Convention
+in its entirety to this Agreement.</p>
+<p><strong>6.2</strong> This Agreement sets out the entire agreement between You and
+Us for Your Contributions to Us and overrides all other agreements or
+understandings.</p>
+<p><strong>6.3</strong> If You or We assign the rights or obligations received through
+this Agreement to a third party, as a condition of the assignment,
+that third party must agree in writing to abide by all the rights and
+obligations in the Agreement.</p>
+<p><strong>6.4</strong> The failure of either party to require performance by the
+other party of any provision of this Agreement in one situation shall
+not affect the right of a party to require such performance at any
+time in the future. A waiver of performance under a provision in one
+situation shall not be considered a waiver of the performance of the
+provision in the future or a waiver of the provision in its entirety.</p>
+<p><strong>6.5</strong> If any provision of this Agreement is found void and
+unenforceable, such provision will be replaced to the extent possible
+with a provision that comes closest to the meaning of the original
+provision and which is enforceable. The terms and conditions set forth
+in this Agreement shall apply notwithstanding any failure of essential
+purpose of this Agreement or any limited remedy to the maximum extent
+possible under law.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="releasing.html" class="btn btn-neutral" title="Making Nengo releases" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

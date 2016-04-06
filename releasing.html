@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Making Nengo releases &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="Developer Guide" href="dev_guide.html"/>
+        <link rel="next" title="Nengo license" href="license.html"/>
+        <link rel="prev" title="Development workflow" href="workflow.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="dev_guide.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dev_introduction.html">Introduction for developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev_api.html">Reference simulator API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nef_minimal.html">The NEF Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">Development workflow</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Making Nengo releases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stage-1-preparation">Stage 1: Preparation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stage-2-make-release-commit">Stage 2: Make release commit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stage-3-post-release-cleanup">Stage 3: Post-release cleanup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="license.html">Nengo license</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html#licensed-code">Licensed code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html#contributor-assignment-agreement">Contributor Assignment Agreement</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="dev_guide.html">Developer Guide</a> &raquo;</li>
+      
+    <li>Making Nengo releases</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/releasing.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="making-nengo-releases">
+<h1>Making Nengo releases<a class="headerlink" href="#making-nengo-releases" title="Permalink to this headline">¶</a></h1>
+<p>While we endeavour to automate as much as
+the below as possible,
+it&#8217;s nonetheless important to know
+how a Nengo release works.
+There are three stages to this process,
+which will result in at least
+two <code class="docutils literal"><span class="pre">git</span></code> commits and one <code class="docutils literal"><span class="pre">git</span></code> tag.</p>
+<p>Note that these steps should be consulted
+for both release candidates, and full releases.
+However, some steps (notably those that interact
+with PyPI) should be omitted for release candidates.</p>
+<div class="section" id="stage-1-preparation">
+<h2>Stage 1: Preparation<a class="headerlink" href="#stage-1-preparation" title="Permalink to this headline">¶</a></h2>
+<p>Before making a release,
+we do a few things to prepare:</p>
+<ol class="arabic simple">
+<li>Ensure <code class="docutils literal"><span class="pre">master</span></code> is up-to-date by doing <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>.</li>
+<li>Ensure that important changes since the last release are
+chronicled in the changelog (<code class="docutils literal"><span class="pre">CHANGES.rst</span></code>).</li>
+<li>Run <a class="reference external" href="https://pypi.python.org/pypi/check-manifest">check-manifest</a>
+to ensure that all files are included in the release.</li>
+<li>Run all unit test to ensure they pass on all supported versions.
+This includes tests that are normally skipped
+due to slow runtimes. This requires that optional
+dependencies are installed. Currently, running all tests is done with
+<code class="docutils literal"><span class="pre">NENGO_TEST_PLOT=1</span> <span class="pre">pytest</span> <span class="pre">--pyargs</span> <span class="pre">nengo</span> <span class="pre">--benchmarks</span> <span class="pre">--optional</span></code>
+(in environments for each supported Python).</li>
+<li>Review all of the plots generated from running the unit tests
+for abnormalities or unclear figures.</li>
+<li>Build the documentation and review all of the rendered
+examples for abnormalities or unclear figures.</li>
+<li>Commit all changes from above before moving on to stage 2.</li>
+</ol>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Step 4 is a bit vague at the moment; we should have a separate
+document for all the platforms supported,
+and how to test on Windows with Vagrant, etc.
+However, it is also the hope that release candidates
+will be tested by many different environments
+reducing the burden on the developers to
+have all possible environments available.</p>
+</div>
+<p>Note that any possibly controversial fixes done as a result of
+Stage 1 should be done through the normal process of making
+a pull request and going through review.
+However, from Stage 2 onward, the work is done directly
+on the <code class="docutils literal"><span class="pre">master</span></code> branch.
+It can therefore result in bad things,
+so proceed with caution!</p>
+</div>
+<div class="section" id="stage-2-make-release-commit">
+<h2>Stage 2: Make release commit<a class="headerlink" href="#stage-2-make-release-commit" title="Permalink to this headline">¶</a></h2>
+<p>Once everything is prepared, we&#8217;re ready to do the release.
+It should be okay to work in the same directory that you
+do development, but if you want to be extra safe,
+you can do a fresh clone of Nengo into a separate directory.</p>
+<ol class="arabic simple">
+<li>Change the version information in <code class="docutils literal"><span class="pre">nengo/version.py</span></code>.
+See that file for details.</li>
+<li><em>If this is a release</em>, set the release date in the changelog
+(<code class="docutils literal"><span class="pre">CHANGES.rst</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> the changes above and make a release commit with:
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;Release</span> <span class="pre">version</span> <span class="pre">$(python</span> <span class="pre">-c</span> <span class="pre">'import</span> <span class="pre">nengo;</span> <span class="pre">print(nengo.__version__)')&quot;</span></code></li>
+<li>Review <code class="docutils literal"><span class="pre">git</span> <span class="pre">log</span></code> to ensure that the version number is correct; if not,
+then something went wrong with the previous steps.
+Correct these mistakes and amend the release commit accordingly.</li>
+<li>Tag the release commit with the version number; i.e.,
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">v$(python</span> <span class="pre">-c</span> <span class="pre">'import</span> <span class="pre">nengo;</span> <span class="pre">print(nengo.__version__)')</span></code>.
+We use annotated tags for the authorship information;
+if you wish to provide a message with information about the release,
+feel free, but it is not necessary.</li>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">master</span></code> and <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">[tagname]</span></code>.</li>
+<li><em>If this is a release</em>, create a package and upload it to PyPI
+with <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">sdist</span> <span class="pre">upload</span></code>.</li>
+<li><em>If this is a release</em>, build the documentation with
+<code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_sphinx</span></code>. Zip it up and upload it through
+<a class="reference external" href="https://pypi.python.org/pypi?%3Aaction=pkg_edit&amp;name=nengo">this form</a></li>
+</ol>
+</div>
+<div class="section" id="stage-3-post-release-cleanup">
+<h2>Stage 3: Post-release cleanup<a class="headerlink" href="#stage-3-post-release-cleanup" title="Permalink to this headline">¶</a></h2>
+<p>Nengo&#8217;s now released!
+We need to do a few last things to
+put Nengo back in a development state.</p>
+<ol class="arabic simple">
+<li>Change the version information in <code class="docutils literal"><span class="pre">nengo/version.py</span></code>.
+See that file for details.</li>
+<li><em>If this is a release</em>, make a new changelog entry in <code class="docutils literal"><span class="pre">CHANGES.rst</span></code>
+in order to collect changes for the next release.</li>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> the changes above and make a commit describing
+the current state of the repository; either
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;Continuing</span> <span class="pre">development</span> <span class="pre">of</span> <span class="pre">vX.Y.Z&quot;</span></code> or
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;Starting</span> <span class="pre">development</span> <span class="pre">of</span> <span class="pre">vX.Y.Z&quot;</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">master</span></code></li>
+</ol>
+<p>Congrats, you&#8217;ve released Nengo!
+Shake off the nerves of working directly on <code class="docutils literal"><span class="pre">master</span></code>,
+and make sure that <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nengo</span></code> gets the new version,
+if it was a full release.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="Nengo license" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="workflow.html" class="btn btn-neutral" title="Development workflow" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

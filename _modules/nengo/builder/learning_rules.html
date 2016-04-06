@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nengo.builder.learning_rules &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>nengo.builder.learning_rules</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<h1>Source code for nengo.builder.learning_rules</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">nengo.builder.builder</span> <span class="kn">import</span> <span class="n">Builder</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.operator</span> <span class="kn">import</span> <span class="n">DotInc</span><span class="p">,</span> <span class="n">ElementwiseInc</span><span class="p">,</span> <span class="n">Operator</span><span class="p">,</span> <span class="n">Reset</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.signal</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">nengo.connection</span> <span class="kn">import</span> <span class="n">LearningRule</span>
+<span class="kn">from</span> <span class="nn">nengo.ensemble</span> <span class="kn">import</span> <span class="n">Ensemble</span><span class="p">,</span> <span class="n">Neurons</span>
+<span class="kn">from</span> <span class="nn">nengo.exceptions</span> <span class="kn">import</span> <span class="n">BuildError</span>
+<span class="kn">from</span> <span class="nn">nengo.learning_rules</span> <span class="kn">import</span> <span class="n">BCM</span><span class="p">,</span> <span class="n">Oja</span><span class="p">,</span> <span class="n">PES</span><span class="p">,</span> <span class="n">Voja</span>
+<span class="kn">from</span> <span class="nn">nengo.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">nengo.synapses</span> <span class="kn">import</span> <span class="n">Lowpass</span>
+
+
+<div class="viewcode-block" id="SimBCM"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.SimBCM">[docs]</a><span class="k">class</span> <span class="nc">SimBCM</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate delta omega according to the BCM rule.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_filtered</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span>
+                 <span class="n">learning_rate</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">pre_filtered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span> <span class="o">=</span> <span class="n">post_filtered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reads</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre_filtered</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">theta</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[</span><span class="n">delta</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_descstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;pre=</span><span class="si">%s</span><span class="s1">, post=</span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">make_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+        <span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span><span class="p">]</span>
+        <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span><span class="p">]</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">]</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="k">def</span> <span class="nf">step_simbcm</span><span class="p">():</span>
+            <span class="n">delta</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span>
+                <span class="n">alpha</span> <span class="o">*</span> <span class="n">post_filtered</span> <span class="o">*</span> <span class="p">(</span><span class="n">post_filtered</span> <span class="o">-</span> <span class="n">theta</span><span class="p">),</span> <span class="n">pre_filtered</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">step_simbcm</span></div>
+
+
+<div class="viewcode-block" id="SimOja"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.SimOja">[docs]</a><span class="k">class</span> <span class="nc">SimOja</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate delta omega according to the Oja rule.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_filtered</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span>
+                 <span class="n">learning_rate</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">pre_filtered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span> <span class="o">=</span> <span class="n">post_filtered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reads</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre_filtered</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">weights</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[</span><span class="n">delta</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_descstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;pre=</span><span class="si">%s</span><span class="s1">, post=</span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">make_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">]</span>
+        <span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span><span class="p">]</span>
+        <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span><span class="p">]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">]</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+
+        <span class="k">def</span> <span class="nf">step_simoja</span><span class="p">():</span>
+            <span class="c1"># perform forgetting</span>
+            <span class="n">post_squared</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">post_filtered</span> <span class="o">*</span> <span class="n">post_filtered</span>
+            <span class="n">delta</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">beta</span> <span class="o">*</span> <span class="n">weights</span> <span class="o">*</span> <span class="n">post_squared</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]</span>
+
+            <span class="c1"># perform update</span>
+            <span class="n">delta</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">pre_filtered</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">step_simoja</span></div>
+
+
+<span class="k">class</span> <span class="nc">SimVoja</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Simulates a simplified version of Oja&#39;s rule in the vector space.</span>
+
+<span class="sd">    See `examples/learning/learn_associations.ipynb` for details.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre_decoded : Signal</span>
+<span class="sd">        Decoded activity from pre-synaptic ensemble, `np.dot(d, a)`.</span>
+<span class="sd">    post_filtered : Signal</span>
+<span class="sd">        Filtered post-synaptic activity signal.</span>
+<span class="sd">    scaled_encoders : Signal</span>
+<span class="sd">        2d array of encoders, multiplied by `scale`.</span>
+<span class="sd">    delta : Signal</span>
+<span class="sd">        The change to the encoders. Updated by the rule.</span>
+<span class="sd">    scale : np.ndarray</span>
+<span class="sd">        The length of each encoder.</span>
+<span class="sd">    learning_signal : Signal</span>
+<span class="sd">        Scalar signal to be multiplied by the learning_rate. Expected to range</span>
+<span class="sd">        between 0 and 1 to turn learning off or on, respectively.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        Scalar applied to the delta.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_decoded</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">scaled_encoders</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span>
+                 <span class="n">scale</span><span class="p">,</span> <span class="n">learning_signal</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_decoded</span> <span class="o">=</span> <span class="n">pre_decoded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span> <span class="o">=</span> <span class="n">post_filtered</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled_encoders</span> <span class="o">=</span> <span class="n">scaled_encoders</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_signal</span> <span class="o">=</span> <span class="n">learning_signal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reads</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pre_decoded</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">scaled_encoders</span><span class="p">,</span> <span class="n">learning_signal</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[</span><span class="n">delta</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_descstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;pre=</span><span class="si">%s</span><span class="s1">, post=</span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pre_decoded</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">make_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+        <span class="n">pre_decoded</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_decoded</span><span class="p">]</span>
+        <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span><span class="p">]</span>
+        <span class="n">scaled_encoders</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">scaled_encoders</span><span class="p">]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">]</span>
+        <span class="n">learning_signal</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_signal</span><span class="p">]</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">step_simvoja</span><span class="p">():</span>
+            <span class="n">delta</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">learning_signal</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">post_filtered</span><span class="p">,</span> <span class="n">pre_decoded</span><span class="p">)</span> <span class="o">-</span>
+                <span class="n">post_filtered</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">scaled_encoders</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">step_simvoja</span>
+
+
+<span class="k">def</span> <span class="nf">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">ensemble</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">Ensemble</span><span class="p">,</span> <span class="n">Node</span><span class="p">))</span>
+            <span class="k">else</span> <span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span><span class="o">.</span><span class="n">ensemble</span><span class="p">)</span>
+
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">LearningRule</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">build_learning_rule</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
+
+    <span class="c1"># --- Set up delta signal</span>
+    <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">modifies</span> <span class="o">==</span> <span class="s1">&#39;encoders&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="o">.</span><span class="n">is_decoded</span><span class="p">:</span>
+            <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The connection must be decoded in order to use &quot;</span>
+                       <span class="s2">&quot;encoder learning.&quot;</span><span class="p">)</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">post</span><span class="p">][</span><span class="s1">&#39;encoders&#39;</span><span class="p">]</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;encoders += delta&quot;</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">post</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">dimensions</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Delta&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">rule</span><span class="o">.</span><span class="n">modifies</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;decoders&#39;</span><span class="p">,</span> <span class="s1">&#39;weights&#39;</span><span class="p">):</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="n">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="s1">&#39;weights&#39;</span><span class="p">]</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;weights += delta&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="o">.</span><span class="n">is_decoded</span><span class="p">:</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="n">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">post</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">pre</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Delta&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rule</span><span class="o">.</span><span class="n">size_in</span><span class="p">,</span> <span class="n">pre</span><span class="o">.</span><span class="n">n_neurons</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Delta&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">BuildError</span><span class="p">(</span><span class="s2">&quot;Unknown target </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rule</span><span class="o">.</span><span class="n">modifies</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">delta</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">target</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span>
+        <span class="n">ElementwiseInc</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="s1">&#39;common&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">delta</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>  <span class="c1"># updates delta</span>
+
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">BCM</span><span class="p">)</span>
+<div class="viewcode-block" id="build_bcm"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.build_bcm">[docs]</a><span class="k">def</span> <span class="nf">build_bcm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">bcm</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
+    <span class="n">pre_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+    <span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">bcm</span><span class="o">.</span><span class="n">pre_tau</span><span class="p">),</span> <span class="n">pre_activities</span><span class="p">)</span>
+    <span class="n">post_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+    <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">bcm</span><span class="o">.</span><span class="n">post_tau</span><span class="p">),</span> <span class="n">post_activities</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">bcm</span><span class="o">.</span><span class="n">theta_tau</span><span class="p">),</span> <span class="n">post_filtered</span><span class="p">)</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">SimBCM</span><span class="p">(</span><span class="n">pre_filtered</span><span class="p">,</span>
+                        <span class="n">post_filtered</span><span class="p">,</span>
+                        <span class="n">theta</span><span class="p">,</span>
+                        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">],</span>
+                        <span class="n">learning_rate</span><span class="o">=</span><span class="n">bcm</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">))</span>
+
+    <span class="c1"># expose these for probes</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;pre_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_filtered</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">Oja</span><span class="p">)</span>
+<div class="viewcode-block" id="build_oja"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.build_oja">[docs]</a><span class="k">def</span> <span class="nf">build_oja</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oja</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
+    <span class="n">pre_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+    <span class="n">post_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+    <span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">oja</span><span class="o">.</span><span class="n">pre_tau</span><span class="p">),</span> <span class="n">pre_activities</span><span class="p">)</span>
+    <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">oja</span><span class="o">.</span><span class="n">post_tau</span><span class="p">),</span> <span class="n">post_activities</span><span class="p">)</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">SimOja</span><span class="p">(</span><span class="n">pre_filtered</span><span class="p">,</span>
+                        <span class="n">post_filtered</span><span class="p">,</span>
+                        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="s1">&#39;weights&#39;</span><span class="p">],</span>
+                        <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">],</span>
+                        <span class="n">learning_rate</span><span class="o">=</span><span class="n">oja</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">,</span>
+                        <span class="n">beta</span><span class="o">=</span><span class="n">oja</span><span class="o">.</span><span class="n">beta</span><span class="p">))</span>
+
+    <span class="c1"># expose these for probes</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;pre_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_filtered</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">Voja</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">build_voja</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">voja</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
+
+    <span class="c1"># Filtered post activity</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">post_obj</span>
+    <span class="k">if</span> <span class="n">voja</span><span class="o">.</span><span class="n">post_tau</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
+            <span class="n">Lowpass</span><span class="p">(</span><span class="n">voja</span><span class="o">.</span><span class="n">post_tau</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">post</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">post_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">post</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Learning signal, defaults to 1 in case no connection is made</span>
+    <span class="c1"># and multiplied by the learning_rate * dt</span>
+    <span class="n">learning</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">size_in</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Voja:learning&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">rule</span><span class="o">.</span><span class="n">size_in</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">learning</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">learning</span>  <span class="c1"># optional connection will attach here</span>
+
+    <span class="n">scaled_encoders</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">post</span><span class="p">][</span><span class="s1">&#39;encoders&#39;</span><span class="p">]</span>
+    <span class="c1"># The gain and radius are folded into the encoders during the ensemble</span>
+    <span class="c1"># build process, so we need to make sure that the deltas are proportional</span>
+    <span class="c1"># to this scaling factor</span>
+    <span class="n">encoder_scale</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">post</span><span class="p">]</span><span class="o">.</span><span class="n">gain</span> <span class="o">/</span> <span class="n">post</span><span class="o">.</span><span class="n">radius</span>
+    <span class="k">assert</span> <span class="n">post_filtered</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">encoder_scale</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span>
+        <span class="n">SimVoja</span><span class="p">(</span><span class="n">pre_decoded</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">],</span>
+                <span class="n">post_filtered</span><span class="o">=</span><span class="n">post_filtered</span><span class="p">,</span>
+                <span class="n">scaled_encoders</span><span class="o">=</span><span class="n">scaled_encoders</span><span class="p">,</span>
+                <span class="n">delta</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">],</span>
+                <span class="n">scale</span><span class="o">=</span><span class="n">encoder_scale</span><span class="p">,</span>
+                <span class="n">learning_signal</span><span class="o">=</span><span class="n">learning</span><span class="p">,</span>
+                <span class="n">learning_rate</span><span class="o">=</span><span class="n">voja</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">))</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;scaled_encoders&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaled_encoders</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span>
+
+
+<span class="nd">@Builder.register</span><span class="p">(</span><span class="n">PES</span><span class="p">)</span>
+<div class="viewcode-block" id="build_pes"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.build_pes">[docs]</a><span class="k">def</span> <span class="nf">build_pes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pes</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
+
+    <span class="c1"># Create input error signal</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">size_in</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;PES:error&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">error</span>  <span class="c1"># error connection will attach here</span>
+
+    <span class="n">acts</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">pes</span><span class="o">.</span><span class="n">pre_tau</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Compute the correction, i.e. the scaled negative error</span>
+    <span class="n">correction</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;PES:correction&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">correction</span><span class="p">))</span>
+
+    <span class="c1"># correction = -learning_rate * (dt / n_neurons) * error</span>
+    <span class="n">n_neurons</span> <span class="o">=</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">n_neurons</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="n">Ensemble</span><span class="p">)</span>
+                 <span class="k">else</span> <span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="o">.</span><span class="n">size_in</span><span class="p">)</span>
+    <span class="n">lr_sig</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="o">-</span><span class="n">pes</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">dt</span> <span class="o">/</span> <span class="n">n_neurons</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;PES:learning_rate&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">DotInc</span><span class="p">(</span><span class="n">lr_sig</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">correction</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;PES:correct&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="o">.</span><span class="n">is_decoded</span><span class="p">:</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="s1">&#39;weights&#39;</span><span class="p">]</span>
+        <span class="n">encoders</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">post</span><span class="p">][</span><span class="s1">&#39;encoders&#39;</span><span class="p">]</span>
+
+        <span class="c1"># encoded = dot(encoders, correction)</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;PES:encoded&quot;</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">encoded</span><span class="p">))</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">DotInc</span><span class="p">(</span><span class="n">encoders</span><span class="p">,</span> <span class="n">correction</span><span class="p">,</span> <span class="n">encoded</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;PES:encode&quot;</span><span class="p">))</span>
+        <span class="n">local_error</span> <span class="o">=</span> <span class="n">encoded</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">Ensemble</span><span class="p">,</span> <span class="n">Neurons</span><span class="p">)):</span>
+        <span class="n">local_error</span> <span class="o">=</span> <span class="n">correction</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">BuildError</span><span class="p">(</span><span class="s2">&quot;&#39;pre&#39; object &#39;</span><span class="si">%s</span><span class="s2">&#39; not suitable for PES learning&quot;</span>
+                         <span class="o">%</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">pre_obj</span><span class="p">))</span>
+
+    <span class="c1"># delta = local_error * activities</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">Reset</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">]))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="n">ElementwiseInc</span><span class="p">(</span>
+        <span class="n">local_error</span><span class="o">.</span><span class="n">column</span><span class="p">(),</span> <span class="n">acts</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">],</span>
+        <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;PES:Inc Delta&quot;</span><span class="p">))</span>
+
+    <span class="c1"># expose these for probes</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">error</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;correction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">correction</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;activities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acts</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

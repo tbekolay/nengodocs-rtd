@@ -1,0 +1,593 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Release History &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="User Guide" href="user_guide.html"/>
+        <link rel="next" title="Nengo history" href="history.html"/>
+        <link rel="prev" title="The config system" href="examples/config.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="user_api.html">Nengo Modelling API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networks.html">Networks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Release History</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#unreleased">2.1.0 (unreleased)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#december-7-2015">2.0.3 (December 7, 2015)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#october-13-2015">2.0.2 (October 13, 2015)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#january-27-2015">2.0.1 (January 27, 2015)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#january-15-2015">2.0.0 (January 15, 2015)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="user_guide.html">User Guide</a> &raquo;</li>
+      
+    <li>Release History</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/changelog.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput > div,
+div.nbinput div[class^=highlight],
+div.nbinput div[class^=highlight] pre,
+div.nboutput,
+div.nboutput > div,
+div.nboutput div[class^=highlight],
+div.nboutput div[class^=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput > :first-child pre {
+    color: navy;
+}
+
+/* output prompt */
+div.nboutput > :first-child pre {
+    color: darkred;
+}
+
+/* all prompts */
+div.nbinput > :first-child[class^=highlight],
+div.nboutput > :first-child[class^=highlight],
+div.nboutput > :first-child {
+    min-width: 11ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+
+/* input/output area */
+div.nbinput > :nth-child(2)[class^=highlight],
+div.nboutput > :nth-child(2),
+div.nboutput > :nth-child(2)[class^=highlight] {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+/* input area */
+div.nbinput > :nth-child(2)[class^=highlight] {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput  > :nth-child(2).stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansiblack { color: black; }
+.ansired { color: darkred; }
+.ansigreen { color: darkgreen; }
+.ansiyellow { color: #c4a000; }
+.ansiblue { color: darkblue; }
+.ansipurple { color: darkviolet; }
+.ansicyan { color: steelblue; }
+/* See https://github.com/jupyter/nbconvert/issues/174 */
+.ansigray { color: gray; }  /* nbconvert CSS */
+.ansigrey { color: gray; }  /* nbconvert HTML output */
+
+.ansibgblack { background-color: black; }
+.ansibgred { background-color: red; }
+.ansibggreen { background-color: green; }
+.ansibgyellow { background-color: yellow; }
+.ansibgblue { background-color: blue; }
+.ansibgpurple { background-color: magenta; }
+.ansibgcyan { background-color: cyan; }
+.ansibggray { background-color: gray; }
+
+.ansibold { font-weight: bold; }
+</style>
+<div class="section" id="release-history">
+<h1>Release History<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="unreleased">
+<h2>2.1.0 (unreleased)<a class="headerlink" href="#unreleased" title="Permalink to this headline">¶</a></h2>
+<p><strong>API changes</strong></p>
+<ul class="simple">
+<li>Spiking <code class="docutils literal"><span class="pre">LIF</span></code> neuron models now accept an additional argument,
+<code class="docutils literal"><span class="pre">min_voltage</span></code>. Voltages are clipped such that they do not drop below
+this value (previously, this was fixed at 0).
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/666">#666</a>)</li>
+<li><code class="docutils literal"><span class="pre">Process</span></code> objects can now be passed directly as node outputs,
+making them easier to use. The <code class="docutils literal"><span class="pre">Process</span></code> interface is also improved
+and is currently the same as the <code class="docutils literal"><span class="pre">Synapse</span></code> interface. However,
+further improvements are pending, and the current implementation
+SHOULD NOT BE RELEASED!
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/652">#652</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">PES</span></code> learning rule no longer accepts a connection as an argument.
+Instead, error information is transmitted by making a connection to the
+learning rule object (e.g.,
+<code class="docutils literal"><span class="pre">nengo.Connection(error_ensemble,</span> <span class="pre">connection.learning_rule)</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/344">#344</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/642">#642</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">modulatory</span></code> attribute has been removed from <code class="docutils literal"><span class="pre">nengo.Connection</span></code>.
+This was only used for learning rules to this point, and has been removed
+in favor of connecting directly to the learning rule.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/642">#642</a>)</li>
+<li>Connection weights can now be probed with <code class="docutils literal"><span class="pre">nengo.Probe(conn,</span> <span class="pre">'weights')</span></code>,
+and these are always the weights that will change with learning
+regardless of the type of connection. Previously, either <code class="docutils literal"><span class="pre">decoders</span></code> or
+<code class="docutils literal"><span class="pre">transform</span></code> may have changed depending on the type of connection;
+it is now no longer possible to probe <code class="docutils literal"><span class="pre">decoders</span></code> or <code class="docutils literal"><span class="pre">transform</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/729">#729</a>)</li>
+<li>A version of the AssociativeMemory SPA module is now available as a
+stand-alone network in <code class="docutils literal"><span class="pre">nengo.networks</span></code>. The AssociativeMemory SPA module
+also has an updated argument list.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/702">#702</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">Product</span></code> and <code class="docutils literal"><span class="pre">InputGatedMemory</span></code> networks no longer accept a
+<code class="docutils literal"><span class="pre">config</span></code> argument. (<a class="reference external" href="https://github.com/nengo/nengo/pull/814">#814</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">EnsembleArray</span></code> network&#8217;s <code class="docutils literal"><span class="pre">neuron_nodes</span></code> argument is deprecated.
+Instead, call the new <code class="docutils literal"><span class="pre">add_neuron_input</span></code> or <code class="docutils literal"><span class="pre">add_neuron_output</span></code> methods.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/868">#868</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">nengo.log</span></code> utility function now takes a string <code class="docutils literal"><span class="pre">level</span></code> parameter
+to specify any logging level, instead of the old binary <code class="docutils literal"><span class="pre">debug</span></code> parameter.
+Cache messages are logged at DEBUG instead of INFO level.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/883">#883</a>)</li>
+<li>Reorganised the Associative Memory code, including removing many extra
+parameters from <code class="docutils literal"><span class="pre">nengo.networks.assoc_mem.AssociativeMemory</span></code> and modifying
+the defaults of others.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/797">#797</a>)</li>
+<li>Add <code class="docutils literal"><span class="pre">close</span></code> method to <code class="docutils literal"><span class="pre">Simulator</span></code>. <code class="docutils literal"><span class="pre">Simulator</span></code> can now be used
+used as a context manager.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/857">#857</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/issues/739">#739</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/859">#859</a>)</li>
+<li>Most exceptions that Nengo can raise are now custom exception classes
+that can be found in the <code class="docutils literal"><span class="pre">nengo.exceptions</span></code> module.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/781">#781</a>)</li>
+<li>All Nengo objects (<code class="docutils literal"><span class="pre">Connection</span></code>, <code class="docutils literal"><span class="pre">Ensemble</span></code>, <code class="docutils literal"><span class="pre">Node</span></code>, and <code class="docutils literal"><span class="pre">Probe</span></code>)
+now accept a <code class="docutils literal"><span class="pre">label</span></code> and <code class="docutils literal"><span class="pre">seed</span></code> argument if they didn&#8217;t previously.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/859">#958</a>)</li>
+<li>In <code class="docutils literal"><span class="pre">nengo.synapses</span></code>, <code class="docutils literal"><span class="pre">filt</span></code> and <code class="docutils literal"><span class="pre">filtfilt</span></code> are deprecated. Every
+synapse type now has <code class="docutils literal"><span class="pre">filt</span></code> and <code class="docutils literal"><span class="pre">filtfilt</span></code> methods that filter
+using the synapse.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/945">#945</a>)</li>
+<li><code class="docutils literal"><span class="pre">Connection</span></code> objects can now accept a <code class="docutils literal"><span class="pre">Distribution</span></code> for the transform
+argument; the transform matrix will be sampled from that distribution
+when the model is built.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/979">#979</a>).</li>
+</ul>
+<p><strong>Behavioural changes</strong></p>
+<ul class="simple">
+<li>The sign on the <code class="docutils literal"><span class="pre">PES</span></code> learning rule&#8217;s error has been flipped to conform
+with most learning rules, in which error is minimized. The error should be
+<code class="docutils literal"><span class="pre">actual</span> <span class="pre">-</span> <span class="pre">target</span></code>. (<a class="reference external" href="https://github.com/nengo/nengo/pull/642">#642</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">PES</span></code> rule&#8217;s learning rate is invariant to the number of neurons
+in the presynaptic population. The effective speed of learning should now
+be unaffected by changes in the size of the presynaptic population.
+Existing learning networks may need to be updated; to achieve identical
+behavior, scale the learning rate by <code class="docutils literal"><span class="pre">pre.n_neurons</span> <span class="pre">/</span> <span class="pre">100</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/643">#643</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">probeable</span></code> attribute of all Nengo objects is now implemented
+as a property, rather than a configurable parameter.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/671">#671</a>)</li>
+<li>Node functions receive <code class="docutils literal"><span class="pre">x</span></code> as a copied NumPy array (instead of a readonly
+view).
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/716">#716</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/722">#722</a>)</li>
+<li>The SPA Compare module produces a scalar output (instead of a specific
+vector).
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/775">#775</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/782">#782</a>)</li>
+<li>Bias nodes in <code class="docutils literal"><span class="pre">spa.Cortical</span></code>, and gate ensembles and connections in
+<code class="docutils literal"><span class="pre">spa.Thalamus</span></code> are now stored in the target modules.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/894">#894</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/906">#906</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">filt</span></code> and <code class="docutils literal"><span class="pre">filtfilt</span></code> functions on <code class="docutils literal"><span class="pre">Synapse</span></code> now use the initial
+value of the input signal to initialize the filter output by default. This
+provides more accurate filtering at the beginning of the signal, for signals
+that do not start at zero.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/945">#945</a>)</li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li>Added a <code class="docutils literal"><span class="pre">randomized_svd</span></code> subsolver for the L2 solvers. This can be much
+quicker for large numbers of neurons or evaluation points.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/803">#803</a>)</li>
+<li>Added <code class="docutils literal"><span class="pre">PES.pre_tau</span></code> attribute, which sets the time constant on a lowpass
+filter of the presynaptic activity.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/643">#643</a>)</li>
+<li><code class="docutils literal"><span class="pre">EnsembleArray.add_output</span></code> now accepts a list of functions
+to be computed by each ensemble.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/562">#562</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/580">#580</a>)</li>
+<li><code class="docutils literal"><span class="pre">LinearFilter</span></code> now has an <code class="docutils literal"><span class="pre">analog</span></code> argument which can be set
+through its constructor. Linear filters with digital coefficients
+can be specified by setting <code class="docutils literal"><span class="pre">analog</span></code> to <code class="docutils literal"><span class="pre">False</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/819">#819</a>)</li>
+<li>Added <code class="docutils literal"><span class="pre">SqrtBeta</span></code> distribution, which describes the distribution
+of semantic pointer elements.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/414">#414</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/430">#430</a>)</li>
+<li>Added <code class="docutils literal"><span class="pre">Triangle</span></code> synapse, which filters with a triangular FIR filter.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/660">#660</a>)</li>
+<li>Added <code class="docutils literal"><span class="pre">utils.connection.eval_point_decoding</span></code> function, which
+provides a connection&#8217;s static decoding of a list of evaluation points.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/700">#700</a>)</li>
+<li>Resetting the Simulator now resets all Processes, meaning the
+injected random signals and noise are identical between runs,
+unless the seed is changed (which can be done through
+<code class="docutils literal"><span class="pre">Simulator.reset</span></code>).
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/582">#582</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/616">#616</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/652">#652</a>)</li>
+<li>An exception is raised if SPA modules are not properly assigned to an SPA
+attribute.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/730">#730</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/791">#791</a>)</li>
+<li>The <code class="docutils literal"><span class="pre">Product</span></code> network is now more accurate.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/651">#651</a>)</li>
+<li>Numpy arrays can now be used as indices for slicing objects.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/754">#754</a>)</li>
+<li><code class="docutils literal"><span class="pre">Config.configures</span></code> now accepts multiple classes rather than
+just one. (<a class="reference external" href="https://github.com/nengo/nengo/pull/842">#842</a>)</li>
+<li>Added <code class="docutils literal"><span class="pre">add</span></code> method to <code class="docutils literal"><span class="pre">spa.Actions</span></code>, which allows
+actions to be added after module has been initialized.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/861">#861</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/862">#862</a>)</li>
+<li>Added SPA wrapper for circular convolution networks, <code class="docutils literal"><span class="pre">spa.Bind</span></code>
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/849">#849</a>)</li>
+<li>Added the <code class="docutils literal"><span class="pre">Voja</span></code> (Vector Oja) learning rule type, which updates an
+ensemble&#8217;s encoders to fire selectively for its inputs. (see
+<code class="docutils literal"><span class="pre">examples/learning/learn_associations.ipynb</span></code>).
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/727">#727</a>)</li>
+<li>Added a clipped exponential distribution useful for thresholding, in
+particular in the AssociativeMemory.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/779">#779</a>)</li>
+<li>Added a cosine similarity distribution, which is the distribution of the
+cosine of the angle between two random vectors. It is useful for setting
+intercepts, in particular when using the <code class="docutils literal"><span class="pre">Voja</span></code> learning rule.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/768">#768</a>)</li>
+<li><code class="docutils literal"><span class="pre">nengo.synapses.LinearFilter</span></code> now has an <code class="docutils literal"><span class="pre">evaluate</span></code> method to
+evaluate the filter response to sine waves of given frequencies. This can
+be used to create Bode plots, for example.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/945">#945</a>)</li>
+<li><code class="docutils literal"><span class="pre">nengo.spa.Vocabulary</span></code> objects now have a <code class="docutils literal"><span class="pre">readonly</span></code> attribute that
+can be used to disallow adding new semantic pointers. Vocabulary subsets
+are read-only by default.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/699">#699</a>)</li>
+<li>Improved performance of the decoder cache by writing all decoders
+of a network into a single file.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/946">#946</a>)</li>
+</ul>
+<p><strong>Bug fixes</strong></p>
+<ul class="simple">
+<li>Fixed issue where setting <code class="docutils literal"><span class="pre">Connection.seed</span></code> through the constructor had
+no effect. (<a class="reference external" href="https://github.com/nengo/nengo/issues/725">#724</a>)</li>
+<li>Fixed issue in which learning connections could not be sliced.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/632">#632</a>)</li>
+<li>Fixed issue when probing scalar transforms.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/667">#667</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/671">#671</a>)</li>
+<li>Fix for SPA actions that route to a module with multiple inputs.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/714">#714</a>)</li>
+<li>Corrected the <code class="docutils literal"><span class="pre">rmses</span></code> values in <code class="docutils literal"><span class="pre">BuiltConnection.solver_info</span></code> when using
+<code class="docutils literal"><span class="pre">NNls</span></code> and <code class="docutils literal"><span class="pre">Nnl2sL2</span></code> solvers, and the <code class="docutils literal"><span class="pre">reg</span></code> argument for <code class="docutils literal"><span class="pre">Nnl2sL2</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/839">#839</a>)</li>
+<li><code class="docutils literal"><span class="pre">spa.Vocabulary.create_pointer</span></code> now respects the specified number of
+creation attempts, and returns the most dissimilar pointer if none can be
+found below the similarity threshold.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/817">#817</a>)</li>
+<li>Probing a Connection&#8217;s output now returns the output of that individual
+Connection, rather than the input to the Connection&#8217;s post Ensemble.
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/973">#973</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/974">#974</a>)</li>
+<li>Fixed thread-safety of using networks and config in <code class="docutils literal"><span class="pre">with</span></code> statements.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/989">#989</a>)</li>
+<li>The decoder cache will only be used when a seed is specified.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/946">#946</a>)</li>
+</ul>
+</div>
+<div class="section" id="december-7-2015">
+<h2>2.0.3 (December 7, 2015)<a class="headerlink" href="#december-7-2015" title="Permalink to this headline">¶</a></h2>
+<p><strong>API changes</strong></p>
+<ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">spa.State</span></code> object replaces the old <code class="docutils literal"><span class="pre">spa.Memory</span></code> and <code class="docutils literal"><span class="pre">spa.Buffer</span></code>.
+These old modules are deprecated and will be removed in 2.2.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/796">#796</a>)</li>
+</ul>
+</div>
+<div class="section" id="october-13-2015">
+<h2>2.0.2 (October 13, 2015)<a class="headerlink" href="#october-13-2015" title="Permalink to this headline">¶</a></h2>
+<p>2.0.2 is a bug fix release to ensure that Nengo continues
+to work with more recent versions of Jupyter
+(formerly known as the IPython notebook).</p>
+<p><strong>Behavioural changes</strong></p>
+<ul class="simple">
+<li>The IPython notebook progress bar has to be activated with
+<code class="docutils literal"><span class="pre">%load_ext</span> <span class="pre">nengo.ipynb</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/693">#693</a>)</li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li>Added <code class="docutils literal"><span class="pre">[progress]</span></code> section to <code class="docutils literal"><span class="pre">nengorc</span></code> which allows setting
+<code class="docutils literal"><span class="pre">progress_bar</span></code> and <code class="docutils literal"><span class="pre">updater</span></code>.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/693">#693</a>)</li>
+</ul>
+<p><strong>Bug fixes</strong></p>
+<ul class="simple">
+<li>Fix compatibility issues with newer versions of IPython,
+and Jupyter. (<a class="reference external" href="https://github.com/nengo/nengo/pull/693">#693</a>)</li>
+</ul>
+</div>
+<div class="section" id="january-27-2015">
+<h2>2.0.1 (January 27, 2015)<a class="headerlink" href="#january-27-2015" title="Permalink to this headline">¶</a></h2>
+<p><strong>Behavioural changes</strong></p>
+<ul class="simple">
+<li>Node functions receive <code class="docutils literal"><span class="pre">t</span></code> as a float (instead of a NumPy scalar)
+and <code class="docutils literal"><span class="pre">x</span></code> as a readonly NumPy array (instead of a writeable array).
+(<a class="reference external" href="https://github.com/nengo/nengo/issues/626">#626</a>,
+<a class="reference external" href="https://github.com/nengo/nengo/pull/628">#628</a>)</li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">rasterplot</span></code> works with 0 neurons, and generates much smaller PDFs.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/601">#601</a>)</li>
+</ul>
+<p><strong>Bug fixes</strong></p>
+<ul class="simple">
+<li>Fix compatibility with NumPy 1.6.
+(<a class="reference external" href="https://github.com/nengo/nengo/pull/627">#627</a>)</li>
+</ul>
+</div>
+<div class="section" id="january-15-2015">
+<h2>2.0.0 (January 15, 2015)<a class="headerlink" href="#january-15-2015" title="Permalink to this headline">¶</a></h2>
+<p>Initial release of Nengo 2.0!
+Supports Python 2.6+ and 3.3+.
+Thanks to all of the contributors for making this possible!</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="history.html" class="btn btn-neutral float-right" title="Nengo history" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples/config.html" class="btn btn-neutral" title="The config system" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 06, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
