@@ -86,8 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="user_api.html">Nengo Modelling API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html">Nengo Modelling API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="networks.html">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend_api.html">Reference simulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Converting from Nengo 1.4 to Nengo 2.0</a><ul>
@@ -160,121 +161,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<div class="section" id="converting-from-nengo-1-4-to-nengo-2-0">
+  <div class="section" id="converting-from-nengo-1-4-to-nengo-2-0">
 <h1>Converting from Nengo 1.4 to Nengo 2.0<a class="headerlink" href="#converting-from-nengo-1-4-to-nengo-2-0" title="Permalink to this headline">¶</a></h1>
 <p>On this page, we&#8217;ll go over the changes between Nengo 1.4 and 2.0.
 They will first be reviewed heuristically in the section Big Changes, before
@@ -406,7 +293,7 @@ for more information.</p>
 to provide input to a Nengo model:
 <code class="docutils literal"><span class="pre">SimpleNode</span></code>, <code class="docutils literal"><span class="pre">FunctionInput</span></code>, and others.
 All of these use cases should be covered
-by <code class="xref py py-class docutils literal"><span class="pre">nengo.Node</span></code>.</p>
+by <a class="reference internal" href="frontend_api.html#nengo.Node" title="nengo.Node"><code class="xref py py-class docutils literal"><span class="pre">nengo.Node</span></code></a>.</p>
 <p>In the old API, you could create your own
 <code class="docutils literal"><span class="pre">SimpleNode</span></code>, or create a <code class="docutils literal"><span class="pre">FunctionInput</span></code> with:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nef</span><span class="o">.</span><span class="n">Network</span><span class="o">.</span><span class="n">make_input</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">zero_after_time</span><span class="p">)</span>
@@ -526,7 +413,7 @@ Nengo 2.0, see the <a class="reference external" href="dev_guide.html">developer
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

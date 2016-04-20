@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/spa/convolution.ipynb
+****************************
+Circular Convolution example
+****************************
+
+.. notebook:: ../../examples/spa/convolution.ipynb

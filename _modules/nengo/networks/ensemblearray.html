@@ -129,121 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.networks.ensemblearray</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.networks.ensemblearray</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -264,30 +150,62 @@ div.nboutput  > :nth-child(2).stderr {
 <span class="sd">    However, since the neurons represent different dimensions separately,</span>
 <span class="sd">    we cannot compute nonlinear interactions between those dimensions.</span>
 
+<span class="sd">    Note that in addition to the parameters below, parameters affecting</span>
+<span class="sd">    all of the sub-ensembles can be passed to the ensemble array.</span>
+<span class="sd">    For example::</span>
+
+<span class="sd">        ea = nengo.networks.EnsembleArray(20, 2, radius=1.5)</span>
+
+<span class="sd">    creates an ensemble array with 2 sub-ensembles, each with 20 neurons,</span>
+<span class="sd">    and a radius of 1.5.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n_neurons : int</span>
 <span class="sd">        The number of neurons in each sub-ensemble.</span>
 <span class="sd">    n_ensembles : int</span>
 <span class="sd">        The number of sub-ensembles to create.</span>
-<span class="sd">    ens_dimensions: int, optional</span>
-<span class="sd">        The dimensionality of each sub-ensemble. Default: 1.</span>
-<span class="sd">    neuron_nodes : bool, optional</span>
+
+<span class="sd">    ens_dimensions : int, optional (Default: 1)</span>
+<span class="sd">        The dimensionality of each sub-ensemble.</span>
+<span class="sd">    neuron_nodes : bool, optional (Default: False)</span>
 <span class="sd">        Whether to create a node that provides each access to each individual</span>
-<span class="sd">        neuron, typically for the purpose of inibiting the entire</span>
-<span class="sd">        EnsembleArray. Default: False.</span>
-<span class="sd">        *Note: this parameter is deprecated. Please call add_neuron_input</span>
-<span class="sd">        or add_neuron_output instead.*</span>
-<span class="sd">    label : str, optional</span>
+<span class="sd">        neuron, typically for the purpose of inibiting the entire EnsembleArray.</span>
+
+<span class="sd">        .. note:: Deprecated in Nengo 2.1.0.</span>
+<span class="sd">                  Call `~.EnsembleArray.add_neuron_input` or</span>
+<span class="sd">                  `~.EnsembleArray.add_neuron_output` instead.</span>
+<span class="sd">    label : str, optional (Default: None)</span>
 <span class="sd">        A name to assign this EnsembleArray.</span>
 <span class="sd">        Used for visualization and debugging.</span>
-<span class="sd">    seed : int, optional</span>
+<span class="sd">    seed : int, optional (Default: None)</span>
 <span class="sd">        Random number seed that will be used in the build step.</span>
-<span class="sd">    add_to_container : bool, optional</span>
-<span class="sd">        Whether this network will be added to the current context.</span>
+<span class="sd">    add_to_container : bool, optional (Default: None)</span>
+<span class="sd">        Determines if this network will be added to the current container.</span>
+<span class="sd">        If None, this network will be added to the network at the top of the</span>
+<span class="sd">        ``Network.context`` stack unless the stack is empty.</span>
 
-<span class="sd">    Additional parameters for each sub-ensemble can be passed through</span>
-<span class="sd">    ``**ens_kwargs``.</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dimensions_per_ensemble : int</span>
+<span class="sd">        The dimensionality of each sub-ensemble.</span>
+<span class="sd">    ea_ensembles : list</span>
+<span class="sd">        The sub-ensembles in the ensemble array.</span>
+<span class="sd">    input : Node</span>
+<span class="sd">        A node that provides input to all of the ensembles in the array.</span>
+<span class="sd">    n_ensembles : int</span>
+<span class="sd">        The number of sub-ensembles to create.</span>
+<span class="sd">    n_neurons : int</span>
+<span class="sd">        The number of neurons in each sub-ensemble.</span>
+<span class="sd">    neuron_input : Node or None</span>
+<span class="sd">        A node that provides input to all the neurons in the ensemble array.</span>
+<span class="sd">        None unless created in `~.EnsembleArray.add_neuron_input`.</span>
+<span class="sd">    neuron_output : Node or None</span>
+<span class="sd">        A node that gathers neural output from all the neurons in the ensemble</span>
+<span class="sd">        array. None unless created in `~.EnsembleArray.add_neuron_output`.</span>
+<span class="sd">    output : Node</span>
+<span class="sd">        A node that gathers decoded output from all of the ensembles</span>
+<span class="sd">        in the array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">,</span> <span class="n">n_ensembles</span><span class="p">,</span> <span class="n">ens_dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -338,6 +256,7 @@ div.nboutput  > :nth-child(2).stderr {
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;(int) Dimensionality of the ensemble array.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_ensembles</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions_per_ensemble</span>
 
     <span class="nd">@with_self</span>
@@ -400,8 +319,37 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_output</span></div>
 
     <span class="nd">@with_self</span>
-    <span class="k">def</span> <span class="nf">add_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="EnsembleArray.add_output"><a class="viewcode-back" href="../../../networks.html#nengo.networks.EnsembleArray.add_output">[docs]</a>    <span class="k">def</span> <span class="nf">add_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds a node that collects the decoded output of all ensembles.</span>
+
+<span class="sd">        By default, this is called once in ``__init__`` with ``function=None``.</span>
+<span class="sd">        However, this can be called multiple times with different functions,</span>
+<span class="sd">        similar to the way in which an ensemble can be connected to many</span>
+<span class="sd">        downstream ensembles with different functions.</span>
+
+<span class="sd">        Note that in addition to the parameters below, parameters affecting</span>
+<span class="sd">        all of the connections from the sub-ensembles to the new node</span>
+<span class="sd">        can be passed to this function. For example::</span>
+
+<span class="sd">            ea.add_output(&#39;output&#39;, None, synapse=nengo.Lowpass(0.1))</span>
+
+<span class="sd">        creates a new output with the decoded value of each sub-ensemble</span>
+<span class="sd">        filtered with a 100 ms lowpass synapse model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the output. This will also be the name of the attribute</span>
+<span class="sd">            set on the ensemble array.</span>
+<span class="sd">        function : callable or iterable of callables</span>
+<span class="sd">            The function to compute across the connection from sub-ensembles</span>
+<span class="sd">            to the new output node. If function is an iterable, it must be</span>
+<span class="sd">            an iterable consisting of one function for each sub-ensemble.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dims_per_ens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions_per_ensemble</span>
+
+        <span class="c1"># Unless explicitly desired, we should not set a synapse.</span>
+        <span class="n">conn_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;synapse&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
         <span class="c1"># get output size for each ensemble</span>
         <span class="n">sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -429,11 +377,10 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ea_ensembles</span><span class="p">):</span>
-            <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span>
-                <span class="n">e</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]],</span> <span class="n">function</span><span class="o">=</span><span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                <span class="n">synapse</span><span class="o">=</span><span class="n">synapse</span><span class="p">,</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">)</span>
+            <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]],</span>
+                             <span class="n">function</span><span class="o">=</span><span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">output</span></div>
+        <span class="k">return</span> <span class="n">output</span></div></div>
 </pre></div>
 
            </div>
@@ -446,7 +393,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

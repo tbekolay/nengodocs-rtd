@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/basic/combining.ipynb
+*****************
+Combining example
+*****************
+
+.. notebook:: ../../examples/basic/combining.ipynb

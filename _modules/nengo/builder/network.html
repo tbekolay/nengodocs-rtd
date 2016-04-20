@@ -129,146 +129,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.builder.network</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.builder.network</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">nengo.utils.numpy</span> <span class="kn">as</span> <span class="nn">npext</span>
-<span class="kn">from</span> <span class="nn">nengo.builder.builder</span> <span class="kn">import</span> <span class="n">Builder</span>
+<span class="kn">from</span> <span class="nn">nengo.builder</span> <span class="kn">import</span> <span class="n">Builder</span>
 <span class="kn">from</span> <span class="nn">nengo.network</span> <span class="kn">import</span> <span class="n">Network</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">Network</span><span class="p">)</span>  <span class="c1"># noqa: C901</span>
-<div class="viewcode-block" id="build_network"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.build_network">[docs]</a><span class="k">def</span> <span class="nf">build_network</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">network</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Takes a Network object and returns a Model.</span>
+<div class="viewcode-block" id="build_network"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.network.build_network">[docs]</a><span class="k">def</span> <span class="nf">build_network</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">network</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds a `.Network` object into a model.</span>
 
-<span class="sd">    This determines the signals and operators necessary to simulate that model.</span>
+<span class="sd">    The network builder does this by mapping each high-level object to its</span>
+<span class="sd">    associated signals and operators one-by-one, in the following order:</span>
 
-<span class="sd">    Builder does this by mapping each high-level object to its associated</span>
-<span class="sd">    signals and operators one-by-one, in the following order:</span>
+<span class="sd">    1. Ensembles, nodes, neurons</span>
+<span class="sd">    2. Subnetworks (recursively)</span>
+<span class="sd">    3. Connections, learning rules</span>
+<span class="sd">    4. Probes</span>
 
-<span class="sd">    1) Ensembles, Nodes, Neurons</span>
-<span class="sd">    2) Subnetworks (recursively)</span>
-<span class="sd">    3) Connections</span>
-<span class="sd">    4) Learning Rules</span>
-<span class="sd">    5) Probes</span>
+<span class="sd">    Before calling any of the individual objects&#39; build functions, random</span>
+<span class="sd">    number seeds are assigned to objects that did not have a seed explicitly</span>
+<span class="sd">    set by the user. Whether the seed was assigned manually or automatically</span>
+<span class="sd">    is tracked, and the decoder cache is only used when the seed is assigned</span>
+<span class="sd">    manually.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Model</span>
+<span class="sd">        The model to build into.</span>
+<span class="sd">    network : Network</span>
+<span class="sd">        The network to build.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Sets ``model.params[network]`` to ``None``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">get_seed</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
         <span class="c1"># Generate a seed no matter what, so that setting a seed or not on</span>
@@ -334,7 +234,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

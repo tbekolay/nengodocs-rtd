@@ -129,126 +129,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.builder.learning_rules</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.builder.learning_rules</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">nengo.builder.builder</span> <span class="kn">import</span> <span class="n">Builder</span>
-<span class="kn">from</span> <span class="nn">nengo.builder.operator</span> <span class="kn">import</span> <span class="n">DotInc</span><span class="p">,</span> <span class="n">ElementwiseInc</span><span class="p">,</span> <span class="n">Operator</span><span class="p">,</span> <span class="n">Reset</span>
-<span class="kn">from</span> <span class="nn">nengo.builder.signal</span> <span class="kn">import</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">nengo.builder</span> <span class="kn">import</span> <span class="n">Builder</span><span class="p">,</span> <span class="n">Operator</span><span class="p">,</span> <span class="n">Signal</span>
+<span class="kn">from</span> <span class="nn">nengo.builder.operator</span> <span class="kn">import</span> <span class="n">DotInc</span><span class="p">,</span> <span class="n">ElementwiseInc</span><span class="p">,</span> <span class="n">Reset</span>
 <span class="kn">from</span> <span class="nn">nengo.connection</span> <span class="kn">import</span> <span class="n">LearningRule</span>
 <span class="kn">from</span> <span class="nn">nengo.ensemble</span> <span class="kn">import</span> <span class="n">Ensemble</span><span class="p">,</span> <span class="n">Neurons</span>
 <span class="kn">from</span> <span class="nn">nengo.exceptions</span> <span class="kn">import</span> <span class="n">BuildError</span>
@@ -257,8 +142,58 @@ div.nboutput  > :nth-child(2).stderr {
 <span class="kn">from</span> <span class="nn">nengo.synapses</span> <span class="kn">import</span> <span class="n">Lowpass</span>
 
 
-<div class="viewcode-block" id="SimBCM"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.SimBCM">[docs]</a><span class="k">class</span> <span class="nc">SimBCM</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate delta omega according to the BCM rule.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SimBCM"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.SimBCM">[docs]</a><span class="k">class</span> <span class="nc">SimBCM</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate connection weight change according to the BCM rule.</span>
+
+<span class="sd">    Implements the Bienenstock-Cooper-Munroe learning rule of the form</span>
+
+<span class="sd">    .. math:: \Delta \omega_{ij} = \kappa a_j (a_j - \\theta_j) a_i</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    * :math:`\kappa` is a scalar learning rate,</span>
+<span class="sd">    * :math:`a_j` is the activity of a postsynaptic neuron,</span>
+<span class="sd">    * :math:`\\theta_j` is an estimate of the average :math:`a_j`, and</span>
+<span class="sd">    * :math:`a_i` is the activity of a presynaptic neuron.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre_filtered : Signal</span>
+<span class="sd">        The presynaptic activity, :math:`a_i`.</span>
+<span class="sd">    post_filtered : Signal</span>
+<span class="sd">        The postsynaptic activity, :math:`a_j`.</span>
+<span class="sd">    theta : Signal</span>
+<span class="sd">        The modification threshold, :math:`\\theta_j`.</span>
+<span class="sd">    delta : Signal</span>
+<span class="sd">        The synaptic weight change to be applied, :math:`\Delta \omega_{ij}`.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        The scalar learning rate, :math:`\kappa`.</span>
+<span class="sd">    tag : str, optional (Default: None)</span>
+<span class="sd">        A label associated with the operator, for debugging purposes.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    delta : Signal</span>
+<span class="sd">        The synaptic weight change to be applied, :math:`\Delta \omega_{ij}`.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        The scalar learning rate, :math:`\kappa`.</span>
+<span class="sd">    post_filtered : Signal</span>
+<span class="sd">        The postsynaptic activity, :math:`a_j`.</span>
+<span class="sd">    pre_filtered : Signal</span>
+<span class="sd">        The presynaptic activity, :math:`a_i`.</span>
+<span class="sd">    tag : str or None</span>
+<span class="sd">        A label associated with the operator, for debugging purposes.</span>
+<span class="sd">    theta : Signal</span>
+<span class="sd">        The modification threshold, :math:`\\theta_j`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    1. sets ``[]``</span>
+<span class="sd">    2. incs ``[]``</span>
+<span class="sd">    3. reads ``[pre_filtered, post_filtered, theta]``</span>
+<span class="sd">    4. updates ``[delta]``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_filtered</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span>
                  <span class="n">learning_rate</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">pre_filtered</span>
@@ -290,8 +225,63 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="k">return</span> <span class="n">step_simbcm</span></div>
 
 
-<div class="viewcode-block" id="SimOja"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.SimOja">[docs]</a><span class="k">class</span> <span class="nc">SimOja</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate delta omega according to the Oja rule.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SimOja"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.SimOja">[docs]</a><span class="k">class</span> <span class="nc">SimOja</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate connection weight change according to the Oja rule.</span>
+
+<span class="sd">    Implements the Oja learning rule of the form</span>
+
+<span class="sd">    .. math:: \Delta \omega_{ij} = \kappa (a_i a_j - \\beta a_j^2 \omega_{ij})</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    * :math:`\kappa` is a scalar learning rate,</span>
+<span class="sd">    * :math:`a_i` is the activity of a presynaptic neuron,</span>
+<span class="sd">    * :math:`a_j` is the activity of a postsynaptic neuron,</span>
+<span class="sd">    * :math:`\\beta` is a scalar forgetting rate, and</span>
+<span class="sd">    * :math:`\omega_{ij}` is the connection weight between the two neurons.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre_filtered : Signal</span>
+<span class="sd">        The presynaptic activity, :math:`a_i`.</span>
+<span class="sd">    post_filtered : Signal</span>
+<span class="sd">        The postsynaptic activity, :math:`a_j`.</span>
+<span class="sd">    weights : Signal</span>
+<span class="sd">        The connection weight matrix, :math:`\omega_{ij}`.</span>
+<span class="sd">    delta : Signal</span>
+<span class="sd">        The synaptic weight change to be applied, :math:`\Delta \omega_{ij}`.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        The scalar learning rate, :math:`\kappa`.</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        The scalar forgetting rate, :math:`\\beta`.</span>
+<span class="sd">    tag : str, optional (Default: None)</span>
+<span class="sd">        A label associated with the operator, for debugging purposes.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    beta : float</span>
+<span class="sd">        The scalar forgetting rate, :math:`\\beta`.</span>
+<span class="sd">    delta : Signal</span>
+<span class="sd">        The synaptic weight change to be applied, :math:`\Delta \omega_{ij}`.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        The scalar learning rate, :math:`\kappa`.</span>
+<span class="sd">    post_filtered : Signal</span>
+<span class="sd">        The postsynaptic activity, :math:`a_j`.</span>
+<span class="sd">    pre_filtered : Signal</span>
+<span class="sd">        The presynaptic activity, :math:`a_i`.</span>
+<span class="sd">    tag : str or None</span>
+<span class="sd">        A label associated with the operator, for debugging purposes.</span>
+<span class="sd">    weights : Signal</span>
+<span class="sd">        The connection weight matrix, :math:`\omega_{ij}`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    1. sets ``[]``</span>
+<span class="sd">    2. incs ``[]``</span>
+<span class="sd">    3. reads ``[pre_filtered, post_filtered, weights]``</span>
+<span class="sd">    4. updates ``[delta]``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_filtered</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span>
                  <span class="n">learning_rate</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">pre_filtered</span>
@@ -330,32 +320,61 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="k">return</span> <span class="n">step_simoja</span></div>
 
 
-<span class="k">class</span> <span class="nc">SimVoja</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
+<div class="viewcode-block" id="SimVoja"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.SimVoja">[docs]</a><span class="k">class</span> <span class="nc">SimVoja</span><span class="p">(</span><span class="n">Operator</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Simulates a simplified version of Oja&#39;s rule in the vector space.</span>
 
-<span class="sd">    See `examples/learning/learn_associations.ipynb` for details.</span>
+<span class="sd">    See :doc:`examples/learn_associations` for details.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pre_decoded : Signal</span>
-<span class="sd">        Decoded activity from pre-synaptic ensemble, `np.dot(d, a)`.</span>
+<span class="sd">        Decoded activity from presynaptic ensemble, :math:`a_i`.</span>
 <span class="sd">    post_filtered : Signal</span>
-<span class="sd">        Filtered post-synaptic activity signal.</span>
+<span class="sd">        Filtered postsynaptic activity signal.</span>
 <span class="sd">    scaled_encoders : Signal</span>
-<span class="sd">        2d array of encoders, multiplied by `scale`.</span>
+<span class="sd">        2d array of encoders, multiplied by ``scale``.</span>
 <span class="sd">    delta : Signal</span>
-<span class="sd">        The change to the encoders. Updated by the rule.</span>
-<span class="sd">    scale : np.ndarray</span>
+<span class="sd">        The synaptic weight change to be applied, :math:`\Delta \omega_{ij}`.</span>
+<span class="sd">    scale : ndarray</span>
 <span class="sd">        The length of each encoder.</span>
 <span class="sd">    learning_signal : Signal</span>
-<span class="sd">        Scalar signal to be multiplied by the learning_rate. Expected to range</span>
+<span class="sd">        Scalar signal to be multiplied by ``learning_rate``. Expected to range</span>
 <span class="sd">        between 0 and 1 to turn learning off or on, respectively.</span>
 <span class="sd">    learning_rate : float</span>
-<span class="sd">        Scalar applied to the delta.</span>
+<span class="sd">        The scalar learning rate.</span>
+<span class="sd">    tag : str, optional (Default: None)</span>
+<span class="sd">        A label associated with the operator, for debugging purposes.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    delta : Signal</span>
+<span class="sd">        The synaptic weight change to be applied, :math:`\Delta \omega_{ij}`.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        The scalar learning rate.</span>
+<span class="sd">    learning_signal : Signal</span>
+<span class="sd">        Scalar signal to be multiplied by ``learning_rate``. Expected to range</span>
+<span class="sd">        between 0 and 1 to turn learning off or on, respectively.</span>
+<span class="sd">    post_filtered : Signal</span>
+<span class="sd">        Filtered postsynaptic activity signal.</span>
+<span class="sd">    pre_decoded : Signal</span>
+<span class="sd">        Decoded activity from presynaptic ensemble, :math:`a_i`.</span>
+<span class="sd">    scale : ndarray</span>
+<span class="sd">        The length of each encoder.</span>
+<span class="sd">    scaled_encoders : Signal</span>
+<span class="sd">        2d array of encoders, multiplied by ``scale``.</span>
+<span class="sd">    tag : str or None</span>
+<span class="sd">        A label associated with the operator, for debugging purposes.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    1. sets ``[]``</span>
+<span class="sd">    2. incs ``[]``</span>
+<span class="sd">    3. reads ``[pre_decoded, post_filtered, scaled_encoders, learning_signal]``</span>
+<span class="sd">    4. updates ``[delta]``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_decoded</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">scaled_encoders</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span>
-                 <span class="n">scale</span><span class="p">,</span> <span class="n">learning_signal</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+                 <span class="n">scale</span><span class="p">,</span> <span class="n">learning_signal</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_decoded</span> <span class="o">=</span> <span class="n">pre_decoded</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">post_filtered</span> <span class="o">=</span> <span class="n">post_filtered</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scaled_encoders</span> <span class="o">=</span> <span class="n">scaled_encoders</span>
@@ -363,12 +382,13 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">learning_signal</span> <span class="o">=</span> <span class="n">learning_signal</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reads</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">pre_decoded</span><span class="p">,</span> <span class="n">post_filtered</span><span class="p">,</span> <span class="n">scaled_encoders</span><span class="p">,</span> <span class="n">learning_signal</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[</span><span class="n">delta</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sets</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">_descstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;pre=</span><span class="si">%s</span><span class="s1">, post=</span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
@@ -387,7 +407,7 @@ div.nboutput  > :nth-child(2).stderr {
             <span class="n">delta</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">learning_signal</span> <span class="o">*</span> <span class="p">(</span>
                 <span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">post_filtered</span><span class="p">,</span> <span class="n">pre_decoded</span><span class="p">)</span> <span class="o">-</span>
                 <span class="n">post_filtered</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">scaled_encoders</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">step_simvoja</span>
+        <span class="k">return</span> <span class="n">step_simvoja</span></div>
 
 
 <span class="k">def</span> <span class="nf">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
@@ -401,7 +421,37 @@ div.nboutput  > :nth-child(2).stderr {
 
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">LearningRule</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">build_learning_rule</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+<div class="viewcode-block" id="build_learning_rule"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.build_learning_rule">[docs]</a><span class="k">def</span> <span class="nf">build_learning_rule</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds a `.LearningRule` object into a model.</span>
+
+<span class="sd">    A brief of summary of what happens in the learning rule build process,</span>
+<span class="sd">    in order:</span>
+
+<span class="sd">    1. Create a delta signal for the weight change.</span>
+<span class="sd">    2. Add an operator to increment the weights by delta.</span>
+<span class="sd">    3. Call build function for the learning rule type.</span>
+
+<span class="sd">    The learning rule system is designed to work with multiple learning rules</span>
+<span class="sd">    on the same connection. If only one learning rule was to be applied to the</span>
+<span class="sd">    connection, then we could directly modify the weights, rather than</span>
+<span class="sd">    calculating the delta here and applying it in `.build_connection`.</span>
+<span class="sd">    However, with multiple learning rules, we must isolate each delta signal</span>
+<span class="sd">    in case calculating the delta depends on the weights themselves,</span>
+<span class="sd">    making the calculation depend on the order of the learning rule</span>
+<span class="sd">    evaluations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Model</span>
+<span class="sd">        The model to build into.</span>
+<span class="sd">    rule : LearningRule</span>
+<span class="sd">        The learning rule to build.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Sets ``model.params[rule]`` to ``None``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
 
     <span class="c1"># --- Set up delta signal</span>
@@ -434,9 +484,31 @@ div.nboutput  > :nth-child(2).stderr {
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span>
     <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>  <span class="c1"># updates delta</span>
 
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">BCM</span><span class="p">)</span>
-<div class="viewcode-block" id="build_bcm"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.build_bcm">[docs]</a><span class="k">def</span> <span class="nf">build_bcm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">bcm</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+<div class="viewcode-block" id="build_bcm"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.build_bcm">[docs]</a><span class="k">def</span> <span class="nf">build_bcm</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">bcm</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds a `.BCM` object into a model.</span>
+
+<span class="sd">    Calls synapse build functions to filter the pre and post activities,</span>
+<span class="sd">    and adds a `.SimBCM` operator to the model to calculate the delta.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Model</span>
+<span class="sd">        The model to build into.</span>
+<span class="sd">    bcm : BCM</span>
+<span class="sd">        Learning rule type to build.</span>
+<span class="sd">    rule : LearningRule</span>
+<span class="sd">        The learning rule object corresponding to the neuron type.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Does not modify ``model.params[]`` and can therefore be called</span>
+<span class="sd">    more than once with the same `.BCM` instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
     <span class="n">pre_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
     <span class="n">pre_filtered</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">(</span><span class="n">bcm</span><span class="o">.</span><span class="n">pre_tau</span><span class="p">),</span> <span class="n">pre_activities</span><span class="p">)</span>
@@ -453,13 +525,31 @@ div.nboutput  > :nth-child(2).stderr {
     <span class="c1"># expose these for probes</span>
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;pre_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_filtered</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span>
-
-    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span></div>
 
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">Oja</span><span class="p">)</span>
-<div class="viewcode-block" id="build_oja"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.build_oja">[docs]</a><span class="k">def</span> <span class="nf">build_oja</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oja</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+<div class="viewcode-block" id="build_oja"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.build_oja">[docs]</a><span class="k">def</span> <span class="nf">build_oja</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oja</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds a `.BCM` object into a model.</span>
+
+<span class="sd">    Calls synapse build functions to filter the pre and post activities,</span>
+<span class="sd">    and adds a `.SimOja` operator to the model to calculate the delta.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Model</span>
+<span class="sd">        The model to build into.</span>
+<span class="sd">    oja : Oja</span>
+<span class="sd">        Learning rule type to build.</span>
+<span class="sd">    rule : LearningRule</span>
+<span class="sd">        The learning rule object corresponding to the neuron type.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Does not modify ``model.params[]`` and can therefore be called</span>
+<span class="sd">    more than once with the same `.Oja` instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
     <span class="n">pre_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_pre_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
     <span class="n">post_activities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">get_post_ens</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">neurons</span><span class="p">][</span><span class="s1">&#39;out&#39;</span><span class="p">]</span>
@@ -475,13 +565,31 @@ div.nboutput  > :nth-child(2).stderr {
 
     <span class="c1"># expose these for probes</span>
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;pre_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_filtered</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span>
-
-    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span></div>
 
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">Voja</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">build_voja</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">voja</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+<div class="viewcode-block" id="build_voja"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.build_voja">[docs]</a><span class="k">def</span> <span class="nf">build_voja</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">voja</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds a `.Voja` object into a model.</span>
+
+<span class="sd">    Calls synapse build functions to filter the post activities,</span>
+<span class="sd">    and adds a `.SimVoja` operator to the model to calculate the delta.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Model</span>
+<span class="sd">        The model to build into.</span>
+<span class="sd">    voja : Voja</span>
+<span class="sd">        Learning rule type to build.</span>
+<span class="sd">    rule : LearningRule</span>
+<span class="sd">        The learning rule object corresponding to the neuron type.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Does not modify ``model.params[]`` and can therefore be called</span>
+<span class="sd">    more than once with the same `.Voja` instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
 
     <span class="c1"># Filtered post activity</span>
@@ -516,13 +624,36 @@ div.nboutput  > :nth-child(2).stderr {
                 <span class="n">learning_rate</span><span class="o">=</span><span class="n">voja</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">))</span>
 
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;scaled_encoders&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaled_encoders</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span>
-
-    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_filtered</span></div>
 
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">PES</span><span class="p">)</span>
-<div class="viewcode-block" id="build_pes"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.learning_rules.build_pes">[docs]</a><span class="k">def</span> <span class="nf">build_pes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pes</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+<div class="viewcode-block" id="build_pes"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.learning_rules.build_pes">[docs]</a><span class="k">def</span> <span class="nf">build_pes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pes</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds a `.PES` object into a model.</span>
+
+<span class="sd">    Calls synapse build functions to filter the pre activities,</span>
+<span class="sd">    and adds several operators to implement the PES learning rule.</span>
+<span class="sd">    Unlike other learning rules, there is no corresponding `.Operator`</span>
+<span class="sd">    subclass for the PES rule. Instead, the rule is implemented with</span>
+<span class="sd">    generic operators like `.ElementwiseInc` and `.DotInc`.</span>
+<span class="sd">    Generic operators are used because they are more likely to be</span>
+<span class="sd">    implemented on other backends like Nengo OCL.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Model</span>
+<span class="sd">        The model to build into.</span>
+<span class="sd">    pes : PES</span>
+<span class="sd">        Learning rule type to build.</span>
+<span class="sd">    rule : LearningRule</span>
+<span class="sd">        The learning rule object corresponding to the neuron type.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Does not modify ``model.params[]`` and can therefore be called</span>
+<span class="sd">    more than once with the same `.PES` instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">conn</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">connection</span>
 
     <span class="c1"># Create input error signal</span>
@@ -568,9 +699,7 @@ div.nboutput  > :nth-child(2).stderr {
     <span class="c1"># expose these for probes</span>
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">error</span>
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;correction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">correction</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;activities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acts</span>
-
-    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+    <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;activities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acts</span></div>
 </pre></div>
 
            </div>
@@ -583,7 +712,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

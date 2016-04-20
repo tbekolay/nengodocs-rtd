@@ -151,121 +151,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<div class="section" id="reference-simulator-api">
+  <div class="section" id="reference-simulator-api">
 <h1>Reference simulator API<a class="headerlink" href="#reference-simulator-api" title="Permalink to this headline">¶</a></h1>
 <p>Understanding how the reference simulator works
 is important for debugging problems,
@@ -358,12 +244,6 @@ than once (i.e. this function returns false), allowing re-use.</p>
 <dt id="nengo.builder.signal.Signal">
 <em class="property">class </em><code class="descclassname">nengo.builder.signal.</code><code class="descname">Signal</code><span class="sig-paren">(</span><em>initial_value</em>, <em>name=None</em>, <em>base=None</em>, <em>readonly=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents data or views onto data within Nengo</p>
-<dl class="method">
-<dt id="nengo.builder.signal.Signal.column">
-<code class="descname">column</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal.column" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reshape into a column vector.</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt id="nengo.builder.signal.Signal.elemoffset">
 <code class="descname">elemoffset</code><a class="headerlink" href="#nengo.builder.signal.Signal.elemoffset" title="Permalink to this definition">¶</a></dt>
@@ -382,16 +262,22 @@ than once (i.e. this function returns false), allowing re-use.</p>
 <dd><p>Offset of data from base in bytes.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="nengo.builder.signal.Signal.row">
-<code class="descname">row</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal.row" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reshape into a row vector.</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt id="nengo.builder.signal.Signal.strides">
 <code class="descname">strides</code><a class="headerlink" href="#nengo.builder.signal.Signal.strides" title="Permalink to this definition">¶</a></dt>
 <dd><p>Strides of data in bytes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.signal.Signal.column">
+<code class="descname">column</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal.column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape into a column vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.signal.Signal.row">
+<code class="descname">row</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.signal.Signal.row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape into a row vector.</p>
 </dd></dl>
 
 </dd></dl>
@@ -425,23 +311,6 @@ memory.</li>
 reads, sets, incs, and updates.</p>
 <p>Each operator should explicitly set each of these properties.</p>
 <dl class="attribute">
-<dt id="nengo.builder.operator.Operator.incs">
-<code class="descname">incs</code><a class="headerlink" href="#nengo.builder.operator.Operator.incs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Signals incremented by this operator</p>
-<p>Increments will be applied after this signal has been
-set (if it is set), and before reads.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="nengo.builder.operator.Operator.init_signals">
-<code class="descname">init_signals</code><span class="sig-paren">(</span><em>signals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator.init_signals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Operator.init_signals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize simulator.signals</p>
-<p>Install any buffers into the signals view that
-this operator will need. Classes for neurons
-that use extra buffers should create them here.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="nengo.builder.operator.Operator.reads">
 <code class="descname">reads</code><a class="headerlink" href="#nengo.builder.operator.Operator.reads" title="Permalink to this definition">¶</a></dt>
 <dd><p>Signals that are read and not modified</p>
@@ -456,11 +325,28 @@ by any other operator.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="nengo.builder.operator.Operator.incs">
+<code class="descname">incs</code><a class="headerlink" href="#nengo.builder.operator.Operator.incs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals incremented by this operator</p>
+<p>Increments will be applied after this signal has been
+set (if it is set), and before reads.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="nengo.builder.operator.Operator.updates">
 <code class="descname">updates</code><a class="headerlink" href="#nengo.builder.operator.Operator.updates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Signals assigned their value for time t + 1</p>
 <p>This operator will be scheduled so that updates appear after
 all sets, increments and reads of this signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.operator.Operator.init_signals">
+<code class="descname">init_signals</code><span class="sig-paren">(</span><em>signals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator.init_signals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Operator.init_signals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize simulator.signals</p>
+<p>Install any buffers into the signals view that
+this operator will need. Classes for neurons
+that use extra buffers should create them here.</p>
 </dd></dl>
 
 </dd></dl>
@@ -624,7 +510,7 @@ signals and operators one-by-one, in the following order:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 19, 2016.
 
     </p>
   </div> 

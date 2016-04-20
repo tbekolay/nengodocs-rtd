@@ -7,7 +7,7 @@ Contributing
 
 Please read the ``LICENSE.rst`` file to understand
 what becoming a contributor entails.
-Once you have read and understood the liscence agreement,
+Once you have read and understood the license agreement,
 add yourself to the ``CONTRIBUTORS.rst`` file.
 Note that all pull requests
 must be commited by someone other than the original requestor.
@@ -24,8 +24,7 @@ you should do a developer installation.
    cd nengo
    python setup.py develop --user
 
-If you use a ``virtualenv`` (recommended!)
-you can omit the ``--user`` flag.
+If you are in a virtual environment, you can omit the ``--user`` flag.
 
 How to run unit tests
 =====================
@@ -147,6 +146,7 @@ then ``pip install flake8`` and run
 in the ``nengo`` repository you cloned.
 
 We use ``numpydoc`` and
-`NumPy guidelines <https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt>`_
+`NumPy guidelines
+<https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt>`_
 for docstrings, as they are a bit nicer to read in plain text,
 and produce decent output with Sphinx.

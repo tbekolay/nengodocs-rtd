@@ -1,0 +1,2584 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Nengo Modelling API &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="User Guide" href="user_guide.html"/>
+        <link rel="next" title="Networks" href="networks.html"/>
+        <link rel="prev" title="User Guide" href="user_guide.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Nengo Modelling API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nengo-objects">Nengo Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#neuron-types">Neuron types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#learning-rule-types">Learning rule types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#synapse-models">Synapse models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#decoder-and-connection-weight-solvers">Decoder and connection weight solvers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="networks.html">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend_api.html">Reference simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="user_guide.html">User Guide</a> &raquo;</li>
+      
+    <li>Nengo Modelling API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/frontend_api.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nengo-modelling-api">
+<h1>Nengo Modelling API<a class="headerlink" href="#nengo-modelling-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="nengo-objects">
+<h2>Nengo Objects<a class="headerlink" href="#nengo-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nengo.Network">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Network</code><span class="sig-paren">(</span><em>label=None</em>, <em>seed=None</em>, <em>add_to_container=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/network.html#Network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Network" title="Permalink to this definition">¶</a></dt>
+<dd><p>A network contains ensembles, nodes, connections, and other networks.</p>
+<p>A network is primarily used for grouping together related
+objects and connections for visualization purposes.
+However, you can also use networks as a nice way to reuse
+network creation code.</p>
+<p>To group together related objects that you do not need to reuse,
+you can create a new <code class="docutils literal"><span class="pre">Network</span></code> and add objects in a <code class="docutils literal"><span class="pre">with</span></code> block.
+For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">network</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Vision&quot;</span><span class="p">):</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">LIF</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Motor&quot;</span><span class="p">):</span>
+        <span class="n">sma</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">LIF</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">sma</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To reuse a group of related objects, you can create a new subclass
+of <code class="docutils literal"><span class="pre">Network</span></code>, and add objects in the <code class="docutils literal"><span class="pre">__init__</span></code> method.
+For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OcularDominance</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">nengo</span><span class="o">.</span><span class="n">LIF</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">network</span><span class="p">:</span>
+    <span class="n">left_eye</span> <span class="o">=</span> <span class="n">OcularDominance</span><span class="p">()</span>
+    <span class="n">right_eye</span> <span class="o">=</span> <span class="n">OcularDominance</span><span class="p">()</span>
+    <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">left_eye</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="n">right_eye</span><span class="o">.</span><span class="n">column</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>Name of the network.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote>
+<div><p>Random number seed that will be fed to the random number generator.
+Setting the seed makes the network&#8217;s build process deterministic.</p>
+</div></blockquote>
+<p><strong>add_to_container</strong> : bool, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>Determines if this network will be added to the current container.
+If None, this network will be added to the network at the top of the
+<code class="docutils literal"><span class="pre">Network.context</span></code> stack unless the stack is empty.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>connections</td>
+<td>(list) <a class="reference internal" href="#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal"><span class="pre">Connection</span></code></a> instances in this network.</td>
+</tr>
+<tr class="row-even"><td>ensembles</td>
+<td>(list) <a class="reference internal" href="#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-obj docutils literal"><span class="pre">Ensemble</span></code></a> instances in this network.</td>
+</tr>
+<tr class="row-odd"><td>label</td>
+<td>(str) Name of this network.</td>
+</tr>
+<tr class="row-even"><td>networks</td>
+<td>(list) <a class="reference internal" href="#nengo.Network" title="nengo.Network"><code class="xref py py-obj docutils literal"><span class="pre">Network</span></code></a> instances in this network.</td>
+</tr>
+<tr class="row-odd"><td>nodes</td>
+<td>(list) <a class="reference internal" href="#nengo.Node" title="nengo.Node"><code class="xref py py-obj docutils literal"><span class="pre">Node</span></code></a> instances in this network.</td>
+</tr>
+<tr class="row-even"><td>probes</td>
+<td>(list) <a class="reference internal" href="#nengo.Probe" title="nengo.Probe"><code class="xref py py-obj docutils literal"><span class="pre">Probe</span></code></a> instances in this network.</td>
+</tr>
+<tr class="row-odd"><td>seed</td>
+<td>(int) Random seed used by this network.</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="nengo.Network.add">
+<em class="property">static </em><code class="descname">add</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/network.html#Network.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Network.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the passed object to <code class="docutils literal"><span class="pre">Network.context</span></code>.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="nengo.Network.default_config">
+<em class="property">static </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/network.html#Network.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Network.default_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a <code class="xref py py-obj docutils literal"><span class="pre">Config</span></code> object for setting defaults.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.all_objects">
+<code class="descname">all_objects</code><a class="headerlink" href="#nengo.Network.all_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) All objects in this network and its subnetworks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.all_ensembles">
+<code class="descname">all_ensembles</code><a class="headerlink" href="#nengo.Network.all_ensembles" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) All ensembles in this network and its subnetworks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.all_nodes">
+<code class="descname">all_nodes</code><a class="headerlink" href="#nengo.Network.all_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) All nodes in this network and its subnetworks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.all_networks">
+<code class="descname">all_networks</code><a class="headerlink" href="#nengo.Network.all_networks" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) All networks in this network and its subnetworks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.all_connections">
+<code class="descname">all_connections</code><a class="headerlink" href="#nengo.Network.all_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) All connections in this network and its subnetworks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.all_probes">
+<code class="descname">all_probes</code><a class="headerlink" href="#nengo.Network.all_probes" title="Permalink to this definition">¶</a></dt>
+<dd><p>(list) All probes in this network and its subnetworks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Network.config">
+<code class="descname">config</code><a class="headerlink" href="#nengo.Network.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-obj docutils literal"><span class="pre">Config</span></code>) Configuration for this network.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Ensemble">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Ensemble</code><span class="sig-paren">(</span><em>n_neurons</em>, <em>dimensions</em>, <em>radius=Default</em>, <em>encoders=Default</em>, <em>intercepts=Default</em>, <em>max_rates=Default</em>, <em>eval_points=Default</em>, <em>n_eval_points=Default</em>, <em>neuron_type=Default</em>, <em>gain=Default</em>, <em>bias=Default</em>, <em>noise=Default</em>, <em>label=Default</em>, <em>seed=Default</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/ensemble.html#Ensemble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>A group of neurons that collectively represent a vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_neurons</strong> : int</p>
+<blockquote>
+<div><p>The number of neurons.</p>
+</div></blockquote>
+<p><strong>dimensions</strong> : int</p>
+<blockquote>
+<div><p>The number of representational dimensions.</p>
+</div></blockquote>
+<p><strong>radius</strong> : int, optional (Default: 1.0)</p>
+<blockquote>
+<div><p>The representational radius of the ensemble.</p>
+</div></blockquote>
+<p><strong>encoders</strong> : Distribution or (n_neurons, dimensions) array_like, optional                (Default: UniformHypersphere(surface=True))</p>
+<blockquote>
+<div><p>The encoders used to transform from representational space
+to neuron space. Each row is a neuron&#8217;s encoder; each column is a
+representational dimension.</p>
+</div></blockquote>
+<p><strong>intercepts</strong> : Distribution or (n_neurons,) array_like, optional                  (Default: <code class="docutils literal"><span class="pre">nengo.dists.Uniform(-1.0,</span> <span class="pre">1.0)</span></code>)</p>
+<blockquote>
+<div><p>The point along each neuron&#8217;s encoder where its activity is zero. If
+<code class="docutils literal"><span class="pre">e</span></code> is the neuron&#8217;s encoder, then the activity will be zero when
+<code class="docutils literal"><span class="pre">dot(x,</span> <span class="pre">e)</span> <span class="pre">&lt;=</span> <span class="pre">c</span></code>, where <code class="docutils literal"><span class="pre">c</span></code> is the given intercept.</p>
+</div></blockquote>
+<p><strong>max_rates</strong> : Distribution or (n_neurons,) array_like, optional                 (Default: <code class="docutils literal"><span class="pre">nengo.dists.Uniform(200,</span> <span class="pre">400)</span></code>)</p>
+<blockquote>
+<div><p>The activity of each neuron when the input signal <code class="docutils literal"><span class="pre">x</span></code> is magnitude 1
+and aligned with that neuron&#8217;s encoder <code class="docutils literal"><span class="pre">e</span></code>;
+i.e., when <code class="docutils literal"><span class="pre">dot(x,</span> <span class="pre">e)</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</div></blockquote>
+<p><strong>eval_points</strong> : Distribution or (n_eval_points, dims) array_like, optional                   (Default: <code class="docutils literal"><span class="pre">nengo.dists.UniformHypersphere(surface=True)</span></code>)</p>
+<blockquote>
+<div><p>The evaluation points used for decoder solving, spanning the interval
+(-radius, radius) in each dimension, or a distribution from which
+to choose evaluation points.</p>
+</div></blockquote>
+<p><strong>n_eval_points</strong> : int, optional (Default: None)</p>
+<blockquote>
+<div><p>The number of evaluation points to be drawn from the <code class="xref py py-obj docutils literal"><span class="pre">eval_points</span></code>
+distribution. If None, then a heuristic is used to determine
+the number of evaluation points.</p>
+</div></blockquote>
+<p><strong>neuron_type</strong> : <a class="reference internal" href="#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a>, optional                   (Default: <code class="docutils literal"><span class="pre">nengo.LIF()</span></code>)</p>
+<blockquote>
+<div><p>The model that simulates all neurons in the ensemble
+(see <a class="reference internal" href="#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a>).</p>
+</div></blockquote>
+<p><strong>gain</strong> : Distribution or (n_neurons,) array_like (Default: None)</p>
+<blockquote>
+<div><p>The gains associated with each neuron in the ensemble. If None, then
+the gain will be solved for using <code class="docutils literal"><span class="pre">max_rates</span></code> and <code class="docutils literal"><span class="pre">intercepts</span></code>.</p>
+</div></blockquote>
+<p><strong>bias</strong> : Distribution or (n_neurons,) array_like (Default: None)</p>
+<blockquote>
+<div><p>The biases associated with each neuron in the ensemble. If None, then
+the gain will be solved for using <code class="docutils literal"><span class="pre">max_rates</span></code> and <code class="docutils literal"><span class="pre">intercepts</span></code>.</p>
+</div></blockquote>
+<p><strong>noise</strong> : Process, optional (Default: None)</p>
+<blockquote>
+<div><p>Random noise injected directly into each neuron in the ensemble
+as current. A sample is drawn for each individual neuron on
+every simulation step.</p>
+</div></blockquote>
+<p><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>A name for the ensemble. Used for debugging and visualization.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>The seed used for random number generation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>bias</td>
+<td>(Distribution or (n_neurons,) array_like or None) The biases associated with each neuron in the ensemble.</td>
+</tr>
+<tr class="row-even"><td>dimensions</td>
+<td>(int) The number of representational dimensions.</td>
+</tr>
+<tr class="row-odd"><td>encoders</td>
+<td>(Distribution or (n_neurons, dimensions) array_like) The encoders, used to transform from representational space to neuron space. Each row is a neuron&#8217;s encoder, each column is a representational dimension.</td>
+</tr>
+<tr class="row-even"><td>eval_points</td>
+<td>(Distribution or (n_eval_points, dims) array_like) The evaluation points used for decoder solving, spanning the interval (-radius, radius) in each dimension, or a distribution from which to choose evaluation points.</td>
+</tr>
+<tr class="row-odd"><td>gain</td>
+<td>(Distribution or (n_neurons,) array_like or None) The gains associated with each neuron in the ensemble.</td>
+</tr>
+<tr class="row-even"><td>intercepts</td>
+<td>(Distribution or (n_neurons) array_like or None) The point along each neuron&#8217;s encoder where its activity is zero. If <code class="docutils literal"><span class="pre">e</span></code> is the neuron&#8217;s encoder, then the activity will be zero when <code class="docutils literal"><span class="pre">dot(x,</span> <span class="pre">e)</span> <span class="pre">&lt;=</span> <span class="pre">c</span></code>, where <code class="docutils literal"><span class="pre">c</span></code> is the given intercept.</td>
+</tr>
+<tr class="row-odd"><td>label</td>
+<td>(str or None) A name for the ensemble. Used for debugging and visualization.</td>
+</tr>
+<tr class="row-even"><td>max_rates</td>
+<td>(Distribution or (n_neurons,) array_like or None) The activity of each neuron when <code class="docutils literal"><span class="pre">dot(x,</span> <span class="pre">e)</span> <span class="pre">=</span> <span class="pre">1</span></code>, where <code class="docutils literal"><span class="pre">e</span></code> is the neuron&#8217;s encoder.</td>
+</tr>
+<tr class="row-odd"><td>n_eval_points</td>
+<td>(int or None) The number of evaluation points to be drawn from the <code class="xref py py-obj docutils literal"><span class="pre">eval_points</span></code> distribution. If None, then a heuristic is used to determine the number of evaluation points.</td>
+</tr>
+<tr class="row-even"><td>n_neurons</td>
+<td>(int or None) The number of neurons.</td>
+</tr>
+<tr class="row-odd"><td>neuron_type</td>
+<td>(NeuronType) The model that simulates all neurons in the ensemble (see <code class="docutils literal"><span class="pre">nengo.neurons</span></code>).</td>
+</tr>
+<tr class="row-even"><td>noise</td>
+<td>(Process or None) Random noise injected directly into each neuron in the ensemble as current. A sample is drawn for each individual neuron on every simulation step.</td>
+</tr>
+<tr class="row-odd"><td>radius</td>
+<td>(int) The representational radius of the ensemble.</td>
+</tr>
+<tr class="row-even"><td>seed</td>
+<td>(int or None) The seed used for random number generation.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.Ensemble.neurons">
+<code class="descname">neurons</code><a class="headerlink" href="#nengo.Ensemble.neurons" title="Permalink to this definition">¶</a></dt>
+<dd><p>A direct interface to the neurons in the ensemble.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Ensemble.probeable">
+<code class="descname">probeable</code><a class="headerlink" href="#nengo.Ensemble.probeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>(tuple) Signals that can be probed on an ensemble.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Ensemble.size_in">
+<code class="descname">size_in</code><a class="headerlink" href="#nengo.Ensemble.size_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dimensionality of the ensemble.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Ensemble.size_out">
+<code class="descname">size_out</code><a class="headerlink" href="#nengo.Ensemble.size_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dimensionality of the ensemble.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.ensemble.Neurons">
+<em class="property">class </em><code class="descclassname">nengo.ensemble.</code><code class="descname">Neurons</code><span class="sig-paren">(</span><em>ensemble</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/ensemble.html#Neurons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.ensemble.Neurons" title="Permalink to this definition">¶</a></dt>
+<dd><p>An interface for making connections directly to an ensemble&#8217;s neurons.</p>
+<p>This should only ever be accessed through the <code class="docutils literal"><span class="pre">neurons</span></code> attribute of an
+ensemble, as a way to signal to <a class="reference internal" href="#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal"><span class="pre">Connection</span></code></a> that the connection
+should be made directly to the neurons rather than to the ensemble&#8217;s
+decoded value.</p>
+<dl class="attribute">
+<dt id="nengo.ensemble.Neurons.ensemble">
+<code class="descname">ensemble</code><a class="headerlink" href="#nengo.ensemble.Neurons.ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ensemble) The ensemble these neurons are part of.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.ensemble.Neurons.probeable">
+<code class="descname">probeable</code><a class="headerlink" href="#nengo.ensemble.Neurons.probeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>(tuple) Signals that can be probed in the neuron population.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.ensemble.Neurons.size_in">
+<code class="descname">size_in</code><a class="headerlink" href="#nengo.ensemble.Neurons.size_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The number of neurons in the population.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.ensemble.Neurons.size_out">
+<code class="descname">size_out</code><a class="headerlink" href="#nengo.ensemble.Neurons.size_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The number of neurons in the population.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Node">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>output=Default</em>, <em>size_in=Default</em>, <em>size_out=Default</em>, <em>label=Default</em>, <em>seed=Default</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/node.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide non-neural inputs to Nengo objects and process outputs.</p>
+<p>Nodes can accept input, and perform arbitrary computations
+for the purpose of controlling a Nengo simulation.
+Nodes are typically not part of a brain model per se,
+but serve to summarize the assumptions being made
+about sensory data or other environment variables
+that cannot be generated by a brain model alone.</p>
+<p>Nodes can also be used to test models by providing specific input signals
+to parts of the model, and can simplify the input/output interface of a
+<a class="reference internal" href="#nengo.Network" title="nengo.Network"><code class="xref py py-obj docutils literal"><span class="pre">Network</span></code></a> when used as a relay to/from its internal
+ensembles (see <a class="reference internal" href="networks.html#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal"><span class="pre">EnsembleArray</span></code></a> for an example).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output</strong> : callable, array_like, or None</p>
+<blockquote>
+<div><p>Function that transforms the Node inputs into outputs,
+a constant output value, or None to transmit signals unchanged.</p>
+</div></blockquote>
+<p><strong>size_in</strong> : int, optional (Default: 0)</p>
+<blockquote>
+<div><p>The number of dimensions of the input data parameter.</p>
+</div></blockquote>
+<p><strong>size_out</strong> : int, optional (Default: None)</p>
+<blockquote>
+<div><p>The size of the output signal. If None, it will be determined
+based on the values of <code class="docutils literal"><span class="pre">output</span></code> and <code class="docutils literal"><span class="pre">size_in</span></code>.</p>
+</div></blockquote>
+<p><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>A name for the node. Used for debugging and visualization.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>The seed used for random number generation.
+Note: no aspects of the node are random, so currently setting
+this seed has no effect.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>label</td>
+<td>(str) The name of the node.</td>
+</tr>
+<tr class="row-even"><td>output</td>
+<td>(callable, array_like, or None) The given output.</td>
+</tr>
+<tr class="row-odd"><td>size_in</td>
+<td>(int) The number of dimensions for incoming connection.</td>
+</tr>
+<tr class="row-even"><td>size_out</td>
+<td>(int) The number of output dimensions.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.Node.probeable">
+<code class="descname">probeable</code><a class="headerlink" href="#nengo.Node.probeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>(tuple) Signals that can be probed on a node.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Connection">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Connection</code><span class="sig-paren">(</span><em>pre</em>, <em>post</em>, <em>synapse=Default</em>, <em>function=Default</em>, <em>transform=Default</em>, <em>solver=Default</em>, <em>learning_rule_type=Default</em>, <em>eval_points=Default</em>, <em>scale_eval_points=Default</em>, <em>label=Default</em>, <em>seed=Default</em>, <em>modulatory=Unconfigurable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/connection.html#Connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects two objects together.</p>
+<p>The connection between the two object is unidirectional,
+transmitting information from the first argument, <code class="docutils literal"><span class="pre">pre</span></code>,
+to the second argument, <code class="docutils literal"><span class="pre">post</span></code>.</p>
+<p>Almost any Nengo object can act as the pre or post side of a connection.
+Additionally, you can use Python slice syntax to access only some of the
+dimensions of the pre or post object.</p>
+<p>For example, if <code class="docutils literal"><span class="pre">node</span></code> has <code class="docutils literal"><span class="pre">size_out=2</span></code> and <code class="docutils literal"><span class="pre">ensemble</span></code> has
+<code class="docutils literal"><span class="pre">size_in=1</span></code>, we could not create the following connection:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ensemble</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But, we could create either of these two connections:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ensemble</span><span class="p">)</span>
+<span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ensemble</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pre</strong> : Ensemble or Neurons or Node</p>
+<blockquote>
+<div><p>The source Nengo object for the connection.</p>
+</div></blockquote>
+<p><strong>post</strong> : Ensemble or Neurons or Node or Probe</p>
+<blockquote>
+<div><p>The destination object for the connection.</p>
+</div></blockquote>
+<p><strong>synapse</strong> : Synapse, optional               (Default: <code class="docutils literal"><span class="pre">nengo.synapses.Lowpass(tau=0.005)</span></code>)</p>
+<blockquote>
+<div><p>Synapse model to use for filtering (see <a class="reference internal" href="#nengo.synapses.Synapse" title="nengo.synapses.Synapse"><code class="xref py py-obj docutils literal"><span class="pre">Synapse</span></code></a>).</p>
+</div></blockquote>
+<p><strong>function</strong> : callable, optional (Default: None)</p>
+<blockquote>
+<div><p>Function to compute across the connection. Note that <code class="docutils literal"><span class="pre">pre</span></code> must be
+an ensemble to apply a function across the connection.</p>
+</div></blockquote>
+<p><strong>transform</strong> : (post.size_in, pre.size_out) array_like, optional                 (Default: <code class="docutils literal"><span class="pre">np.array(1.0)</span></code>)</p>
+<blockquote>
+<div><p>Linear transform mapping the pre output to the post input.
+This transform is in terms of the sliced size; if either pre
+or post is a slice, the transform must be shaped according to
+the sliced dimensionality. Additionally, the function is applied
+before the transform, so if a function is computed across the
+connection, the transform must be of shape
+<code class="docutils literal"><span class="pre">(len(function(np.zeros(post.size_in))),</span> <span class="pre">pre.size_out)</span></code>.</p>
+</div></blockquote>
+<p><strong>solver</strong> : Solver, optional (Default: <code class="docutils literal"><span class="pre">nengo.solvers.LstsqL2()</span></code>)</p>
+<blockquote>
+<div><p>Solver instance to compute decoders or weights
+(see <a class="reference internal" href="#nengo.solvers.Solver" title="nengo.solvers.Solver"><code class="xref py py-obj docutils literal"><span class="pre">Solver</span></code></a>). If <code class="docutils literal"><span class="pre">solver.weights</span></code> is True, a full
+connection weight matrix is computed instead of decoders.</p>
+</div></blockquote>
+<p><strong>learning_rule_type</strong> : LearningRuleType or iterable of LearningRuleType,                          optional (Default: None)</p>
+<blockquote>
+<div><p>Modifies the decoders or connection weights during simulation.</p>
+</div></blockquote>
+<p><strong>eval_points</strong> : (n_eval_points, pre.size_out) array_like or int, optional                   (Default: None)</p>
+<blockquote>
+<div><p>Points at which to evaluate <code class="docutils literal"><span class="pre">function</span></code> when computing decoders,
+spanning the interval (-pre.radius, pre.radius) in each dimension.
+If None, will use the eval_points associated with <code class="docutils literal"><span class="pre">pre</span></code>.</p>
+</div></blockquote>
+<p><strong>scale_eval_points</strong> : bool, optional (Default: True)</p>
+<blockquote>
+<div><p>Indicates whether the evaluation points should be scaled
+by the radius of the pre Ensemble.</p>
+</div></blockquote>
+<p><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>A descriptive label for the connection.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>The seed used for random number generation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>is_decoded</td>
+<td>(bool) True if and only if the connection is decoded. This will not occur when <code class="docutils literal"><span class="pre">solver.weights</span></code> is True or both pre and post are <a class="reference internal" href="#nengo.ensemble.Neurons" title="nengo.ensemble.Neurons"><code class="xref py py-obj docutils literal"><span class="pre">Neurons</span></code></a>.</td>
+</tr>
+<tr class="row-even"><td>function</td>
+<td>(callable) The given function.</td>
+</tr>
+<tr class="row-odd"><td>function_size</td>
+<td>(int) The output dimensionality of the given function. If no function is specified, function_size will be 0.</td>
+</tr>
+<tr class="row-even"><td>label</td>
+<td>(str) A human-readable connection label for debugging and visualization. If not overridden, incorporates the labels of the pre and post objects.</td>
+</tr>
+<tr class="row-odd"><td>learning_rule_type</td>
+<td>(instance or list or dict of LearningRuleType, optional) The learning rule types.</td>
+</tr>
+<tr class="row-even"><td>post</td>
+<td>(Ensemble or Neurons or Node or Probe or ObjView) The given post object.</td>
+</tr>
+<tr class="row-odd"><td>post_obj</td>
+<td>(Ensemble or Neurons or Node or Probe) The underlying post object, even if <code class="docutils literal"><span class="pre">post</span></code> is an <code class="docutils literal"><span class="pre">ObjView</span></code>.</td>
+</tr>
+<tr class="row-even"><td>post_slice</td>
+<td>(slice or list or None) The slice associated with <code class="docutils literal"><span class="pre">post</span></code> if it is an ObjView, or None.</td>
+</tr>
+<tr class="row-odd"><td>pre</td>
+<td>(Ensemble or Neurons or Node or ObjView) The given pre object.</td>
+</tr>
+<tr class="row-even"><td>pre_obj</td>
+<td>(Ensemble or Neurons or Node) The underlying pre object, even if <code class="docutils literal"><span class="pre">post</span></code> is an <code class="docutils literal"><span class="pre">ObjView</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>pre_slice</td>
+<td>(slice or list or None) The slice associated with <code class="docutils literal"><span class="pre">pre</span></code> if it is an ObjView, or None.</td>
+</tr>
+<tr class="row-even"><td>seed</td>
+<td>(int) The seed used for random number generation.</td>
+</tr>
+<tr class="row-odd"><td>solver</td>
+<td>(Solver) The Solver instance that will be used to compute decoders or weights (see <code class="docutils literal"><span class="pre">nengo.solvers</span></code>).</td>
+</tr>
+<tr class="row-even"><td>synapse</td>
+<td>(Synapse) The Synapse model used for filtering across the connection (see <code class="docutils literal"><span class="pre">nengo.synapses</span></code>).</td>
+</tr>
+<tr class="row-odd"><td>transform</td>
+<td>((size_mid, size_out) array_like) Linear transform mapping the pre function output to the post input.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.Connection.learning_rule">
+<code class="descname">learning_rule</code><a class="headerlink" href="#nengo.Connection.learning_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>(LearningRule or iterable) Connectable learning rule object(s).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Connection.size_in">
+<code class="descname">size_in</code><a class="headerlink" href="#nengo.Connection.size_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The number of output dimensions of the pre object.</p>
+<p>Also the input size of the function, if one is specified.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Connection.size_mid">
+<code class="descname">size_mid</code><a class="headerlink" href="#nengo.Connection.size_mid" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The number of output dimensions of the function, if specified.</p>
+<p>If the function is not specified, then <code class="docutils literal"><span class="pre">size_in</span> <span class="pre">==</span> <span class="pre">size_mid</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Connection.size_out">
+<code class="descname">size_out</code><a class="headerlink" href="#nengo.Connection.size_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The number of input dimensions of the post object.</p>
+<p>Also the number of output dimensions of the transform.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.connection.LearningRule">
+<em class="property">class </em><code class="descclassname">nengo.connection.</code><code class="descname">LearningRule</code><span class="sig-paren">(</span><em>connection</em>, <em>learning_rule_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/connection.html#LearningRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.connection.LearningRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>An interface for making connections to a learning rule.</p>
+<p>Connections to a learning rule are to allow elements of the network to
+affect the learning rule. For example, learning rules that use error
+information can obtain that information through a connection.</p>
+<p>Learning rule objects should only ever be accessed through the
+<code class="docutils literal"><span class="pre">learning_rule</span></code> attribute of a connection.</p>
+<dl class="attribute">
+<dt id="nengo.connection.LearningRule.connection">
+<code class="descname">connection</code><a class="headerlink" href="#nengo.connection.LearningRule.connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Connection) The connection modified by the learning rule.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.connection.LearningRule.error_type">
+<code class="descname">error_type</code><a class="headerlink" href="#nengo.connection.LearningRule.error_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str) The type of information expected by the learning rule.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.connection.LearningRule.modifies">
+<code class="descname">modifies</code><a class="headerlink" href="#nengo.connection.LearningRule.modifies" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str) The quantity modified by the learning rule.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.connection.LearningRule.probeable">
+<code class="descname">probeable</code><a class="headerlink" href="#nengo.connection.LearningRule.probeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>(tuple) Signals that can be probed in the learning rule.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.connection.LearningRule.size_in">
+<code class="descname">size_in</code><a class="headerlink" href="#nengo.connection.LearningRule.size_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Dimensionality of the signal expected by the learning rule.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.connection.LearningRule.size_out">
+<code class="descname">size_out</code><a class="headerlink" href="#nengo.connection.LearningRule.size_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Cannot connect from learning rules, so always 0.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Probe">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Probe</code><span class="sig-paren">(</span><em>target</em>, <em>attr=None</em>, <em>sample_every=Default</em>, <em>synapse=Default</em>, <em>solver=Default</em>, <em>label=Default</em>, <em>seed=Default</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/probe.html#Probe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Probe" title="Permalink to this definition">¶</a></dt>
+<dd><p>A probe is an object that collects data from the simulation.</p>
+<p>This is to be used in any situation where you wish to gather simulation
+data (spike data, represented values, neuron voltages, etc.) for analysis.</p>
+<p>Probes do not directly affect the simulation.</p>
+<p>All Nengo objects can be probed (except Probes themselves).
+Each object has different attributes that can be probed.
+To see what is probeable for each object, print its
+<code class="docutils literal"><span class="pre">probeable</span></code> attribute.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">ens</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ens</span><span class="o">.</span><span class="n">probeable</span><span class="p">)</span>
+<span class="go">(&#39;decoded_output&#39;, &#39;input&#39;)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>target</strong> : Ensemble, Neurons, Node, or Connection</p>
+<blockquote>
+<div><p>The object to probe.</p>
+</div></blockquote>
+<p><strong>attr</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>The signal to probe. Refer to the target&#8217;s <code class="docutils literal"><span class="pre">probeable</span></code> list for
+details. If None, the first element in the <code class="docutils literal"><span class="pre">probeable</span></code> list
+will be used.</p>
+</div></blockquote>
+<p><strong>sample_every</strong> : float, optional (Default: None)</p>
+<blockquote>
+<div><p>Sampling period in seconds. If None, the <code class="docutils literal"><span class="pre">dt</span></code> of the simluation
+will be used.</p>
+</div></blockquote>
+<p><strong>synapse</strong> : Synapse, optional (Default: None)</p>
+<blockquote>
+<div><p>A synaptic model to filtering the probed signal.</p>
+</div></blockquote>
+<p><strong>solver</strong> : Solver, optional (Default: <code class="docutils literal"><span class="pre">ConnectionDefault</span></code>)</p>
+<blockquote>
+<div><p><a class="reference internal" href="#nengo.solvers.Solver" title="nengo.solvers.Solver"><code class="xref py py-obj docutils literal"><span class="pre">Solver</span></code></a> to compute decoders
+for probes that require them.</p>
+</div></blockquote>
+<p><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>A name for the probe. Used for debugging and visualization.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>The seed used for random number generation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>attr</td>
+<td>(str or None) The signal that will be probed. If None, the first element of the target&#8217;s <code class="docutils literal"><span class="pre">probeable</span></code> list will be used.</td>
+</tr>
+<tr class="row-even"><td>sample_every</td>
+<td>(float or None) Sampling period in seconds. If None, the <code class="docutils literal"><span class="pre">dt</span></code> of the simluation will be used.</td>
+</tr>
+<tr class="row-odd"><td>solver</td>
+<td>(Solver or None) <a class="reference internal" href="#nengo.solvers.Solver" title="nengo.solvers.Solver"><code class="xref py py-obj docutils literal"><span class="pre">Solver</span></code></a> to compute decoders. Only used for probes of an ensemble&#8217;s decoded output.</td>
+</tr>
+<tr class="row-even"><td>synapse</td>
+<td>(Synapse or None) A synaptic model to filtering the probed signal.</td>
+</tr>
+<tr class="row-odd"><td>target</td>
+<td>(Ensemble, Neurons, Node, or Connection) The object to probe.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.Probe.obj">
+<code class="descname">obj</code><a class="headerlink" href="#nengo.Probe.obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Nengo object) The underlying Nengo object target.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Probe.size_in">
+<code class="descname">size_in</code><a class="headerlink" href="#nengo.Probe.size_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Dimensionality of the probed signal.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Probe.size_out">
+<code class="descname">size_out</code><a class="headerlink" href="#nengo.Probe.size_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Cannot connect from probes, so always 0.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Probe.slice">
+<code class="descname">slice</code><a class="headerlink" href="#nengo.Probe.slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>(slice) The slice associated with the Nengo object target.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="neuron-types">
+<h2>Neuron types<a class="headerlink" href="#neuron-types" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nengo.neurons.NeuronType">
+<em class="property">class </em><code class="descclassname">nengo.neurons.</code><code class="descname">NeuronType</code><a class="reference internal" href="_modules/nengo/neurons.html#NeuronType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.neurons.NeuronType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for Nengo neuron models.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>probeable</td>
+<td>(tuple) Signals that can be probed in the neuron population.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.neurons.NeuronType.gain_bias">
+<code class="descname">gain_bias</code><span class="sig-paren">(</span><em>max_rates</em>, <em>intercepts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#NeuronType.gain_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.neurons.NeuronType.gain_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the gain and bias needed to satisfy max_rates, intercepts.</p>
+<p>This takes the neurons, approximates their response function, and then
+uses that approximation to find the gain and bias value that will give
+the requested intercepts and max_rates.</p>
+<p>Note that this default implementation is very slow! Whenever possible,
+subclasses should override this with a neuron-specific implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>max_rates</strong> : ndarray(dtype=float64)</p>
+<blockquote>
+<div><p>Maximum firing rates of neurons.</p>
+</div></blockquote>
+<p><strong>intercepts</strong> : ndarray(dtype=float64)</p>
+<blockquote>
+<div><p>X-intercepts of neurons.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>gain</strong> : ndarray(dtype=float64)</p>
+<blockquote>
+<div><p>Gain associated with each neuron. Sometimes denoted alpha.</p>
+</div></blockquote>
+<p><strong>bias</strong> : ndarray(dtype=float64)</p>
+<blockquote class="last">
+<div><p>Bias current associated with each neuron.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.neurons.NeuronType.rates">
+<code class="descname">rates</code><span class="sig-paren">(</span><em>x</em>, <em>gain</em>, <em>bias</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#NeuronType.rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.neurons.NeuronType.rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute firing rates (in Hz) for given vector input, <code class="docutils literal"><span class="pre">x</span></code>.</p>
+<p>This default implementation takes the naive approach of running the
+step function for a second. This should suffice for most rate-based
+neuron types; for spiking neurons it will likely fail.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray(dtype=float64)</p>
+<blockquote>
+<div><p>Vector-space input.</p>
+</div></blockquote>
+<p><strong>gain</strong> : ndarray(dtype=float64)</p>
+<blockquote>
+<div><p>Gains associated with each neuron.</p>
+</div></blockquote>
+<p><strong>bias</strong> : ndarray(dtype=float64)</p>
+<blockquote class="last">
+<div><p>Bias current associated with each neuron.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.neurons.NeuronType.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#NeuronType.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.neurons.NeuronType.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the differential equation for this neuron type.</p>
+<p>At a minimum, NeuronType subclasses must implement this method.
+That implementation should modify the <code class="docutils literal"><span class="pre">output</span></code> parameter rather
+than returning anything, for efficiency reasons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dt</strong> : float</p>
+<blockquote>
+<div><p>Simulation timestep.</p>
+</div></blockquote>
+<p><strong>J</strong> : ndarray(dtype=float64)</p>
+<blockquote>
+<div><p>Input currents associated with each neuron.</p>
+</div></blockquote>
+<p><strong>output</strong> : ndarray(dtype=float64)</p>
+<blockquote class="last">
+<div><p>Output activities associated with each neuron.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Direct">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Direct</code><a class="reference internal" href="_modules/nengo/neurons.html#Direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Direct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signifies that an ensemble should simulate in direct mode.</p>
+<p>In direct mode, the ensemble represents and transforms signals perfectly,
+rather than through a neural approximation. Note that direct mode ensembles
+with recurrent connections can easily diverge; most other neuron types will
+instead saturate at a certain high firing rate.</p>
+<dl class="method">
+<dt id="nengo.Direct.gain_bias">
+<code class="descname">gain_bias</code><span class="sig-paren">(</span><em>max_rates</em>, <em>intercepts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Direct.gain_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Direct.gain_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Always returns <code class="docutils literal"><span class="pre">None,</span> <span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Direct.rates">
+<code class="descname">rates</code><span class="sig-paren">(</span><em>x</em>, <em>gain</em>, <em>bias</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Direct.rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Direct.rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Always returns <code class="docutils literal"><span class="pre">x</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Direct.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Direct.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Direct.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises an error if called.</p>
+<p>Rather than calling this function, the simulator will detect that
+the ensemble is in direct mode, and bypass the neural approximation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.RectifiedLinear">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">RectifiedLinear</code><a class="reference internal" href="_modules/nengo/neurons.html#RectifiedLinear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.RectifiedLinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>A rectified linear neuron model.</p>
+<p>Each neuron is modeled as a rectified line. That is, the neuron&#8217;s activity
+scales linearly with current, unless it passes below zero, at which point
+the neural activity will stay at zero.</p>
+<dl class="method">
+<dt id="nengo.RectifiedLinear.gain_bias">
+<code class="descname">gain_bias</code><span class="sig-paren">(</span><em>max_rates</em>, <em>intercepts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#RectifiedLinear.gain_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.RectifiedLinear.gain_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine gain and bias by shifting and scaling the lines.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.RectifiedLinear.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#RectifiedLinear.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.RectifiedLinear.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the rectification nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Sigmoid">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Sigmoid</code><span class="sig-paren">(</span><em>tau_ref=0.002</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Sigmoid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>A neuron model whose response curve is a sigmoid.</p>
+<dl class="method">
+<dt id="nengo.Sigmoid.gain_bias">
+<code class="descname">gain_bias</code><span class="sig-paren">(</span><em>max_rates</em>, <em>intercepts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Sigmoid.gain_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Sigmoid.gain_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analytically determine gain, bias.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Sigmoid.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Sigmoid.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Sigmoid.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the sigmoid nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LIF">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">LIF</code><span class="sig-paren">(</span><em>tau_rc=0.02</em>, <em>tau_ref=0.002</em>, <em>min_voltage=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#LIF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LIF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spiking version of the leaky integrate-and-fire (LIF) neuron model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau_rc</strong> : float</p>
+<blockquote>
+<div><p>Membrane RC time constant, in seconds. Affects how quickly the membrane
+voltage decays to zero in the absence of input (larger = slower decay).</p>
+</div></blockquote>
+<p><strong>tau_ref</strong> : float</p>
+<blockquote>
+<div><p>Absolute refractory period, in seconds. This is how long the
+membrane voltage is held at zero after a spike.</p>
+</div></blockquote>
+<p><strong>min_voltage</strong> : float</p>
+<blockquote class="last">
+<div><p>Minimum value for the membrane voltage. If <code class="docutils literal"><span class="pre">-np.inf</span></code>, the voltage
+is never clipped.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.LIF.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>spiked</em>, <em>voltage</em>, <em>refractory_time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#LIF.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LIF.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the LIF nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LIFRate">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">LIFRate</code><span class="sig-paren">(</span><em>tau_rc=0.02</em>, <em>tau_ref=0.002</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#LIFRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LIFRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-spiking version of the leaky integrate-and-fire (LIF) neuron model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau_rc</strong> : float</p>
+<blockquote>
+<div><p>Membrane RC time constant, in seconds. Affects how quickly the membrane
+voltage decays to zero in the absence of input (larger = slower decay).</p>
+</div></blockquote>
+<p><strong>tau_ref</strong> : float</p>
+<blockquote class="last">
+<div><p>Absolute refractory period, in seconds. This is how long the
+membrane voltage is held at zero after a spike.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.LIFRate.gain_bias">
+<code class="descname">gain_bias</code><span class="sig-paren">(</span><em>max_rates</em>, <em>intercepts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#LIFRate.gain_bias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LIFRate.gain_bias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analytically determine gain, bias.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.LIFRate.rates">
+<code class="descname">rates</code><span class="sig-paren">(</span><em>x</em>, <em>gain</em>, <em>bias</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#LIFRate.rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LIFRate.rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Always use LIFRate to determine rates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.LIFRate.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#LIFRate.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LIFRate.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the LIFRate nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.AdaptiveLIF">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">AdaptiveLIF</code><span class="sig-paren">(</span><em>tau_n=1</em>, <em>inc_n=0.01</em>, <em>**lif_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#AdaptiveLIF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.AdaptiveLIF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adaptive spiking version of the LIF neuron model.</p>
+<p>Works as the LIF model, except with adapation state <code class="docutils literal"><span class="pre">n</span></code>, which is
+subtracted from the input current. Its dynamics are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tau_n</span> <span class="n">dn</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">n</span></code> is incremented by <code class="docutils literal"><span class="pre">inc_n</span></code> when the neuron spikes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau_n</strong> : float</p>
+<blockquote>
+<div><p>Adaptation time constant. Affects how quickly the adaptation state
+decays to zero in the absence of spikes (larger = slower decay).</p>
+</div></blockquote>
+<p><strong>inc_n</strong> : float</p>
+<blockquote>
+<div><p>Adaptation increment. How much the adaptation state is increased after
+each spike.</p>
+</div></blockquote>
+<p><strong>tau_rc</strong> : float</p>
+<blockquote>
+<div><p>Membrane RC time constant, in seconds. Affects how quickly the membrane
+voltage decays to zero in the absence of input (larger = slower decay).</p>
+</div></blockquote>
+<p><strong>tau_ref</strong> : float</p>
+<blockquote class="last">
+<div><p>Absolute refractory period, in seconds. This is how long the
+membrane voltage is held at zero after a spike.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R1]</a></td><td>Koch, Christof. Biophysics of Computation: Information Processing
+in Single Neurons. Oxford University Press, 1999. p. 339</td></tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.AdaptiveLIF.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em>, <em>voltage</em>, <em>ref</em>, <em>adaptation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#AdaptiveLIF.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.AdaptiveLIF.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the AdaptiveLIF nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.AdaptiveLIFRate">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">AdaptiveLIFRate</code><span class="sig-paren">(</span><em>tau_n=1</em>, <em>inc_n=0.01</em>, <em>**lif_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#AdaptiveLIFRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.AdaptiveLIFRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adaptive non-spiking version of the LIF neuron model.</p>
+<p>Works as the LIF model, except with adapation state <code class="docutils literal"><span class="pre">n</span></code>, which is
+subtracted from the input current. Its dynamics are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tau_n</span> <span class="n">dn</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">n</span></code> is incremented by <code class="docutils literal"><span class="pre">inc_n</span></code> when the neuron spikes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau_n</strong> : float</p>
+<blockquote>
+<div><p>Adaptation time constant. Affects how quickly the adaptation state
+decays to zero in the absence of spikes (larger = slower decay).</p>
+</div></blockquote>
+<p><strong>inc_n</strong> : float</p>
+<blockquote>
+<div><p>Adaptation increment. How much the adaptation state is increased after
+each spike.</p>
+</div></blockquote>
+<p><strong>tau_rc</strong> : float</p>
+<blockquote>
+<div><p>Membrane RC time constant, in seconds. Affects how quickly the membrane
+voltage decays to zero in the absence of input (larger = slower decay).</p>
+</div></blockquote>
+<p><strong>tau_ref</strong> : float</p>
+<blockquote class="last">
+<div><p>Absolute refractory period, in seconds. This is how long the
+membrane voltage is held at zero after a spike.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[R2]</a></td><td>Koch, Christof. Biophysics of Computation: Information Processing
+in Single Neurons. Oxford University Press, 1999. p. 339</td></tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.AdaptiveLIFRate.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>output</em>, <em>adaptation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#AdaptiveLIFRate.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.AdaptiveLIFRate.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the AdaptiveLIFRate nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Izhikevich">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Izhikevich</code><span class="sig-paren">(</span><em>tau_recovery=0.02</em>, <em>coupling=0.2</em>, <em>reset_voltage=-65.0</em>, <em>reset_recovery=8.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Izhikevich"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Izhikevich" title="Permalink to this definition">¶</a></dt>
+<dd><p>Izhikevich neuron model.</p>
+<p>This implementation is based on the original paper <a class="reference internal" href="#r3" id="id3">[R3]</a>;
+however, we rename some variables for clarity.
+What was originally &#8216;v&#8217; we term &#8216;voltage&#8217;, which represents the membrane
+potential of each neuron. What was originally &#8216;u&#8217; we term &#8216;recovery&#8217;,
+which represents membrane recovery, &#8220;which accounts for the activation
+of K+ ionic currents and inactivation of Na+ ionic currents.&#8221;
+The &#8216;a&#8217;, &#8216;b&#8217;, &#8216;c&#8217;, and &#8216;d&#8217; parameters are also renamed
+(see the parameters below).</p>
+<p>We use default values that correspond to regular spiking (&#8216;RS&#8217;) neurons.
+For other classes of neurons, set the parameters as follows.</p>
+<ul class="simple">
+<li>Intrinsically bursting (IB): <code class="docutils literal"><span class="pre">reset_voltage=-55,</span> <span class="pre">reset_recovery=4</span></code></li>
+<li>Chattering (CH): <code class="docutils literal"><span class="pre">reset_voltage=-50,</span> <span class="pre">reset_recovery=2</span></code></li>
+<li>Fast spiking (FS): <code class="docutils literal"><span class="pre">tau_recovery=0.1</span></code></li>
+<li>Low-threshold spiking (LTS): <code class="docutils literal"><span class="pre">coupling=0.25</span></code></li>
+<li>Resonator (RZ): <code class="docutils literal"><span class="pre">tau_recovery=0.1,</span> <span class="pre">coupling=0.26</span></code></li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau_recovery</strong> : float, optional (Default: 0.02)</p>
+<blockquote>
+<div><p>(Originally &#8216;a&#8217;) Time scale of the recovery varaible.</p>
+</div></blockquote>
+<p><strong>coupling</strong> : float, optional (Default: 0.2)</p>
+<blockquote>
+<div><p>(Originally &#8216;b&#8217;) How sensitive recovery is to subthreshold
+fluctuations of voltage.</p>
+</div></blockquote>
+<p><strong>reset_voltage</strong> : float, optional (Default: -65.)</p>
+<blockquote>
+<div><p>(Originally &#8216;c&#8217;) The voltage to reset to after a spike, in millivolts.</p>
+</div></blockquote>
+<p><strong>reset_recovery</strong> : float, optional (Default: 8.)</p>
+<blockquote class="last">
+<div><p>(Originally &#8216;d&#8217;) The recovery value to reset to after a spike.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R3]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> E. M. Izhikevich, &#8220;Simple model of spiking neurons.&#8221;
+IEEE Transactions on Neural Networks, vol. 14, no. 6, pp. 1569-1572.
+(<a class="reference external" href="http://www.izhikevich.org/publications/spikes.pdf">http://www.izhikevich.org/publications/spikes.pdf</a>)</td></tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.Izhikevich.rates">
+<code class="descname">rates</code><span class="sig-paren">(</span><em>x</em>, <em>gain</em>, <em>bias</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Izhikevich.rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Izhikevich.rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates steady-state firing rate given gain and bias.</p>
+<p>Uses the <code class="xref py py-obj docutils literal"><span class="pre">nengo.utils.neurons.settled_firingrate</span></code> helper function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Izhikevich.step_math">
+<code class="descname">step_math</code><span class="sig-paren">(</span><em>dt</em>, <em>J</em>, <em>spiked</em>, <em>voltage</em>, <em>recovery</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/neurons.html#Izhikevich.step_math"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Izhikevich.step_math" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the Izhikevich nonlinearity.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="learning-rule-types">
+<h2>Learning rule types<a class="headerlink" href="#learning-rule-types" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nengo.learning_rules.LearningRuleType">
+<em class="property">class </em><code class="descclassname">nengo.learning_rules.</code><code class="descname">LearningRuleType</code><span class="sig-paren">(</span><em>learning_rate=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/learning_rules.html#LearningRuleType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.learning_rules.LearningRuleType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all learning rule objects.</p>
+<p>To use a learning rule, pass it as a <code class="docutils literal"><span class="pre">learning_rule_type</span></code> keyword
+argument to the <a class="reference internal" href="#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal"><span class="pre">Connection</span></code></a> on which you want to do learning.</p>
+<p>Each learning rule exposes two important pieces of metadata that the
+builder uses to determine what information should be stored.</p>
+<p>The <code class="docutils literal"><span class="pre">error_type</span></code> is the type of the incoming error signal. Options are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'none'</span></code>: no error signal</li>
+<li><code class="docutils literal"><span class="pre">'scalar'</span></code>: scalar error signal</li>
+<li><code class="docutils literal"><span class="pre">'decoded'</span></code>: vector error signal in decoded space</li>
+<li><code class="docutils literal"><span class="pre">'neuron'</span></code>: vector error signal in neuron space</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">modifies</span></code> attribute denotes the signal targeted by the rule.
+Options are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'encoders'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'decoders'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'weights'</span></code></li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>learning_rate</strong> : float, optional (Default: 1e-6)</p>
+<blockquote class="last">
+<div><p>A scalar indicating the rate at which <code class="docutils literal"><span class="pre">modifies</span></code> will be adjusted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>error_type</td>
+<td>(str) The type of the incoming error signal. This also determines the dimensionality of the error signal.</td>
+</tr>
+<tr class="row-even"><td>learning_rate</td>
+<td>(float) A scalar indicating the rate at which <code class="docutils literal"><span class="pre">modifies</span></code> will be adjusted.</td>
+</tr>
+<tr class="row-odd"><td>modifies</td>
+<td>(str) The signal targeted by the learning rule.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.PES">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">PES</code><span class="sig-paren">(</span><em>learning_rate=0.0001</em>, <em>pre_tau=0.005</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/learning_rules.html#PES"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.PES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prescribed Error Sensitivity learning rule.</p>
+<p>Modifies a connection&#8217;s decoders to minimize an error signal provided
+through a connection to the connection&#8217;s learning rule.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>learning_rate</strong> : float, optional (Default: 1e-4)</p>
+<blockquote>
+<div><p>A scalar indicating the rate at which weights will be adjusted.</p>
+</div></blockquote>
+<p><strong>pre_tau</strong> : float, optional (Default: 0.005)</p>
+<blockquote class="last">
+<div><p>Filter constant on activities of neurons in pre population.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>learning_rate</td>
+<td>(float) A scalar indicating the rate at which weights will be adjusted.</td>
+</tr>
+<tr class="row-even"><td>pre_tau</td>
+<td>(float) Filter constant on activities of neurons in pre population.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.BCM">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">BCM</code><span class="sig-paren">(</span><em>pre_tau=0.005</em>, <em>post_tau=None</em>, <em>theta_tau=1.0</em>, <em>learning_rate=1e-09</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/learning_rules.html#BCM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.BCM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bienenstock-Cooper-Munroe learning rule.</p>
+<p>Modifies connection weights as a function of the presynaptic activity
+and the difference between the postsynaptic activity and the average
+postsynaptic activity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>theta_tau</strong> : float, optional (Default: 1.0)</p>
+<blockquote>
+<div><p>A scalar indicating the time constant for theta integration.</p>
+</div></blockquote>
+<p><strong>pre_tau</strong> : float, optional (Default: 0.005)</p>
+<blockquote>
+<div><p>Filter constant on activities of neurons in pre population.</p>
+</div></blockquote>
+<p><strong>post_tau</strong> : float, optional (Default: None)</p>
+<blockquote>
+<div><p>Filter constant on activities of neurons in post population.
+If None, post_tau will be the same as pre_tau.</p>
+</div></blockquote>
+<p><strong>learning_rate</strong> : float, optional (Default: 1e-9)</p>
+<blockquote class="last">
+<div><p>A scalar indicating the rate at which weights will be adjusted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>learning_rate</td>
+<td>(float) A scalar indicating the rate at which weights will be adjusted.</td>
+</tr>
+<tr class="row-even"><td>post_tau</td>
+<td>(float) Filter constant on activities of neurons in post population.</td>
+</tr>
+<tr class="row-odd"><td>pre_tau</td>
+<td>(float) Filter constant on activities of neurons in pre population.</td>
+</tr>
+<tr class="row-even"><td>theta_tau</td>
+<td>(float) A scalar indicating the time constant for theta integration.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Oja">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Oja</code><span class="sig-paren">(</span><em>pre_tau=0.005</em>, <em>post_tau=None</em>, <em>beta=1.0</em>, <em>learning_rate=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/learning_rules.html#Oja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Oja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Oja learning rule.</p>
+<p>Modifies connection weights according to the Hebbian Oja rule, which
+augments typicaly Hebbian coactivity with a &#8220;forgetting&#8221; term that is
+proportional to the weight of the connection and the square of the
+postsynaptic activity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pre_tau</strong> : float, optional (Default: 0.005)</p>
+<blockquote>
+<div><p>Filter constant on activities of neurons in pre population.</p>
+</div></blockquote>
+<p><strong>post_tau</strong> : float, optional (Default: None)</p>
+<blockquote>
+<div><p>Filter constant on activities of neurons in post population.
+If None, post_tau will be the same as pre_tau.</p>
+</div></blockquote>
+<p><strong>beta</strong> : float, optional (Default: 1.0)</p>
+<blockquote>
+<div><p>A scalar weight on the forgetting term.</p>
+</div></blockquote>
+<p><strong>learning_rate</strong> : float, optional (Default: 1e-6)</p>
+<blockquote class="last">
+<div><p>A scalar indicating the rate at which weights will be adjusted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>beta</td>
+<td>(float) A scalar weight on the forgetting term.</td>
+</tr>
+<tr class="row-even"><td>learning_rate</td>
+<td>(float) A scalar indicating the rate at which weights will be adjusted.</td>
+</tr>
+<tr class="row-odd"><td>post_tau</td>
+<td>(float) Filter constant on activities of neurons in post population.</td>
+</tr>
+<tr class="row-even"><td>pre_tau</td>
+<td>(float) Filter constant on activities of neurons in pre population.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Voja">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Voja</code><span class="sig-paren">(</span><em>post_tau=0.005</em>, <em>learning_rate=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/learning_rules.html#Voja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Voja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector Oja learning rule.</p>
+<p>Modifies an ensemble&#8217;s encoders to be selective to its inputs.</p>
+<p>A connection to the learning rule will provide a scalar weight for the
+learning rate, minus 1. For instance, 0 is normal learning, -1 is no
+learning, and less than -1 causes anti-learning or &#8220;forgetting&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>post_tau</strong> : float, optional (Default: 0.005)</p>
+<blockquote>
+<div><p>Filter constant on activities of neurons in post population.</p>
+</div></blockquote>
+<p><strong>learning_rate</strong> : float, optional (Default: 1e-2)</p>
+<blockquote class="last">
+<div><p>A scalar indicating the rate at which encoders will be adjusted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>learning_rate</td>
+<td>(float) A scalar indicating the rate at which encoders will be adjusted.</td>
+</tr>
+<tr class="row-even"><td>post_tau</td>
+<td>(float) Filter constant on activities of neurons in post population.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="synapse-models">
+<h2>Synapse models<a class="headerlink" href="#synapse-models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nengo.synapses.Synapse">
+<em class="property">class </em><code class="descclassname">nengo.synapses.</code><code class="descname">Synapse</code><span class="sig-paren">(</span><em>default_size_in=1</em>, <em>default_size_out=None</em>, <em>default_dt=0.001</em>, <em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Synapse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.Synapse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for synapse model.</p>
+<p>Conceptually, a synapse model emulates a biological synapse, taking in
+input in the form of released neurotransmitter and opening ion channels
+to allow more or less current to flow into the neuron.</p>
+<p>In Nengo, the implementation of a synapse is as a specific case of a
+<code class="xref py py-obj docutils literal"><span class="pre">Process</span></code> in which the input and output shapes are the same.
+The input is the current across the synapse, and the output isthe current
+that will be imparted in the postsynaptic neuron.</p>
+<p>Synapses also contain the <a class="reference internal" href="#nengo.synapses.Synapse.filt" title="nengo.synapses.Synapse.filt"><code class="xref py py-obj docutils literal"><span class="pre">Synapse.filt</span></code></a> and <a class="reference internal" href="#nengo.synapses.Synapse.filtfilt" title="nengo.synapses.Synapse.filtfilt"><code class="xref py py-obj docutils literal"><span class="pre">Synapse.filtfilt</span></code></a> methods,
+which make it easy to use Nengo&#8217;s synapse models
+outside of Nengo simulations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>default_size_in</strong> : int, optional (Default: 1)</p>
+<blockquote>
+<div><p>The size_in used if not specified.</p>
+</div></blockquote>
+<p><strong>default_size_out</strong> : int (Default: None)</p>
+<blockquote>
+<div><p>The size_out used if not specified.
+If None, will be the same as default_size_in.</p>
+</div></blockquote>
+<p><strong>default_dt</strong> : float (Default: 0.001 (1 millisecond))</p>
+<blockquote>
+<div><p>The simulation timestep used if not specified.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>Random number seed. Ensures random factors will be the same each run.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>default_dt</td>
+<td>(float (Default: 0.001 (1 millisecond))) The simulation timestep used if not specified.</td>
+</tr>
+<tr class="row-even"><td>default_size_in</td>
+<td>(int (Default: 0)) The size_in used if not specified.</td>
+</tr>
+<tr class="row-odd"><td>default_size_out</td>
+<td>(int (Default: 1)) The size_out used if not specified.</td>
+</tr>
+<tr class="row-even"><td>seed</td>
+<td>(int, optional (Deafult: None)) Random number seed. Ensures random factors will be the same each run.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.synapses.Synapse.filt">
+<code class="descname">filt</code><span class="sig-paren">(</span><em>x</em>, <em>dt=None</em>, <em>axis=0</em>, <em>y0=None</em>, <em>copy=True</em>, <em>filtfilt=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Synapse.filt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.Synapse.filt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter <code class="docutils literal"><span class="pre">x</span></code> with this synapse model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>The signal to filter.</p>
+</div></blockquote>
+<p><strong>dt</strong> : float, optional (Default: None)</p>
+<blockquote>
+<div><p>The timestep of the input signal.
+If None, <code class="docutils literal"><span class="pre">default_dt</span></code> will be used.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional (Default: 0)</p>
+<blockquote>
+<div><p>The axis along which to filter.</p>
+</div></blockquote>
+<p><strong>y0</strong> : array_like, optional (Default: None)</p>
+<blockquote>
+<div><p>The starting state of the filter output. If None, the initial
+value of the input signal along the axis filtered will be used.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional (Default: True)</p>
+<blockquote>
+<div><p>Whether to copy the input data, or simply work in-place.</p>
+</div></blockquote>
+<p><strong>filtfilt</strong> : bool, optional (Default: False)</p>
+<blockquote class="last">
+<div><p>If True, runs the process forward then backward on the signal,
+for zero-phase filtering (like Matlab&#8217;s <code class="docutils literal"><span class="pre">filtfilt</span></code>).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.synapses.Synapse.filtfilt">
+<code class="descname">filtfilt</code><span class="sig-paren">(</span><em>x</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Synapse.filtfilt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.Synapse.filtfilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero-phase filtering of <code class="docutils literal"><span class="pre">x</span></code> using this filter.</p>
+<p>Equivalent to <a class="reference internal" href="#nengo.synapses.Synapse.filt" title="nengo.synapses.Synapse.filt"><code class="xref py py-obj docutils literal"><span class="pre">filt(x,</span> <span class="pre">filtfilt=True,</span> <span class="pre">**kwargs)</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.synapses.Synapse.make_step">
+<code class="descname">make_step</code><span class="sig-paren">(</span><em>shape_in</em>, <em>shape_out</em>, <em>dt</em>, <em>rng</em>, <em>y0=None</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Synapse.make_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.Synapse.make_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create function to advance the synapse forward one time step.</p>
+<p>At a minimum, Synapse subclasses must implement this method.
+That implementation should return a callable that will perform
+the synaptic filtering operation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>shape_in</strong> : tuple</p>
+<blockquote>
+<div><p>Shape of the input signal to be filtered.</p>
+</div></blockquote>
+<p><strong>shape_out</strong> : tuple</p>
+<blockquote>
+<div><p>Shape of the output filtered signal.</p>
+</div></blockquote>
+<p><strong>dt</strong> : float</p>
+<blockquote>
+<div><p>The timestep of the simulation.</p>
+</div></blockquote>
+<p><strong>rng</strong> : <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.random.RandomState</span></code></a></p>
+<blockquote>
+<div><p>Random number generator.</p>
+</div></blockquote>
+<p><strong>y0</strong> : array_like, optional (Default: None)</p>
+<blockquote>
+<div><p>The starting state of the filter output. If None, each dimension
+of the state will start at zero.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.dtype</span></code></a> (Default: np.float64)</p>
+<blockquote class="last">
+<div><p>Type of data used by the synapse model. This is important for
+ensuring that certain synapses avoid or force integer division.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.synapses.filt">
+<code class="descclassname">nengo.synapses.</code><code class="descname">filt</code><span class="sig-paren">(</span><em>signal</em>, <em>synapse</em>, <em>dt</em>, <em>axis=0</em>, <em>x0=None</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#filt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.filt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter <code class="docutils literal"><span class="pre">signal</span></code> with <code class="docutils literal"><span class="pre">synapse</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Deprecated in Nengo 2.1.0.
+Use <a class="reference internal" href="#nengo.synapses.Synapse.filt" title="nengo.synapses.Synapse.filt"><code class="xref py py-obj docutils literal"><span class="pre">Synapse.filt</span></code></a> method instead.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.synapses.filtfilt">
+<code class="descclassname">nengo.synapses.</code><code class="descname">filtfilt</code><span class="sig-paren">(</span><em>signal</em>, <em>synapse</em>, <em>dt</em>, <em>axis=0</em>, <em>x0=None</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#filtfilt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.filtfilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero-phase filtering of <code class="docutils literal"><span class="pre">signal</span></code> using the <code class="docutils literal"><span class="pre">synapse</span></code> filter.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Deprecated in Nengo 2.1.0.
+Use <a class="reference internal" href="#nengo.synapses.Synapse.filtfilt" title="nengo.synapses.Synapse.filtfilt"><code class="xref py py-obj docutils literal"><span class="pre">Synapse.filtfilt</span></code></a> method instead.</p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LinearFilter">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">LinearFilter</code><span class="sig-paren">(</span><em>num</em>, <em>den</em>, <em>analog=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>General linear time-invariant (LTI) system synapse.</p>
+<p>This class can be used to implement any linear filter, given the
+filter&#8217;s transfer function. <a class="reference internal" href="#r4" id="id5">[R4]</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num</strong> : array_like</p>
+<blockquote>
+<div><p>Numerator coefficients of transfer function.</p>
+</div></blockquote>
+<p><strong>den</strong> : array_like</p>
+<blockquote>
+<div><p>Denominator coefficients of transfer function.</p>
+</div></blockquote>
+<p><strong>analog</strong> : boolean, optional (Default: True)</p>
+<blockquote class="last">
+<div><p>Whether the synapse coefficients are analog (i.e. continuous-time),
+or discrete. Analog coefficients will be converted to discrete for
+simulation using the simulator <code class="docutils literal"><span class="pre">dt</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R4]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> <a class="reference external" href="http://en.wikipedia.org/wiki/Filter_%28signal_processing%29">http://en.wikipedia.org/wiki/Filter_%28signal_processing%29</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>analog</td>
+<td>(boolean) Whether the synapse coefficients are analog (i.e. continuous-time), or discrete. Analog coefficients will be converted to discrete for simulation using the simulator <code class="docutils literal"><span class="pre">dt</span></code>.</td>
+</tr>
+<tr class="row-even"><td>den</td>
+<td>(ndarray) Denominator coefficients of transfer function.</td>
+</tr>
+<tr class="row-odd"><td>num</td>
+<td>(ndarray) Numerator coefficients of transfer function.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.LinearFilter.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>frequencies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the transfer function at the given frequencies.</p>
+<p class="rubric">Examples</p>
+<p>Using the <code class="docutils literal"><span class="pre">evaluate</span></code> function to make a Bode plot:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">synapse</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">synapses</span><span class="o">.</span><span class="n">LinearFilter</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">synapse</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">20</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;frequency [Hz]&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;magnitude [dB]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;frequency [Hz]&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;phase [radians]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.LinearFilter.make_step">
+<code class="descname">make_step</code><span class="sig-paren">(</span><em>shape_in</em>, <em>shape_out</em>, <em>dt</em>, <em>rng</em>, <em>y0=None</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em>, <em>method='zoh'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter.make_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter.make_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#nengo.LinearFilter.Step" title="nengo.LinearFilter.Step"><code class="xref py py-obj docutils literal"><span class="pre">Step</span></code></a> instance that implements the linear filter.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LinearFilter.Step">
+<em class="property">class </em><code class="descname">Step</code><span class="sig-paren">(</span><em>num</em>, <em>den</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter.Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter.Step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for LTI filtering step functions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LinearFilter.NoDen">
+<em class="property">class </em><code class="descclassname">LinearFilter.</code><code class="descname">NoDen</code><span class="sig-paren">(</span><em>num</em>, <em>den</em>, <em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter.NoDen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter.NoDen" title="Permalink to this definition">¶</a></dt>
+<dd><p>An LTI step function for transfer functions with no denominator.</p>
+<p>This step function should be much faster than the equivalent general
+step function.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LinearFilter.Simple">
+<em class="property">class </em><code class="descclassname">LinearFilter.</code><code class="descname">Simple</code><span class="sig-paren">(</span><em>num</em>, <em>den</em>, <em>output</em>, <em>y0=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter.Simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter.Simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>An LTI step function for transfer functions with one num and den.</p>
+<p>This step function should be much faster than the equivalent general
+step function.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.LinearFilter.General">
+<em class="property">class </em><code class="descclassname">LinearFilter.</code><code class="descname">General</code><span class="sig-paren">(</span><em>num</em>, <em>den</em>, <em>output</em>, <em>y0=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#LinearFilter.General"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.LinearFilter.General" title="Permalink to this definition">¶</a></dt>
+<dd><p>An LTI step function for any given transfer function.</p>
+<p>Implements a discrete-time LTI system using the difference equation
+<a class="reference internal" href="#r5" id="id7">[R5]</a> for the given transfer function (num, den).</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R5]</td><td><em>(<a class="fn-backref" href="#id7">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> <a class="reference external" href="http://en.wikipedia.org/wiki/Digital_filter#Difference_equation">http://en.wikipedia.org/wiki/Digital_filter#Difference_equation</a></td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Lowpass">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Lowpass</code><span class="sig-paren">(</span><em>tau</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Lowpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Lowpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard first-order lowpass filter synapse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau</strong> : float</p>
+<blockquote class="last">
+<div><p>The time constant of the filter in seconds.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tau</td>
+<td>(float) The time constant of the filter in seconds.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.Lowpass.make_step">
+<code class="descname">make_step</code><span class="sig-paren">(</span><em>shape_in</em>, <em>shape_out</em>, <em>dt</em>, <em>rng</em>, <em>y0=None</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Lowpass.make_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Lowpass.make_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an optimized <a class="reference internal" href="#nengo.LinearFilter.Step" title="nengo.LinearFilter.Step"><code class="xref py py-obj docutils literal"><span class="pre">LinearFilter.Step</span></code></a> subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.Alpha">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Alpha</code><span class="sig-paren">(</span><em>tau</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Alpha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alpha-function filter synapse.</p>
+<p>The impulse-response function is given by:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">alpha</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and was found by <a class="reference internal" href="#r6" id="id9">[R6]</a> to be a good basic model for synapses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tau</strong> : float</p>
+<blockquote class="last">
+<div><p>The time constant of the filter in seconds.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R6]</td><td><em>(<a class="fn-backref" href="#id9">1</a>, <a class="fn-backref" href="#id10">2</a>)</em> Mainen, Z.F. and Sejnowski, T.J. (1995). Reliability of spike timing
+in neocortical neurons. Science (New York, NY), 268(5216):1503-6.</td></tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tau</td>
+<td>(float) The time constant of the filter in seconds.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.Alpha.make_step">
+<code class="descname">make_step</code><span class="sig-paren">(</span><em>shape_in</em>, <em>shape_out</em>, <em>dt</em>, <em>rng</em>, <em>y0=None</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Alpha.make_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Alpha.make_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an optimized <a class="reference internal" href="#nengo.LinearFilter.Step" title="nengo.LinearFilter.Step"><code class="xref py py-obj docutils literal"><span class="pre">LinearFilter.Step</span></code></a> subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.synapses.Triangle">
+<em class="property">class </em><code class="descclassname">nengo.synapses.</code><code class="descname">Triangle</code><span class="sig-paren">(</span><em>t</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.Triangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triangular finite impulse response (FIR) synapse.</p>
+<p>This synapse has a triangular and finite impulse response. The length of
+the triangle is <code class="docutils literal"><span class="pre">t</span></code> seconds; thus the digital filter will have
+<code class="docutils literal"><span class="pre">t</span> <span class="pre">/</span> <span class="pre">dt</span> <span class="pre">+</span> <span class="pre">1</span></code> taps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>t</strong> : float</p>
+<blockquote class="last">
+<div><p>Length of the triangle, in seconds.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t</td>
+<td>(float) Length of the triangle, in seconds.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.synapses.Triangle.make_step">
+<code class="descname">make_step</code><span class="sig-paren">(</span><em>shape_in</em>, <em>shape_out</em>, <em>dt</em>, <em>rng</em>, <em>y0=None</em>, <em>dtype=&lt;type 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/synapses.html#Triangle.make_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.synapses.Triangle.make_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a custom step function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="decoder-and-connection-weight-solvers">
+<h2>Decoder and connection weight solvers<a class="headerlink" href="#decoder-and-connection-weight-solvers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nengo.solvers.Solver">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">Solver</code><a class="reference internal" href="_modules/nengo/solvers.html#Solver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.Solver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decoder or weight solver.</p>
+<dl class="method">
+<dt id="nengo.solvers.Solver.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>A</em>, <em>Y</em>, <em>rng=None</em>, <em>E=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#Solver.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.Solver.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the solver.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : (n_eval_points, n_neurons) array_like</p>
+<blockquote>
+<div><p>Matrix of the neurons&#8217; activities at the evaluation points</p>
+</div></blockquote>
+<p><strong>Y</strong> : (n_eval_points, dimensions) array_like</p>
+<blockquote>
+<div><p>Matrix of the target decoded values for each of the D dimensions,
+at each of the evaluation points.</p>
+</div></blockquote>
+<p><strong>rng</strong> : <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.random.RandomState</span></code></a>, optional (Default: None)</p>
+<blockquote>
+<div><p>A random number generator to use as required. If None,
+the <code class="docutils literal"><span class="pre">numpy.random</span></code> module functions will be used.</p>
+</div></blockquote>
+<p><strong>E</strong> : (dimensions, post.n_neurons) array_like, optional (Default: None)</p>
+<blockquote>
+<div><p>Array of post-population encoders. Providing this tells the solver
+to return an array of connection weights rather than decoders.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> :  (n_neurons, dimensions) or (n_neurons, post.n_neurons) ndarray</p>
+<blockquote>
+<div><p>(n_neurons, dimensions) array of decoders (if <code class="docutils literal"><span class="pre">solver.weights</span></code>
+is False) or (n_neurons, post.n_neurons) array of weights
+(if <code class="docutils literal"><span class="pre">'solver.weights</span></code> is True).</p>
+</div></blockquote>
+<p><strong>info</strong> : dict</p>
+<blockquote class="last">
+<div><p>A dictionary of information about the solver. All dictionaries have
+an <code class="docutils literal"><span class="pre">'rmses'</span></code> key that contains RMS errors of the solve.
+Other keys are unique to particular solvers.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.solvers.Solver.mul_encoders">
+<code class="descname">mul_encoders</code><span class="sig-paren">(</span><em>Y</em>, <em>E</em>, <em>copy=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#Solver.mul_encoders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.Solver.mul_encoders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that projects signal <code class="docutils literal"><span class="pre">Y</span></code> onto encoders <code class="docutils literal"><span class="pre">E</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Y</strong> : ndarray</p>
+<blockquote>
+<div><p>The signal of interest.</p>
+</div></blockquote>
+<p><strong>E</strong> : (dimensions, n_neurons) array_like or None</p>
+<blockquote>
+<div><p>Array of encoders. If None, <code class="docutils literal"><span class="pre">Y</span></code> will be returned unchanged.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional (Default: False)</p>
+<blockquote class="last">
+<div><p>Whether a copy of <code class="docutils literal"><span class="pre">Y</span></code> should be returned if <code class="docutils literal"><span class="pre">E</span></code> is None.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.Lstsq">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">Lstsq</code><a class="reference internal" href="_modules/nengo/solvers.html#Lstsq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.Lstsq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unregularized least-squares solver.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>rcond</strong> : float, optional (Default: 0.01)</p>
+<blockquote class="last">
+<div><p>Cut-off ratio for small singular values (see <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.lstsq.html#numpy.linalg.lstsq" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.linalg.lstsq</span></code></a>).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>rcond</td>
+<td>(float) Cut-off ratio for small singular values (see <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.lstsq.html#numpy.linalg.lstsq" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.linalg.lstsq</span></code></a>).</td>
+</tr>
+<tr class="row-even"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.LstsqNoise">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">LstsqNoise</code><span class="sig-paren">(</span><em>weights=False</em>, <em>noise=0.1</em>, <em>solver=&lt;nengo.utils.least_squares_solvers.Cholesky object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#LstsqNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.LstsqNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least-squares solver with additive Gaussian white noise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>noise</strong> : float, optional (Default: 0.1)</p>
+<blockquote>
+<div><p>Amount of noise, as a fraction of the neuron activity.</p>
+</div></blockquote>
+<p><strong>solver</strong> : <code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>, optional (Default: <code class="docutils literal"><span class="pre">Cholesky()</span></code>)</p>
+<blockquote class="last">
+<div><p>Subsolver to use for solving the least squares problem.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>noise</td>
+<td>(float) Amount of noise, as a fraction of the neuron activity.</td>
+</tr>
+<tr class="row-even"><td>solver</td>
+<td>(<code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>) Subsolver to use for solving the least squares problem.</td>
+</tr>
+<tr class="row-odd"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.LstsqMultNoise">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">LstsqMultNoise</code><span class="sig-paren">(</span><em>weights=False</em>, <em>noise=0.1</em>, <em>solver=&lt;nengo.utils.least_squares_solvers.Cholesky object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#LstsqMultNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.LstsqMultNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least-squares solver with multiplicative white noise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>noise</strong> : float, optional (Default: 0.1)</p>
+<blockquote>
+<div><p>Amount of noise, as a fraction of the neuron activity.</p>
+</div></blockquote>
+<p><strong>solver</strong> : <code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>, optional (Default: <code class="docutils literal"><span class="pre">Cholesky()</span></code>)</p>
+<blockquote class="last">
+<div><p>Subsolver to use for solving the least squares problem.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>noise</td>
+<td>(float) Amount of noise, as a fraction of the neuron activity.</td>
+</tr>
+<tr class="row-even"><td>solver</td>
+<td>(<code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>) Subsolver to use for solving the least squares problem.</td>
+</tr>
+<tr class="row-odd"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.LstsqL2">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">LstsqL2</code><span class="sig-paren">(</span><em>weights=False</em>, <em>reg=0.1</em>, <em>solver=&lt;nengo.utils.least_squares_solvers.Cholesky object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#LstsqL2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.LstsqL2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least-squares solver with L2 regularization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>reg</strong> : float, optional (Default: 0.1)</p>
+<blockquote>
+<div><p>Amount of regularization, as a fraction of the neuron activity.</p>
+</div></blockquote>
+<p><strong>solver</strong> : <code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>, optional (Default: <code class="docutils literal"><span class="pre">Cholesky()</span></code>)</p>
+<blockquote class="last">
+<div><p>Subsolver to use for solving the least squares problem.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>reg</td>
+<td>(float) Amount of regularization, as a fraction of the neuron activity.</td>
+</tr>
+<tr class="row-even"><td>solver</td>
+<td>(<code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>) Subsolver to use for solving the least squares problem.</td>
+</tr>
+<tr class="row-odd"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.LstsqL2nz">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">LstsqL2nz</code><span class="sig-paren">(</span><em>weights=False</em>, <em>reg=0.1</em>, <em>solver=&lt;nengo.utils.least_squares_solvers.Cholesky object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#LstsqL2nz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.LstsqL2nz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least-squares solver with L2 regularization on non-zero components.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>reg</strong> : float, optional (Default: 0.1)</p>
+<blockquote>
+<div><p>Amount of regularization, as a fraction of the neuron activity.</p>
+</div></blockquote>
+<p><strong>solver</strong> : <code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>, optional (Default: <code class="docutils literal"><span class="pre">Cholesky()</span></code>)</p>
+<blockquote class="last">
+<div><p>Subsolver to use for solving the least squares problem.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>reg</td>
+<td>(float) Amount of regularization, as a fraction of the neuron activity.</td>
+</tr>
+<tr class="row-even"><td>solver</td>
+<td>(<code class="xref py py-obj docutils literal"><span class="pre">LeastSquaresSolver</span></code>) Subsolver to use for solving the least squares problem.</td>
+</tr>
+<tr class="row-odd"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.LstsqL1">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">LstsqL1</code><span class="sig-paren">(</span><em>weights=False</em>, <em>l1=0.0001</em>, <em>l2=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#LstsqL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.LstsqL1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least-squares solver with L1 and L2 regularization (elastic net).</p>
+<p>This method is well suited for creating sparse decoders or weight matrices.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires <a class="reference external" href="http://scikit-learn.org/stable/">scikit-learn</a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>l1</strong> : float, optional (Default: 1e-4)</p>
+<blockquote>
+<div><p>Amount of L1 regularization.</p>
+</div></blockquote>
+<p><strong>l2</strong> : float, optional (Default: 1e-6)</p>
+<blockquote class="last">
+<div><p>Amount of L2 regularization.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>l1</td>
+<td>(float) Amount of L1 regularization.</td>
+</tr>
+<tr class="row-even"><td>l2</td>
+<td>(float) Amount of L2 regularization.</td>
+</tr>
+<tr class="row-odd"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.LstsqDrop">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">LstsqDrop</code><span class="sig-paren">(</span><em>weights=False</em>, <em>drop=0.25</em>, <em>solver1=&lt;nengo.solvers.LstsqL2nz object&gt;</em>, <em>solver2=&lt;nengo.solvers.LstsqL2nz object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#LstsqDrop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.LstsqDrop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find sparser decoders/weights by dropping small values.</p>
+<p>This solver first solves for coefficients (decoders/weights) with
+L2 regularization, drops those nearest to zero, and retrains remaining.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>drop</strong> : float, optional (Default: 0.25)</p>
+<blockquote>
+<div><p>Fraction of decoders or weights to set to zero.</p>
+</div></blockquote>
+<p><strong>solver1</strong> : Solver, optional (Default: <code class="docutils literal"><span class="pre">LstsqL2nz(reg=0.1)</span></code>)</p>
+<blockquote>
+<div><p>Solver for finding the initial decoders.</p>
+</div></blockquote>
+<p><strong>solver2</strong> : Solver, optional (Default: <code class="docutils literal"><span class="pre">LstsqL2nz(reg=0.01)</span></code>)</p>
+<blockquote class="last">
+<div><p>Used for re-solving for the decoders after dropout.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>drop</td>
+<td>(float) Fraction of decoders or weights to set to zero.</td>
+</tr>
+<tr class="row-even"><td>solver1</td>
+<td>(Solver) Solver for finding the initial decoders.</td>
+</tr>
+<tr class="row-odd"><td>solver2</td>
+<td>(Solver) Used for re-solving for the decoders after dropout.</td>
+</tr>
+<tr class="row-even"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.Nnls">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">Nnls</code><span class="sig-paren">(</span><em>weights=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#Nnls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.Nnls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-negative least-squares solver without regularization.</p>
+<p>Similar to <a class="reference internal" href="#nengo.solvers.Lstsq" title="nengo.solvers.Lstsq"><code class="xref py py-obj docutils literal"><span class="pre">Lstsq</span></code></a>, except the output values are non-negative.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires
+<a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/">SciPy</a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote class="last">
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.NnlsL2">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">NnlsL2</code><span class="sig-paren">(</span><em>weights=False</em>, <em>reg=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#NnlsL2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.NnlsL2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-negative least-squares solver with L2 regularization.</p>
+<p>Similar to <a class="reference internal" href="#nengo.solvers.LstsqL2" title="nengo.solvers.LstsqL2"><code class="xref py py-obj docutils literal"><span class="pre">LstsqL2</span></code></a>, except the output values are non-negative.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires
+<a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/">SciPy</a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>reg</strong> : float, optional (Default: 0.1)</p>
+<blockquote class="last">
+<div><p>Amount of regularization, as a fraction of the neuron activity.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>reg</td>
+<td>(float) Amount of regularization, as a fraction of the neuron activity.</td>
+</tr>
+<tr class="row-even"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.solvers.NnlsL2nz">
+<em class="property">class </em><code class="descclassname">nengo.solvers.</code><code class="descname">NnlsL2nz</code><span class="sig-paren">(</span><em>weights=False</em>, <em>reg=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/solvers.html#NnlsL2nz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.solvers.NnlsL2nz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-negative least-squares with L2 regularization on nonzero components.</p>
+<p>Similar to <a class="reference internal" href="#nengo.solvers.LstsqL2nz" title="nengo.solvers.LstsqL2nz"><code class="xref py py-obj docutils literal"><span class="pre">LstsqL2nz</span></code></a>, except the output values are non-negative.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires
+<a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/">SciPy</a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>weights</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>If False, solve for decoders. If True, solve for weights.</p>
+</div></blockquote>
+<p><strong>reg</strong> : float, optional (Default: 0.1)</p>
+<blockquote class="last">
+<div><p>Amount of regularization, as a fraction of the neuron activity.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>reg</td>
+<td>(float) Amount of regularization, as a fraction of the neuron activity.</td>
+</tr>
+<tr class="row-even"><td>weights</td>
+<td>(bool) If False, solve for decoders. If True, solve for weights.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="networks.html" class="btn btn-neutral float-right" title="Networks" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="user_guide.html" class="btn btn-neutral" title="User Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 20, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

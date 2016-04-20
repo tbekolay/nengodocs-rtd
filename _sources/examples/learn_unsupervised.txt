@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/learning/learn_unsupervised.ipynb
+*****************************
+Unsupervised Learning example
+*****************************
+
+.. notebook:: ../../examples/learning/learn_unsupervised.ipynb

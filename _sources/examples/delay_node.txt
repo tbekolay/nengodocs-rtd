@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/usage/delay_node.ipynb
+******************
+Delay Node example
+******************
+
+.. notebook:: ../../examples/usage/delay_node.ipynb

@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/spa/spa_parser.ipynb
+**********************
+SPA Left-corner Parser
+**********************
+
+.. notebook:: ../../examples/spa/spa_parser.ipynb

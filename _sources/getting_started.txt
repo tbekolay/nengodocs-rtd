@@ -14,15 +14,14 @@ To install Nengo, we recommend using ``pip``.
 ``pip`` will do its best to install
 all of Nengo's requirements when it installs Nengo.
 However, if anything goes wrong during this process,
-or if you feel that Nengo is running very slowly,
 you can install Nengo's requirements manually
 before doing ``pip install nengo`` again.
 
 Installing NumPy
 ----------------
 
-Nengo's only hard requirement is NumPy,
-and it should be installed first.
+Nengo's only required dependency is NumPy,
+and we recommend that you install it first.
 The best way to install NumPy depends
 on several factors, such as your operating system.
 Briefly, what we have found to work best
@@ -31,7 +30,7 @@ on each operating system is:
 - Windows: Use Anaconda_ or
   the `official installer <https://www.python.org/downloads/>`_ and
   `unofficial binaries <http://www.lfd.uci.edu/~gohlke/pythonlibs/>`_
-- Mac OS X: Use Homebrew_ or Anaconda_
+- Mac OS X: Use Anaconda_ or Homebrew_
 - Linux: Use a package manager or install from source
 
 For more options, see
@@ -45,7 +44,7 @@ If you're new to Python and just want to get up and running,
 Anaconda_ is the best way to get started.
 Anaconda provides an all-in-one solution
 that will install Python, NumPy,
-and all other Nengo dependencies.
+and other optional Nengo dependencies.
 It works on all operating systems (Windows, Mac, Linux)
 and does not require administrator privileges.
 It includes GUI tools,
@@ -56,29 +55,27 @@ Package managers
 ^^^^^^^^^^^^^^^^
 
 If you are comfortable with the command line,
-every operating system has a package manager
-that can install Python and NumPy.
+operating systems other than Windows
+have a package manager that can install Python and NumPy.
 
-- **Windows:** While Windows has the Chocolatey_ package manager,
-  it currently does not have good support for NumPy.
-  Anaconda_ is a capable package manager.
 - **Mac OS X:** Homebrew_ has excellent Python support.
-  After installing Homebrew, ``brew install python`` and ``pip install numpy``
-  will give you a fast NumPy install.
+  After installing Homebrew, ``brew install python`` and ``pip install numpy``.
 - **Linux:** Linux distributions come with a package manager
   capable of installing Python and NumPy.
-  Debian, Ubuntu, and others use ``apt``:
+  In Debian, Ubuntu, and other distributions with ``apt`` use:
   ``sudo apt-get install python-numpy``.
-  Fedora and others use ``yum``:
+  In Fedora and others distributions with ``yum`` use:
   ``sudo yum install python-numpy``.
+  For other package managers,
+  try searching the package list for ``numpy``.
 
 From source
 ^^^^^^^^^^^
 
-If speed is an issue,
+If speed is an issue
 and you know your way around a terminal,
 installing NumPy from source
-is the most flexible and performant.
+is flexible and performant.
 See the detailed instructions
 `here <http://hunseblog.wordpress.com/2014/09/15/installing-numpy-and-openblas/>`_.
 
@@ -99,7 +96,6 @@ Python's own package manager, ``pip``.
   listed in ``requirements-test.txt`` and ``requirements-docs.txt``.
 
 .. _Anaconda: https://store.continuum.io/cshop/anaconda/
-.. _Chocolatey: https://chocolatey.org/
 .. _Homebrew: http://brew.sh/
 
 Usage

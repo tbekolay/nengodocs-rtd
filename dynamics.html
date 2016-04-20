@@ -32,8 +32,8 @@
   
     <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
-        <link rel="next" title="Nengo Example: Integrator" href="examples/integrator.html"/>
-        <link rel="prev" title="Nengo Example: Multiplication" href="examples/multiplication.html"/> 
+        <link rel="next" title="Integrator example" href="examples/integrator.html"/>
+        <link rel="prev" title="Multiplication example" href="examples/multiplication.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,19 +85,16 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html#principle-1-representation">Principle 1: Representation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html#principle-2-transformation">Principle 2: Transformation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html#principle-3-dynamics">Principle 3: Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/nef_summary.html">NEF Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="representation.html">Principle 1: Representation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformation.html">Principle 2: Transformation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Principle 3: Dynamics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/integrator.html">Nengo Example: Integrator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/controlled_integrator.html">Nengo Example: Controlled Integrator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/controlled_integrator2.html">Nengo Example: Controlled Integrator 2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/oscillator.html">Nengo Example: A Simple Harmonic Oscillator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/controlled_oscillator.html">Nengo Example: Controlled Oscillator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/lorenz_attractor.html">The Lorenz chaotic attractor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/integrator.html">Integrator example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/controlled_integrator.html">Controlled Integrator example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/controlled_integrator2.html">Controlled Integrator example 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/oscillator.html">Oscillator example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/controlled_oscillator.html">Controlled Oscillator example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/lorenz_attractor.html">Lorenz Attractor example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#nodes">Nodes</a></li>
@@ -157,165 +154,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<div class="section" id="principle-3-dynamics">
+  <div class="section" id="principle-3-dynamics">
 <h1>Principle 3: Dynamics<a class="headerlink" href="#principle-3-dynamics" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/integrator.html">Nengo Example: Integrator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/integrator.html#step-1-create-the-neural-populations">Step 1: Create the neural populations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/integrator.html#step-2-create-input-for-the-model">Step 2: Create input for the model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/integrator.html#step-3-connect-the-network-elements">Step 3: Connect the network elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/integrator.html#step-4-probe-outputs">Step 4: Probe outputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/integrator.html#step-5-run-the-model">Step 5: Run the model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/integrator.html#step-6-plot-the-results">Step 6: Plot the results</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/controlled_integrator.html">Nengo Example: Controlled Integrator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator.html#step-1-create-the-network">Step 1: Create the network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator.html#step-2-define-the-input-signal-to-integrate">Step 2: Define the &#8216;input&#8217; signal to integrate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator.html#step-3-define-the-control-signal">Step 3: Define the &#8216;control&#8217; signal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator.html#step-4-define-the-integrator-dynamics">Step 4: Define the integrator dynamics</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/controlled_integrator2.html">Nengo Example: Controlled Integrator 2</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator2.html#step-1-create-the-network">Step 1: Create the network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator2.html#step-2-define-the-input-signal-to-integrate">Step 2: Define the &#8216;input&#8217; signal to integrate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator2.html#step-3-define-the-control-signal">Step 3: Define the control signal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator2.html#step-4-define-the-integrator-dynamics">Step 4: Define the integrator dynamics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_integrator2.html#step-5-run-the-model-and-plot-results">Step 5: Run the model and plot results</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/oscillator.html">Nengo Example: A Simple Harmonic Oscillator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/oscillator.html#step-1-create-the-model">Step 1: Create the Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/oscillator.html#step-2-provide-input-to-the-model">Step 2: Provide Input to the Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/oscillator.html#step-3-add-probes">Step 3: Add Probes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/oscillator.html#step-4-run-the-model">Step 4: Run the Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/oscillator.html#step-5-plot-the-results">Step 5: Plot the Results</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/controlled_oscillator.html">Nengo Example: Controlled Oscillator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_oscillator.html#step-1-create-the-network">Step 1: Create the network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_oscillator.html#step-2-create-the-input">Step 2: Create the input</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_oscillator.html#step-3-add-probes">Step 3: Add Probes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_oscillator.html#step-4-run-the-model">Step 4: Run the Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/controlled_oscillator.html#step-5-plot-the-results">Step 5: Plot the Results</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/lorenz_attractor.html">The Lorenz chaotic attractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/integrator.html">Integrator example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/controlled_integrator.html">Controlled Integrator example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/controlled_integrator2.html">Controlled Integrator example 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/oscillator.html">Oscillator example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/controlled_oscillator.html">Controlled Oscillator example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/lorenz_attractor.html">Lorenz Attractor example</a></li>
 </ul>
 </div>
 </div>
@@ -327,10 +175,10 @@ div.nboutput  > :nth-child(2).stderr {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="examples/integrator.html" class="btn btn-neutral float-right" title="Nengo Example: Integrator" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="examples/integrator.html" class="btn btn-neutral float-right" title="Integrator example" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples/multiplication.html" class="btn btn-neutral" title="Nengo Example: Multiplication" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples/multiplication.html" class="btn btn-neutral" title="Multiplication example" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -340,7 +188,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

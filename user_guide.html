@@ -31,8 +31,8 @@
 
   
     <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
-        <link rel="next" title="Nengo Modelling API" href="user_api.html"/>
-        <link rel="prev" title="Adding new objects to Nengo" href="examples/rectified_linear.html"/> 
+        <link rel="next" title="Nengo Modelling API" href="frontend_api.html"/>
+        <link rel="prev" title="Rectified Linear Neuron example" href="examples/rectified_linear.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,8 +85,9 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">User Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html">Nengo Modelling API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html">Nengo Modelling API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="networks.html">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend_api.html">Reference simulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
 <li class="toctree-l2"><a class="reference internal" href="converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
@@ -137,144 +138,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<div class="section" id="user-guide">
+  <div class="section" id="user-guide">
 <h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="user_api.html">Nengo Modelling API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html#objects">Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html#neuron-types">Neuron types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html#learning-rule-types">Learning rule types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html#synapses">Synapses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html#decoder-solvers">Decoder solvers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_api.html#simulator">Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontend_api.html">Nengo Modelling API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html#nengo-objects">Nengo Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html#neuron-types">Neuron types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html#learning-rule-types">Learning rule types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html#synapse-models">Synapse models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html#decoder-and-connection-weight-solvers">Decoder and connection weight solvers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="networks.html">Networks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/network_design.html">Designing networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/network_design_advanced.html">Additional tips and tricks for designing networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/config.html">The <code class="docutils literal"><span class="pre">config</span></code> system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#ensemble-array">Ensemble Array</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#action-selection">Action Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#working-memory">Working Memory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#product">Product</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#circular-convolution">Circular Convolution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#integrator">Integrator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="networks.html#oscillator">Oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/network_design.html">Network design example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/network_design_advanced.html">Advanced network design example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/config.html">Configuration system example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="backend_api.html">Reference simulator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="backend_api.html#the-build-process">The build process</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Release History</a><ul>
@@ -311,10 +194,10 @@ div.nboutput  > :nth-child(2).stderr {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="user_api.html" class="btn btn-neutral float-right" title="Nengo Modelling API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="frontend_api.html" class="btn btn-neutral float-right" title="Nengo Modelling API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples/rectified_linear.html" class="btn btn-neutral" title="Adding new objects to Nengo" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples/rectified_linear.html" class="btn btn-neutral" title="Rectified Linear Neuron example" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -324,7 +207,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

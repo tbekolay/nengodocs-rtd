@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/usage/config.ipynb
+****************************
+Configuration system example
+****************************
+
+.. notebook:: ../../examples/usage/config.ipynb

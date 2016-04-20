@@ -129,121 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.node</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.node</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -333,8 +219,8 @@ div.nboutput  > :nth-child(2).stderr {
                                   <span class="n">attr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../user_api.html#nengo.node.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">NengoObject</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Provides arbitrary data to Nengo objects.</span>
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../frontend_api.html#nengo.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">NengoObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Provide non-neural inputs to Nengo objects and process outputs.</span>
 
 <span class="sd">    Nodes can accept input, and perform arbitrary computations</span>
 <span class="sd">    for the purpose of controlling a Nengo simulation.</span>
@@ -345,38 +231,42 @@ div.nboutput  > :nth-child(2).stderr {
 
 <span class="sd">    Nodes can also be used to test models by providing specific input signals</span>
 <span class="sd">    to parts of the model, and can simplify the input/output interface of a</span>
-<span class="sd">    Network when used as a relay to/from its internal Ensembles</span>
-<span class="sd">    (see networks.EnsembleArray for an example).</span>
+<span class="sd">    `~nengo.Network` when used as a relay to/from its internal</span>
+<span class="sd">    ensembles (see `~nengo.networks.EnsembleArray` for an example).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    output : callable or array_like</span>
-<span class="sd">        Function that transforms the Node inputs into outputs, or</span>
-<span class="sd">        a constant output value.</span>
-<span class="sd">    size_in : int, optional</span>
+<span class="sd">    output : callable, array_like, or None</span>
+<span class="sd">        Function that transforms the Node inputs into outputs,</span>
+<span class="sd">        a constant output value, or None to transmit signals unchanged.</span>
+
+<span class="sd">    size_in : int, optional (Default: 0)</span>
 <span class="sd">        The number of dimensions of the input data parameter.</span>
-<span class="sd">    size_out : int, optional</span>
-<span class="sd">        The size of the output signal.</span>
-<span class="sd">        Optional; if not specified, it will be determined based on</span>
-<span class="sd">        the values of ``output`` and ``size_in``.</span>
-<span class="sd">    label : str, optional</span>
+<span class="sd">    size_out : int, optional (Default: None)</span>
+<span class="sd">        The size of the output signal. If None, it will be determined</span>
+<span class="sd">        based on the values of ``output`` and ``size_in``.</span>
+<span class="sd">    label : str, optional (Default: None)</span>
 <span class="sd">        A name for the node. Used for debugging and visualization.</span>
+<span class="sd">    seed : int, optional (Default: None)</span>
+<span class="sd">        The seed used for random number generation.</span>
+<span class="sd">        Note: no aspects of the node are random, so currently setting</span>
+<span class="sd">        this seed has no effect.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    label : str</span>
 <span class="sd">        The name of the node.</span>
-<span class="sd">    output : callable or array_like</span>
+<span class="sd">    output : callable, array_like, or None</span>
 <span class="sd">        The given output.</span>
 <span class="sd">    size_in : int</span>
-<span class="sd">        The number of dimensions of the input data parameter.</span>
+<span class="sd">        The number of dimensions for incoming connection.</span>
 <span class="sd">    size_out : int</span>
 <span class="sd">        The number of output dimensions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">OutputParam</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
     <span class="n">size_in</span> <span class="o">=</span> <span class="n">IntParam</span><span class="p">(</span><span class="s1">&#39;size_in&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">size_out</span> <span class="o">=</span> <span class="n">IntParam</span><span class="p">(</span><span class="s1">&#39;silze_out&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">size_out</span> <span class="o">=</span> <span class="n">IntParam</span><span class="p">(</span><span class="s1">&#39;size_out&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">size_in</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">size_out</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span>
                  <span class="n">label</span><span class="o">=</span><span class="n">Default</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">Default</span><span class="p">):</span>
@@ -397,7 +287,8 @@ div.nboutput  > :nth-child(2).stderr {
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">probeable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span></div>
+        <span class="sd">&quot;&quot;&quot;(tuple) Signals that can be probed on a node.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,)</span></div>
 </pre></div>
 
            </div>
@@ -410,7 +301,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

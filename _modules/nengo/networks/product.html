@@ -129,136 +129,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.networks.product</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.networks.product</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">nengo</span>
 <span class="kn">from</span> <span class="nn">nengo.networks.ensemblearray</span> <span class="kn">import</span> <span class="n">EnsembleArray</span>
 
 
-<div class="viewcode-block" id="Product"><a class="viewcode-back" href="../../../networks.html#nengo.networks.Product">[docs]</a><span class="k">def</span> <span class="nf">Product</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">input_magnitude</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">net</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Product"><a class="viewcode-back" href="../../../networks.html#nengo.networks.Product">[docs]</a><span class="k">def</span> <span class="nf">Product</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">input_magnitude</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">net</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Computes the element-wise product of two equally sized vectors.</span>
 
 <span class="sd">    The network used to calculate the product is described in</span>
-<span class="sd">    `Precise multiplications with the NEF</span>
-<span class="sd">    &lt;http://nbviewer.ipython.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network&gt;`_.</span>
+<span class="sd">    `Gosmann, 2015`_. A simpler version of this network can be found in the</span>
+<span class="sd">    `Multiplication example</span>
+<span class="sd">    &lt;http://pythonhosted.org/nengo/examples/multiplication.html&gt;`_.</span>
 
-<span class="sd">    A simpler version of this network can be found in the `Multiplication</span>
-<span class="sd">    example &lt;http://pythonhosted.org/nengo/examples/multiplication.html&gt;`_.</span>
+<span class="sd">    .. _Gosmann, 2015:</span>
+<span class="sd">       http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/</span>
+<span class="sd">       master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_neurons : int</span>
+<span class="sd">        Number of neurons per dimension in the vector.</span>
+
+<span class="sd">        .. note:: These neurons will be distributed evently across two</span>
+<span class="sd">                  ensembles. If an odd number of neurons is specified, the</span>
+<span class="sd">                  extra neuron will not be used.</span>
+<span class="sd">    dimensions : int</span>
+<span class="sd">        Number of dimensions in each of the vectors to be multiplied.</span>
+
+<span class="sd">    input_magnitude : float, optional (Default: 1.)</span>
+<span class="sd">        The expected magnitude of the vectors to be multiplied.</span>
+<span class="sd">        This value is used to determine the radius of the ensembles</span>
+<span class="sd">        computing the element-wise product.</span>
+<span class="sd">    net : Network, optional (Default: None)</span>
+<span class="sd">        A network in which the network components will be built.</span>
+<span class="sd">        This is typically used to provide a custom set of Nengo object</span>
+<span class="sd">        defaults through modifying ``net.config``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    net : Network</span>
+<span class="sd">        The newly built product network, or the provided ``net``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    net.A : Node</span>
+<span class="sd">        The first vector to be multiplied.</span>
+<span class="sd">    net.B : Node</span>
+<span class="sd">        The second vector to be multiplied.</span>
+<span class="sd">    net.output : Node</span>
+<span class="sd">        The resulting product.</span>
+<span class="sd">    net.sq1 : EnsembleArray</span>
+<span class="sd">        Represents the first squared term. See `Gosmann, 2015`_ for details.</span>
+<span class="sd">    net.sq2 : EnsembleArray</span>
+<span class="sd">        Represents the second squared term. See `Gosmann, 2015`_ for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">net</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">net</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Product&quot;</span><span class="p">)</span>
@@ -304,7 +230,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

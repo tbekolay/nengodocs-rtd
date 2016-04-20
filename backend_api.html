@@ -1,0 +1,2368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reference simulator &mdash; Nengo 2.1.0-dev docs</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
+        <link rel="up" title="User Guide" href="user_guide.html"/>
+        <link rel="next" title="Release History" href="changelog.html"/>
+        <link rel="prev" title="Configuration system example" href="examples/config.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nengo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="frontend_api.html">Nengo Modelling API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networks.html">Networks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Reference simulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-build-process">The build process</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#operators">Operators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-functions">Build functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="converting.html">Converting from Nengo 1.4 to Nengo 2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide.html">Developer Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nengo</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="user_guide.html">User Guide</a> &raquo;</li>
+      
+    <li>Reference simulator</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/backend_api.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="reference-simulator">
+<h1>Reference simulator<a class="headerlink" href="#reference-simulator" title="Permalink to this headline">¶</a></h1>
+<p>Nengo is designed so that models created with the
+<a class="reference internal" href="frontend_api.html"><span class="doc">Nengo modeling API</span></a>
+work on a variety of different simulators.
+Simulators have been created to take advantage of
+<a class="reference external" href="https://github.com/nengo/nengo_ocl/">GPUs</a> and
+<a class="reference external" href="https://github.com/project-rig/nengo_spinnaker">neuromorphic hardware</a>.</p>
+<p>Nengo comes with a simulator that is relatively fast,
+but works on general purpose computers.
+For most users, the only thing that you need to know
+about the reference simulator is how to
+create and close a <a class="reference internal" href="#nengo.Simulator" title="nengo.Simulator"><code class="xref py py-obj docutils literal"><span class="pre">nengo.Simulator</span></code></a> instance.</p>
+<dl class="class">
+<dt id="nengo.Simulator">
+<em class="property">class </em><code class="descclassname">nengo.</code><code class="descname">Simulator</code><span class="sig-paren">(</span><em>network</em>, <em>dt=0.001</em>, <em>seed=None</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference simulator for Nengo models.</p>
+<p>The simulator takes a <a class="reference internal" href="frontend_api.html#nengo.Network" title="nengo.Network"><code class="xref py py-obj docutils literal"><span class="pre">Network</span></code></a> and builds internal data structures to
+run the model defined by that network. Run the simulator with the
+<a class="reference internal" href="#nengo.Simulator.run" title="nengo.Simulator.run"><code class="xref py py-obj docutils literal"><span class="pre">run</span></code></a> method, and access probed data through the
+<code class="docutils literal"><span class="pre">data</span></code> attribute.</p>
+<p>Building and running the simulation may allocate resources like files
+and sockets. To properly free these resources, call the <a class="reference internal" href="#nengo.Simulator.close" title="nengo.Simulator.close"><code class="xref py py-obj docutils literal"><span class="pre">Simulator.close</span></code></a>
+method. Alternatively, <a class="reference internal" href="#nengo.Simulator.close" title="nengo.Simulator.close"><code class="xref py py-obj docutils literal"><span class="pre">Simulator.close</span></code></a> will automatically be called
+if you use the <code class="docutils literal"><span class="pre">with</span></code> syntax:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Simulator</span><span class="p">(</span><span class="n">my_network</span><span class="p">)</span> <span class="k">as</span> <span class="n">sim</span><span class="p">:</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">my_probe</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal"><span class="pre">data</span></code> attribute is still accessible even when a simulator
+has been closed. Running the simulator, however, will raise an error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>network</strong> : Network or None</p>
+<blockquote>
+<div><p>A network object to the built and then simulated. If None,
+then a <a class="reference internal" href="#nengo.builder.Model" title="nengo.builder.Model"><code class="xref py py-obj docutils literal"><span class="pre">Model</span></code></a> with the build model must be provided instead.</p>
+</div></blockquote>
+<p><strong>dt</strong> : float, optional (Default: 0.001)</p>
+<blockquote>
+<div><p>The length of a simulator timestep, in seconds.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote>
+<div><p>A seed for all stochastic operators used in this simulator.</p>
+</div></blockquote>
+<p><strong>model</strong> : Model, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A <a class="reference internal" href="#nengo.builder.Model" title="nengo.builder.Model"><code class="xref py py-obj docutils literal"><span class="pre">Model</span></code></a> that contains build artifacts to be simulated.
+Usually the simulator will build this model for you; however, if you
+want to build the network manually, or you want to inject build
+artifacts in the model before building the network, then you can
+pass in a <a class="reference internal" href="#nengo.builder.Model" title="nengo.builder.Model"><code class="xref py py-obj docutils literal"><span class="pre">Model</span></code></a> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>closed</td>
+<td>(bool) Whether the simulator has been closed. Once closed, it cannot be reopened.</td>
+</tr>
+<tr class="row-even"><td>data</td>
+<td>(ProbeDict) The <code class="xref py py-obj docutils literal"><span class="pre">ProbeDict</span></code> mapping from Nengo objects to the data associated with those objects. In particular, each <a class="reference internal" href="frontend_api.html#nengo.Probe" title="nengo.Probe"><code class="xref py py-obj docutils literal"><span class="pre">Probe</span></code></a> maps to the data probed while running the simulation.</td>
+</tr>
+<tr class="row-odd"><td>dg</td>
+<td>(dict) A dependency graph mapping from each <a class="reference internal" href="#nengo.builder.Operator" title="nengo.builder.Operator"><code class="xref py py-obj docutils literal"><span class="pre">Operator</span></code></a> to the operators that depend on that operator.</td>
+</tr>
+<tr class="row-even"><td>model</td>
+<td>(Model) The <a class="reference internal" href="#nengo.builder.Model" title="nengo.builder.Model"><code class="xref py py-obj docutils literal"><span class="pre">Model</span></code></a> containing the signals and operators necessary to simulate the network.</td>
+</tr>
+<tr class="row-odd"><td>signals</td>
+<td>(SignalDict) The <code class="xref py py-obj docutils literal"><span class="pre">SignalDict</span></code> mapping from <a class="reference internal" href="#nengo.builder.Signal" title="nengo.builder.Signal"><code class="xref py py-obj docutils literal"><span class="pre">Signal</span></code></a> instances to NumPy arrays.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.Simulator.dt">
+<code class="descname">dt</code><a class="headerlink" href="#nengo.Simulator.dt" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float) The time step of the simulator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Simulator.n_steps">
+<code class="descname">n_steps</code><a class="headerlink" href="#nengo.Simulator.n_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) The current time step of the simulator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.Simulator.time">
+<code class="descname">time</code><a class="headerlink" href="#nengo.Simulator.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float) The current time of the simulator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Simulator.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the simulator.</p>
+<p>Any call to <a class="reference internal" href="#nengo.Simulator.run" title="nengo.Simulator.run"><code class="xref py py-obj docutils literal"><span class="pre">Simulator.run</span></code></a>, <a class="reference internal" href="#nengo.Simulator.run_steps" title="nengo.Simulator.run_steps"><code class="xref py py-obj docutils literal"><span class="pre">Simulator.run_steps</span></code></a>,
+<a class="reference internal" href="#nengo.Simulator.step" title="nengo.Simulator.step"><code class="xref py py-obj docutils literal"><span class="pre">Simulator.step</span></code></a>, and <a class="reference internal" href="#nengo.Simulator.reset" title="nengo.Simulator.reset"><code class="xref py py-obj docutils literal"><span class="pre">Simulator.reset</span></code></a> on a closed simulator raises
+a <code class="xref py py-obj docutils literal"><span class="pre">SimulatorClosed</span></code> exception.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Simulator.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the simulator state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>seed</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>A seed for all stochastic operators used in the simulator.
+This will change the random sequences generated for noise
+or inputs (e.g. from processes), but not the built objects
+(e.g. ensembles, connections).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Simulator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>time_in_seconds</em>, <em>progress_bar=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate for the given length of time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>time_in_seconds</strong> : float</p>
+<blockquote>
+<div><p>Amount of time to run the simulation for.</p>
+</div></blockquote>
+<p><strong>progress_bar</strong> : bool or <code class="xref py py-obj docutils literal"><span class="pre">ProgressBar</span></code> or <code class="xref py py-obj docutils literal"><span class="pre">ProgressUpdater</span></code>, optional                        (Default: True)</p>
+<blockquote class="last">
+<div><p>Progress bar for displaying the progress of the simulation run.</p>
+<p>If True, the default progress bar will be used.
+If False, the progress bar will be disabled.
+For more control over the progress bar, pass in a <code class="xref py py-obj docutils literal"><span class="pre">ProgressBar</span></code>
+or <code class="xref py py-obj docutils literal"><span class="pre">ProgressUpdater</span></code> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Simulator.run_steps">
+<code class="descname">run_steps</code><span class="sig-paren">(</span><em>steps</em>, <em>progress_bar=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator.run_steps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator.run_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate for the given number of <code class="docutils literal"><span class="pre">dt</span></code> steps.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>steps</strong> : int</p>
+<blockquote>
+<div><p>Number of steps to run the simulation for.</p>
+</div></blockquote>
+<p><strong>progress_bar</strong> : bool or <code class="xref py py-obj docutils literal"><span class="pre">ProgressBar</span></code> or <code class="xref py py-obj docutils literal"><span class="pre">ProgressUpdater</span></code>, optional                        (Default: True)</p>
+<blockquote class="last">
+<div><p>Progress bar for displaying the progress of the simulation run.</p>
+<p>If True, the default progress bar will be used.
+If False, the progress bar will be disabled.
+For more control over the progress bar, pass in a <code class="xref py py-obj docutils literal"><span class="pre">ProgressBar</span></code>
+or <code class="xref py py-obj docutils literal"><span class="pre">ProgressUpdater</span></code> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Simulator.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the simulator by 1 step (<code class="docutils literal"><span class="pre">dt</span></code> seconds).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.Simulator.trange">
+<code class="descname">trange</code><span class="sig-paren">(</span><em>dt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/simulator.html#Simulator.trange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.Simulator.trange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a vector of times matching probed data.</p>
+<p>Note that the range does not start at 0 as one might expect, but at
+the first timestep (i.e., <code class="docutils literal"><span class="pre">dt</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dt</strong> : float, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>The sampling period of the probe to create a range for.
+If None, the simulator&#8217;s <code class="docutils literal"><span class="pre">dt</span></code> will be used.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="the-build-process">
+<h2>The build process<a class="headerlink" href="#the-build-process" title="Permalink to this headline">¶</a></h2>
+<p>The build process translates a Nengo model
+to a set of data buffers (<a class="reference internal" href="#nengo.builder.Signal" title="nengo.builder.Signal"><code class="xref py py-obj docutils literal"><span class="pre">Signal</span></code></a> instances)
+and computational operations (<a class="reference internal" href="#nengo.builder.Operator" title="nengo.builder.Operator"><code class="xref py py-obj docutils literal"><span class="pre">Operator</span></code></a> instances)
+which implement the Nengo model
+defined with the <a class="reference internal" href="frontend_api.html"><span class="doc">modeling API</span></a>.
+The build process is central to
+how the reference simulator works,
+and details how Nengo can be extended to include
+new neuron types, learning rules, and other components.</p>
+<p><a class="reference external" href="http://compneuro.uwaterloo.ca/publications/bekolay2014.html">Bekolay et al., 2014</a>
+provides a high-level description
+and detailed picture of the build process.
+For lower-level details
+and reference documentation, read on.</p>
+<dl class="class">
+<dt id="nengo.builder.Signal">
+<em class="property">class </em><code class="descclassname">nengo.builder.</code><code class="descname">Signal</code><span class="sig-paren">(</span><em>initial_value</em>, <em>name=None</em>, <em>base=None</em>, <em>readonly=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Signal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents data or views onto data within a Nengo simulation.</p>
+<p>Signals are tightly coupled to NumPy arrays, which is how live data is
+represented in a Nengo simulation. Signals provide a view onto the
+important metadata of the live NumPy array, and maintain the original
+value of the array in order to reset the simulation to the initial state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>initial_value</strong> : array_like</p>
+<blockquote>
+<div><p>The initial value of the signal. Much of the metadata tracked by the
+Signal is based on this array as well (e.g., dtype).</p>
+</div></blockquote>
+<p><strong>name</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>Name of the signal. Primarily used for debugging.
+If None, the memory location of the Signal will be used.</p>
+</div></blockquote>
+<p><strong>base</strong> : Signal, optional (Default: None)</p>
+<blockquote>
+<div><p>The base signal, if this signal is a view on another signal.
+Linking the two signals with the <code class="docutils literal"><span class="pre">base</span></code> argument is necessary
+to ensure that their live data is also linked.</p>
+</div></blockquote>
+<p><strong>readonly</strong> : bool, optional (Default: False)</p>
+<blockquote class="last">
+<div><p>Whether this signal and its related live data should be marked as
+readonly. Writing to these arrays will raise an exception.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.builder.Signal.base">
+<code class="descname">base</code><a class="headerlink" href="#nengo.builder.Signal.base" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Signal or None) The base signal, if this signal is a view.</p>
+<p>Linking the two signals with the <code class="docutils literal"><span class="pre">base</span></code> argument is necessary
+to ensure that their live data is also linked.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#nengo.builder.Signal.dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>(numpy.dtype) Data type of the signal (e.g., float64).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.elemoffset">
+<code class="descname">elemoffset</code><a class="headerlink" href="#nengo.builder.Signal.elemoffset" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Offset of data from base in elements.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.elemstrides">
+<code class="descname">elemstrides</code><a class="headerlink" href="#nengo.builder.Signal.elemstrides" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Strides of data in elements.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.initial_value">
+<code class="descname">initial_value</code><a class="headerlink" href="#nengo.builder.Signal.initial_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>(numpy.ndarray) Initial value of the signal.</p>
+<p>Much of the metadata tracked by the Signal is based on this array
+as well (e.g., dtype).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.is_view">
+<code class="descname">is_view</code><a class="headerlink" href="#nengo.builder.Signal.is_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>(bool) True if this Signal is a view on another Signal.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.itemsize">
+<code class="descname">itemsize</code><a class="headerlink" href="#nengo.builder.Signal.itemsize" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Size of an array element in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.name">
+<code class="descname">name</code><a class="headerlink" href="#nengo.builder.Signal.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str) Name of the signal. Primarily used for debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.ndim">
+<code class="descname">ndim</code><a class="headerlink" href="#nengo.builder.Signal.ndim" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Number of array dimensions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.offset">
+<code class="descname">offset</code><a class="headerlink" href="#nengo.builder.Signal.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Offset of data from base in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.readonly">
+<code class="descname">readonly</code><a class="headerlink" href="#nengo.builder.Signal.readonly" title="Permalink to this definition">¶</a></dt>
+<dd><p>(bool) Whether associated live data can be changed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.shape">
+<code class="descname">shape</code><a class="headerlink" href="#nengo.builder.Signal.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>(tuple) Tuple of array dimensions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.size">
+<code class="descname">size</code><a class="headerlink" href="#nengo.builder.Signal.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) Total number of elements.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Signal.strides">
+<code class="descname">strides</code><a class="headerlink" href="#nengo.builder.Signal.strides" title="Permalink to this definition">¶</a></dt>
+<dd><p>(tuple) Strides of data in bytes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Signal.column">
+<code class="descname">column</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Signal.column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a view on this signal with column vector shape.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Signal.may_share_memory">
+<code class="descname">may_share_memory</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.may_share_memory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Signal.may_share_memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if two signals might overlap in memory.</p>
+<p>This comparison is not exact and errs on the side of false positives.
+See <code class="xref py py-obj docutils literal"><span class="pre">numpy.may_share_memory</span></code> for more details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : Signal</p>
+<blockquote class="last">
+<div><p>The other signal we are investigating.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Signal.reshape">
+<code class="descname">reshape</code><span class="sig-paren">(</span><em>*shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.reshape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Signal.reshape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a view on this signal with a different shape.</p>
+<p>Note that <code class="docutils literal"><span class="pre">reshape</span></code> cannot change the overall size of the signal.
+See <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html#numpy.reshape" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.reshape</span></code></a> for more details.</p>
+<p>Any number of integers can be passed to this method,
+describing the desired shape of the returned signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Signal.row">
+<code class="descname">row</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/signal.html#Signal.row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Signal.row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a view on this signal with row vector shape.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.Operator">
+<em class="property">class </em><code class="descclassname">nengo.builder.</code><code class="descname">Operator</code><span class="sig-paren">(</span><em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for operator instances understood by Nengo.</p>
+<p>During one simulator timestep, a <a class="reference internal" href="#nengo.builder.Signal" title="nengo.builder.Signal"><code class="xref py py-obj docutils literal"><span class="pre">Signal</span></code></a> can experience</p>
+<ol class="arabic simple">
+<li>at most one set operator (optional)</li>
+<li>any number of increments</li>
+<li>any number of reads</li>
+<li>at most one update</li>
+</ol>
+<p>in this specific order.</p>
+<p>A <code class="docutils literal"><span class="pre">set</span></code> defines the state of the signal at time <span class="math">\(t\)</span>, the start
+of the simulation timestep. That state can then be modified by
+<code class="docutils literal"><span class="pre">increment</span></code> operations. A signal&#8217;s state will only be <code class="docutils literal"><span class="pre">read</span></code> after
+all increments are complete. The state is then finalized by an <code class="docutils literal"><span class="pre">update</span></code>,
+which denotes the state that the signal should be at time <span class="math">\(t + dt\)</span>.</p>
+<p>Each operator must keep track of the signals that it manipulates,
+and which of these four types of manipulations is done to each signal
+so that the simulator can order all of the operators properly.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are intentionally no default values for the
+<a class="reference internal" href="#nengo.builder.Operator.reads" title="nengo.builder.Operator.reads"><code class="xref py py-obj docutils literal"><span class="pre">reads</span></code></a>, <a class="reference internal" href="#nengo.builder.Operator.sets" title="nengo.builder.Operator.sets"><code class="xref py py-obj docutils literal"><span class="pre">sets</span></code></a>, <a class="reference internal" href="#nengo.builder.Operator.incs" title="nengo.builder.Operator.incs"><code class="xref py py-obj docutils literal"><span class="pre">incs</span></code></a>,
+and <a class="reference internal" href="#nengo.builder.Operator.updates" title="nengo.builder.Operator.updates"><code class="xref py py-obj docutils literal"><span class="pre">updates</span></code></a> properties to ensure that subclasses
+explicitly set these values.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nengo.builder.Operator.incs">
+<code class="descname">incs</code><a class="headerlink" href="#nengo.builder.Operator.incs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals incremented by this operator.</p>
+<p>Increments will be applied after sets (if it is set), and before reads.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Operator.reads">
+<code class="descname">reads</code><a class="headerlink" href="#nengo.builder.Operator.reads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals that are read and not modified by this operator.</p>
+<p>Reads occur after increments, and before updates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Operator.sets">
+<code class="descname">sets</code><a class="headerlink" href="#nengo.builder.Operator.sets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals set by this operator.</p>
+<p>Sets occur first, before increments. A signal that is set here cannot
+be set or updated by any other operator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.builder.Operator.updates">
+<code class="descname">updates</code><a class="headerlink" href="#nengo.builder.Operator.updates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals updated by this operator.</p>
+<p>Updates are the last operation to occur to a signal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Operator.init_signals">
+<code class="descname">init_signals</code><span class="sig-paren">(</span><em>signals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator.init_signals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Operator.init_signals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the signals associated with this operator.</p>
+<p>The signals will be initialized into <code class="docutils literal"><span class="pre">signals</span></code>.
+Operator subclasses that use extra buffers should create them here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signals</strong> : SignalDict</p>
+<blockquote class="last">
+<div><p>A mapping from signals to their associated live ndarrays.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Operator.make_step">
+<code class="descname">make_step</code><span class="sig-paren">(</span><em>signals</em>, <em>dt</em>, <em>rng</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Operator.make_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Operator.make_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a callable that performs the desired computation.</p>
+<p>This method must be implemented by subclasses. To fully understand what
+an operator does, look at its implementation of <code class="docutils literal"><span class="pre">make_step</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signals</strong> : SignalDict</p>
+<blockquote>
+<div><p>A mapping from signals to their associated live ndarrays.</p>
+</div></blockquote>
+<p><strong>dt</strong> : float</p>
+<blockquote>
+<div><p>Length of each simulation timestep, in seconds.</p>
+</div></blockquote>
+<p><strong>rng</strong> : <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.random.RandomState</span></code></a></p>
+<blockquote class="last">
+<div><p>Random number generator for stochastic operators.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="operators">
+<h3>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="nengo.builder.operator.Reset">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">Reset</code><span class="sig-paren">(</span><em>dst</em>, <em>value=0</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign a constant value to a Signal.</p>
+<p>Implements <code class="docutils literal"><span class="pre">dst[...]</span> <span class="pre">=</span> <span class="pre">value</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dst</strong> : Signal</p>
+<blockquote>
+<div><p>The Signal to reset.</p>
+</div></blockquote>
+<p><strong>value</strong> : float, optional (Default: 0)</p>
+<blockquote>
+<div><p>The constant value to which <code class="docutils literal"><span class="pre">dst</span></code> is set.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[dst]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>dst</td>
+<td>(Signal) The Signal to reset.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-odd"><td>value</td>
+<td>(float) The constant value to which <code class="docutils literal"><span class="pre">dst</span></code> is set.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.Copy">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">Copy</code><span class="sig-paren">(</span><em>dst</em>, <em>src</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#Copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.Copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign the value of one signal to another.</p>
+<p>Implements <code class="docutils literal"><span class="pre">dst[...]</span> <span class="pre">=</span> <span class="pre">src</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dst</strong> : Signal</p>
+<blockquote>
+<div><p>The signal that will be assigned to (set).</p>
+</div></blockquote>
+<p><strong>src</strong> : Signal</p>
+<blockquote>
+<div><p>The signal that will be copied (read).</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[dst]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[src]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>dst</td>
+<td>(Signal) The signal that will be assigned to (set).</td>
+</tr>
+<tr class="row-even"><td>src</td>
+<td>(Signal) The signal that will be copied (read).</td>
+</tr>
+<tr class="row-odd"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.SlicedCopy">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">SlicedCopy</code><span class="sig-paren">(</span><em>dst</em>, <em>src</em>, <em>dst_slice=Ellipsis</em>, <em>src_slice=Ellipsis</em>, <em>inc=False</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#SlicedCopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.SlicedCopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign the value of a slice of one signal to another slice.</p>
+<p>Implements <code class="docutils literal"><span class="pre">dst[dst_slice]</span> <span class="pre">=</span> <span class="pre">src[src_slice]</span></code>.</p>
+<p>This operator can also implement <code class="docutils literal"><span class="pre">dst[dst_slice]</span> <span class="pre">+=</span> <span class="pre">src[src_slice]</span></code>
+using the parameter <code class="docutils literal"><span class="pre">inc</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dst</strong> : Signal</p>
+<blockquote>
+<div><p>The signal that will be assigned to (set).</p>
+</div></blockquote>
+<p><strong>src</strong> : Signal</p>
+<blockquote>
+<div><p>The signal that will be copied (read).</p>
+</div></blockquote>
+<p><strong>dst_slice</strong> : slice or Ellipsis, optional (Default: Ellipsis)</p>
+<blockquote>
+<div><p>Slice associated with <code class="docutils literal"><span class="pre">dst</span></code>.</p>
+</div></blockquote>
+<p><strong>src_slice</strong> : slice or Ellipsis, optional (Default: Ellipsis)</p>
+<blockquote>
+<div><p>Slice associated with <code class="docutils literal"><span class="pre">src</span></code></p>
+</div></blockquote>
+<p><strong>inc</strong> : bool, optional (Default: False)</p>
+<blockquote>
+<div><p>Whether this should be an increment rather than a copy.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span> <span class="pre">if</span> <span class="pre">inc</span> <span class="pre">else</span> <span class="pre">[dst]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[dst]</span> <span class="pre">if</span> <span class="pre">inc</span> <span class="pre">else</span> <span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[src]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>dst</td>
+<td>(Signal) The signal that will be assigned to (set).</td>
+</tr>
+<tr class="row-even"><td>dst_slice</td>
+<td>(list or Ellipsis) Indices associated with <code class="docutils literal"><span class="pre">dst</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>src</td>
+<td>(Signal) The signal that will be copied (read).</td>
+</tr>
+<tr class="row-even"><td>src_slice</td>
+<td>(list or Ellipsis) Indices associated with <code class="docutils literal"><span class="pre">src</span></code></td>
+</tr>
+<tr class="row-odd"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.ElementwiseInc">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">ElementwiseInc</code><span class="sig-paren">(</span><em>A</em>, <em>X</em>, <em>Y</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#ElementwiseInc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.ElementwiseInc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment signal <code class="docutils literal"><span class="pre">Y</span></code> by <code class="docutils literal"><span class="pre">A</span> <span class="pre">*</span> <span class="pre">X</span></code> (with broadcasting).</p>
+<p>Implements <code class="docutils literal"><span class="pre">Y[...]</span> <span class="pre">+=</span> <span class="pre">A</span> <span class="pre">*</span> <span class="pre">X</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : Signal</p>
+<blockquote>
+<div><p>The first signal to be multiplied.</p>
+</div></blockquote>
+<p><strong>X</strong> : Signal</p>
+<blockquote>
+<div><p>The second signal to be multiplied.</p>
+</div></blockquote>
+<p><strong>Y</strong> : Signal</p>
+<blockquote>
+<div><p>The signal to be incremented.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[Y]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[A,</span> <span class="pre">X]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>A</td>
+<td>(Signal) The first signal to be multiplied.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-odd"><td>X</td>
+<td>(Signal) The second signal to be multiplied.</td>
+</tr>
+<tr class="row-even"><td>Y</td>
+<td>(Signal) The signal to be incremented.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.DotInc">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">DotInc</code><span class="sig-paren">(</span><em>A</em>, <em>X</em>, <em>Y</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#DotInc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.DotInc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment signal <code class="docutils literal"><span class="pre">Y</span></code> by <code class="docutils literal"><span class="pre">dot(A,</span> <span class="pre">X)</span></code>.</p>
+<p>Implements <code class="docutils literal"><span class="pre">Y[...]</span> <span class="pre">+=</span> <span class="pre">np.dot(A,</span> <span class="pre">X)</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently, this only supports matrix-vector multiplies
+for compatibility with Nengo OCL.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : Signal</p>
+<blockquote>
+<div><p>The first signal to be multiplied.</p>
+</div></blockquote>
+<p><strong>X</strong> : Signal</p>
+<blockquote>
+<div><p>The second signal to be multiplied.</p>
+</div></blockquote>
+<p><strong>Y</strong> : Signal</p>
+<blockquote>
+<div><p>The signal to be incremented.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[Y]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[A,</span> <span class="pre">X]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>A</td>
+<td>(Signal) The first signal to be multiplied.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-odd"><td>X</td>
+<td>(Signal) The second signal to be multiplied.</td>
+</tr>
+<tr class="row-even"><td>Y</td>
+<td>(Signal) The signal to be incremented.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.TimeUpdate">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">TimeUpdate</code><span class="sig-paren">(</span><em>step</em>, <em>time</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#TimeUpdate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.TimeUpdate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the simulation step and time.</p>
+<p>Implements <code class="docutils literal"><span class="pre">step[...]</span> <span class="pre">+=</span> <span class="pre">1</span></code> and <code class="docutils literal"><span class="pre">time[...]</span> <span class="pre">=</span> <span class="pre">step</span> <span class="pre">*</span> <span class="pre">dt</span></code>.</p>
+<p>A separate operator is used (rather than a combination of <a class="reference internal" href="#nengo.builder.operator.Copy" title="nengo.builder.operator.Copy"><code class="xref py py-obj docutils literal"><span class="pre">Copy</span></code></a> and
+<a class="reference internal" href="#nengo.builder.operator.DotInc" title="nengo.builder.operator.DotInc"><code class="xref py py-obj docutils literal"><span class="pre">DotInc</span></code></a>) so that other backends can manage these important parts of the
+simulation state separately from other signals.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>step</strong> : Signal</p>
+<blockquote>
+<div><p>The signal associated with the integer step counter.</p>
+</div></blockquote>
+<p><strong>time</strong> : Signal</p>
+<blockquote>
+<div><p>The signal associated with the time (a float, in seconds).</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[step,</span> <span class="pre">time]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>step</td>
+<td>(Signal) The signal associated with the integer step counter.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-odd"><td>time</td>
+<td>(Signal) The signal associated with the time (a float, in seconds).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.PreserveValue">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">PreserveValue</code><span class="sig-paren">(</span><em>dst</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#PreserveValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.PreserveValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marks a signal as <code class="docutils literal"><span class="pre">set</span></code> for the graph checker.</p>
+<p>This operator does no computation. It simply marks a signal as <code class="docutils literal"><span class="pre">set</span></code>,
+allowing us to apply other ops to signals that we want to preserve their
+value across multiple time steps. It is used primarily for learning rules.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dst</strong> : Signal</p>
+<blockquote>
+<div><p>The signal whose value we want to preserve.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[dst]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>dst</td>
+<td>(Signal) The signal whose value we want to preserve.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.operator.SimPyFunc">
+<em class="property">class </em><code class="descclassname">nengo.builder.operator.</code><code class="descname">SimPyFunc</code><span class="sig-paren">(</span><em>output</em>, <em>fn</em>, <em>t</em>, <em>x</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/operator.html#SimPyFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.operator.SimPyFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a signal to a Python function with optional arguments.</p>
+<p>Implements <code class="docutils literal"><span class="pre">output[...]</span> <span class="pre">=</span> <span class="pre">fn(*args)</span></code> where <code class="docutils literal"><span class="pre">args</span></code> can
+include the current simulation time <code class="docutils literal"><span class="pre">t</span></code> and an input signal <code class="docutils literal"><span class="pre">x</span></code>.</p>
+<p>Note that <code class="docutils literal"><span class="pre">output</span></code> may also be None, in which case the function is
+called but no output is captured.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output</strong> : Signal or None</p>
+<blockquote>
+<div><p>The signal to be set. If None, the function is still called.</p>
+</div></blockquote>
+<p><strong>fn</strong> : callable</p>
+<blockquote>
+<div><p>The function to call.</p>
+</div></blockquote>
+<p><strong>t</strong> : Signal or None</p>
+<blockquote>
+<div><p>The signal associated with the time (a float, in seconds).
+If None, the time will not be passed to <code class="docutils literal"><span class="pre">fn</span></code>.</p>
+</div></blockquote>
+<p><strong>x</strong> : Signal or None</p>
+<blockquote>
+<div><p>An input signal to pass to <code class="docutils literal"><span class="pre">fn</span></code>.
+If None, an input signal will not be passed to <code class="docutils literal"><span class="pre">fn</span></code>.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span> <span class="pre">if</span> <span class="pre">output</span> <span class="pre">is</span> <span class="pre">None</span> <span class="pre">else</span> <span class="pre">[output]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">([]</span> <span class="pre">if</span> <span class="pre">t</span> <span class="pre">is</span> <span class="pre">None</span> <span class="pre">else</span> <span class="pre">[t])</span> <span class="pre">+</span> <span class="pre">([]</span> <span class="pre">if</span> <span class="pre">x</span> <span class="pre">is</span> <span class="pre">None</span> <span class="pre">else</span> <span class="pre">[x])</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>fn</td>
+<td>(callable) The function to call.</td>
+</tr>
+<tr class="row-even"><td>output</td>
+<td>(Signal or None) The signal to be set. If None, the function is still called.</td>
+</tr>
+<tr class="row-odd"><td>t</td>
+<td>(Signal or None) The signal associated with the time (a float, in seconds). If None, the time will not be passed to <code class="docutils literal"><span class="pre">fn</span></code>.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td>(Signal or None) An input signal to pass to <code class="docutils literal"><span class="pre">fn</span></code>. If None, an input signal will not be passed to <code class="docutils literal"><span class="pre">fn</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.neurons.SimNeurons">
+<em class="property">class </em><code class="descclassname">nengo.builder.neurons.</code><code class="descname">SimNeurons</code><span class="sig-paren">(</span><em>neurons</em>, <em>J</em>, <em>output</em>, <em>states=None</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#SimNeurons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.SimNeurons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a neuron model output for the given input current.</p>
+<p>Implements <code class="docutils literal"><span class="pre">neurons.step_math(dt,</span> <span class="pre">J,</span> <span class="pre">output,</span> <span class="pre">*states)</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>neurons</strong> : NeuronType</p>
+<blockquote>
+<div><p>The <a class="reference internal" href="frontend_api.html#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a>, which defines a <code class="docutils literal"><span class="pre">step_math</span></code> function.</p>
+</div></blockquote>
+<p><strong>J</strong> : Signal</p>
+<blockquote>
+<div><p>The input current.</p>
+</div></blockquote>
+<p><strong>output</strong> : Signal</p>
+<blockquote>
+<div><p>The neuron output signal that will be set.</p>
+</div></blockquote>
+<p><strong>states</strong> : list, optional (Default: None)</p>
+<blockquote>
+<div><p>A list of additional neuron state signals set by <code class="docutils literal"><span class="pre">step_math</span></code>.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[output]</span> <span class="pre">+</span> <span class="pre">states</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[J]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>J</td>
+<td>(Signal) The input current.</td>
+</tr>
+<tr class="row-even"><td>neurons</td>
+<td>(NeuronType) The <a class="reference internal" href="frontend_api.html#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a>, which defines a <code class="docutils literal"><span class="pre">step_math</span></code> function.</td>
+</tr>
+<tr class="row-odd"><td>output</td>
+<td>(Signal) The neuron output signal that will be set.</td>
+</tr>
+<tr class="row-even"><td>states</td>
+<td>(list) A list of additional neuron state signals set by <code class="docutils literal"><span class="pre">step_math</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.learning_rules.SimBCM">
+<em class="property">class </em><code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">SimBCM</code><span class="sig-paren">(</span><em>pre_filtered</em>, <em>post_filtered</em>, <em>theta</em>, <em>delta</em>, <em>learning_rate</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#SimBCM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.SimBCM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate connection weight change according to the BCM rule.</p>
+<p>Implements the Bienenstock-Cooper-Munroe learning rule of the form</p>
+<div class="math">
+\[\Delta \omega_{ij} = \kappa a_j (a_j - \theta_j) a_i\]</div>
+<p>where</p>
+<ul class="simple">
+<li><span class="math">\(\kappa\)</span> is a scalar learning rate,</li>
+<li><span class="math">\(a_j\)</span> is the activity of a postsynaptic neuron,</li>
+<li><span class="math">\(\theta_j\)</span> is an estimate of the average <span class="math">\(a_j\)</span>, and</li>
+<li><span class="math">\(a_i\)</span> is the activity of a presynaptic neuron.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pre_filtered</strong> : Signal</p>
+<blockquote>
+<div><p>The presynaptic activity, <span class="math">\(a_i\)</span>.</p>
+</div></blockquote>
+<p><strong>post_filtered</strong> : Signal</p>
+<blockquote>
+<div><p>The postsynaptic activity, <span class="math">\(a_j\)</span>.</p>
+</div></blockquote>
+<p><strong>theta</strong> : Signal</p>
+<blockquote>
+<div><p>The modification threshold, <span class="math">\(\theta_j\)</span>.</p>
+</div></blockquote>
+<p><strong>delta</strong> : Signal</p>
+<blockquote>
+<div><p>The synaptic weight change to be applied, <span class="math">\(\Delta \omega_{ij}\)</span>.</p>
+</div></blockquote>
+<p><strong>learning_rate</strong> : float</p>
+<blockquote>
+<div><p>The scalar learning rate, <span class="math">\(\kappa\)</span>.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[pre_filtered,</span> <span class="pre">post_filtered,</span> <span class="pre">theta]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[delta]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>delta</td>
+<td>(Signal) The synaptic weight change to be applied, <span class="math">\(\Delta \omega_{ij}\)</span>.</td>
+</tr>
+<tr class="row-even"><td>learning_rate</td>
+<td>(float) The scalar learning rate, <span class="math">\(\kappa\)</span>.</td>
+</tr>
+<tr class="row-odd"><td>post_filtered</td>
+<td>(Signal) The postsynaptic activity, <span class="math">\(a_j\)</span>.</td>
+</tr>
+<tr class="row-even"><td>pre_filtered</td>
+<td>(Signal) The presynaptic activity, <span class="math">\(a_i\)</span>.</td>
+</tr>
+<tr class="row-odd"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-even"><td>theta</td>
+<td>(Signal) The modification threshold, <span class="math">\(\theta_j\)</span>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.learning_rules.SimOja">
+<em class="property">class </em><code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">SimOja</code><span class="sig-paren">(</span><em>pre_filtered</em>, <em>post_filtered</em>, <em>weights</em>, <em>delta</em>, <em>learning_rate</em>, <em>beta</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#SimOja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.SimOja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate connection weight change according to the Oja rule.</p>
+<p>Implements the Oja learning rule of the form</p>
+<div class="math">
+\[\Delta \omega_{ij} = \kappa (a_i a_j - \beta a_j^2 \omega_{ij})\]</div>
+<p>where</p>
+<ul class="simple">
+<li><span class="math">\(\kappa\)</span> is a scalar learning rate,</li>
+<li><span class="math">\(a_i\)</span> is the activity of a presynaptic neuron,</li>
+<li><span class="math">\(a_j\)</span> is the activity of a postsynaptic neuron,</li>
+<li><span class="math">\(\beta\)</span> is a scalar forgetting rate, and</li>
+<li><span class="math">\(\omega_{ij}\)</span> is the connection weight between the two neurons.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pre_filtered</strong> : Signal</p>
+<blockquote>
+<div><p>The presynaptic activity, <span class="math">\(a_i\)</span>.</p>
+</div></blockquote>
+<p><strong>post_filtered</strong> : Signal</p>
+<blockquote>
+<div><p>The postsynaptic activity, <span class="math">\(a_j\)</span>.</p>
+</div></blockquote>
+<p><strong>weights</strong> : Signal</p>
+<blockquote>
+<div><p>The connection weight matrix, <span class="math">\(\omega_{ij}\)</span>.</p>
+</div></blockquote>
+<p><strong>delta</strong> : Signal</p>
+<blockquote>
+<div><p>The synaptic weight change to be applied, <span class="math">\(\Delta \omega_{ij}\)</span>.</p>
+</div></blockquote>
+<p><strong>learning_rate</strong> : float</p>
+<blockquote>
+<div><p>The scalar learning rate, <span class="math">\(\kappa\)</span>.</p>
+</div></blockquote>
+<p><strong>beta</strong> : float</p>
+<blockquote>
+<div><p>The scalar forgetting rate, <span class="math">\(\beta\)</span>.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[pre_filtered,</span> <span class="pre">post_filtered,</span> <span class="pre">weights]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[delta]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>beta</td>
+<td>(float) The scalar forgetting rate, <span class="math">\(\beta\)</span>.</td>
+</tr>
+<tr class="row-even"><td>delta</td>
+<td>(Signal) The synaptic weight change to be applied, <span class="math">\(\Delta \omega_{ij}\)</span>.</td>
+</tr>
+<tr class="row-odd"><td>learning_rate</td>
+<td>(float) The scalar learning rate, <span class="math">\(\kappa\)</span>.</td>
+</tr>
+<tr class="row-even"><td>post_filtered</td>
+<td>(Signal) The postsynaptic activity, <span class="math">\(a_j\)</span>.</td>
+</tr>
+<tr class="row-odd"><td>pre_filtered</td>
+<td>(Signal) The presynaptic activity, <span class="math">\(a_i\)</span>.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+<tr class="row-odd"><td>weights</td>
+<td>(Signal) The connection weight matrix, <span class="math">\(\omega_{ij}\)</span>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.learning_rules.SimVoja">
+<em class="property">class </em><code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">SimVoja</code><span class="sig-paren">(</span><em>pre_decoded</em>, <em>post_filtered</em>, <em>scaled_encoders</em>, <em>delta</em>, <em>scale</em>, <em>learning_signal</em>, <em>learning_rate</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#SimVoja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.SimVoja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulates a simplified version of Oja&#8217;s rule in the vector space.</p>
+<p>See <a class="reference internal" href="examples/learn_associations.html"><span class="doc">Associative Memory learning example</span></a> for details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pre_decoded</strong> : Signal</p>
+<blockquote>
+<div><p>Decoded activity from presynaptic ensemble, <span class="math">\(a_i\)</span>.</p>
+</div></blockquote>
+<p><strong>post_filtered</strong> : Signal</p>
+<blockquote>
+<div><p>Filtered postsynaptic activity signal.</p>
+</div></blockquote>
+<p><strong>scaled_encoders</strong> : Signal</p>
+<blockquote>
+<div><p>2d array of encoders, multiplied by <code class="docutils literal"><span class="pre">scale</span></code>.</p>
+</div></blockquote>
+<p><strong>delta</strong> : Signal</p>
+<blockquote>
+<div><p>The synaptic weight change to be applied, <span class="math">\(\Delta \omega_{ij}\)</span>.</p>
+</div></blockquote>
+<p><strong>scale</strong> : ndarray</p>
+<blockquote>
+<div><p>The length of each encoder.</p>
+</div></blockquote>
+<p><strong>learning_signal</strong> : Signal</p>
+<blockquote>
+<div><p>Scalar signal to be multiplied by <code class="docutils literal"><span class="pre">learning_rate</span></code>. Expected to range
+between 0 and 1 to turn learning off or on, respectively.</p>
+</div></blockquote>
+<p><strong>learning_rate</strong> : float</p>
+<blockquote>
+<div><p>The scalar learning rate.</p>
+</div></blockquote>
+<p><strong>tag</strong> : str, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>A label associated with the operator, for debugging purposes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li>sets <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>incs <code class="docutils literal"><span class="pre">[]</span></code></li>
+<li>reads <code class="docutils literal"><span class="pre">[pre_decoded,</span> <span class="pre">post_filtered,</span> <span class="pre">scaled_encoders,</span> <span class="pre">learning_signal]</span></code></li>
+<li>updates <code class="docutils literal"><span class="pre">[delta]</span></code></li>
+</ol>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>delta</td>
+<td>(Signal) The synaptic weight change to be applied, <span class="math">\(\Delta \omega_{ij}\)</span>.</td>
+</tr>
+<tr class="row-even"><td>learning_rate</td>
+<td>(float) The scalar learning rate.</td>
+</tr>
+<tr class="row-odd"><td>learning_signal</td>
+<td>(Signal) Scalar signal to be multiplied by <code class="docutils literal"><span class="pre">learning_rate</span></code>. Expected to range between 0 and 1 to turn learning off or on, respectively.</td>
+</tr>
+<tr class="row-even"><td>post_filtered</td>
+<td>(Signal) Filtered postsynaptic activity signal.</td>
+</tr>
+<tr class="row-odd"><td>pre_decoded</td>
+<td>(Signal) Decoded activity from presynaptic ensemble, <span class="math">\(a_i\)</span>.</td>
+</tr>
+<tr class="row-even"><td>scale</td>
+<td>(ndarray) The length of each encoder.</td>
+</tr>
+<tr class="row-odd"><td>scaled_encoders</td>
+<td>(Signal) 2d array of encoders, multiplied by <code class="docutils literal"><span class="pre">scale</span></code>.</td>
+</tr>
+<tr class="row-even"><td>tag</td>
+<td>(str or None) A label associated with the operator, for debugging purposes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="build-functions">
+<h3>Build functions<a class="headerlink" href="#build-functions" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="nengo.builder.Builder">
+<em class="property">class </em><code class="descclassname">nengo.builder.</code><code class="descname">Builder</code><a class="reference internal" href="_modules/nengo/builder/builder.html#Builder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Builder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages the build functions known to the Nengo build process.</p>
+<p>Consists of two class methods to encapsulate the build function registry.
+All build functions should use the <a class="reference internal" href="#nengo.builder.Builder.register" title="nengo.builder.Builder.register"><code class="xref py py-obj docutils literal"><span class="pre">Builder.register</span></code></a> method as a
+decorator. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@nengo</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">Builder</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyRule</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">build_my_rule</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">my_rule</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>registers a build function for <code class="docutils literal"><span class="pre">MyRule</span></code> objects.</p>
+<p>Build functions should not be called directly, but instead called through
+the <a class="reference internal" href="#nengo.builder.Model.build" title="nengo.builder.Model.build"><code class="xref py py-obj docutils literal"><span class="pre">Model.build</span></code></a> method. <a class="reference internal" href="#nengo.builder.Model.build" title="nengo.builder.Model.build"><code class="xref py py-obj docutils literal"><span class="pre">Model.build</span></code></a> uses the <a class="reference internal" href="#nengo.builder.Builder.build" title="nengo.builder.Builder.build"><code class="xref py py-obj docutils literal"><span class="pre">Builder.build</span></code></a> method
+to ensure that the correct build function is called based on the type of
+the object passed to it.
+For example, to build the learning rule type <code class="docutils literal"><span class="pre">my_rule</span></code> from above, do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">my_rule</span><span class="p">,</span> <span class="n">connection</span><span class="o">.</span><span class="n">learning_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will call the <code class="docutils literal"><span class="pre">build_my_rule</span></code> function from above with the arguments
+<code class="docutils literal"><span class="pre">model,</span> <span class="pre">my_rule,</span> <span class="pre">connection.learning_rule</span></code>.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>builders</td>
+<td>(dict) Mapping from types to the build function associated with that type.</td>
+</tr>
+</tbody>
+</table>
+<dl class="classmethod">
+<dt id="nengo.builder.Builder.build">
+<em class="property">classmethod </em><code class="descname">build</code><span class="sig-paren">(</span><em>model</em>, <em>obj</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Builder.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Builder.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build <code class="docutils literal"><span class="pre">obj</span></code> into <code class="docutils literal"><span class="pre">model</span></code>.</p>
+<p>This method looks up the appropriate build function for <code class="docutils literal"><span class="pre">obj</span></code> and
+calls with the model and other arguments provided.</p>
+<p>Note that if a build function is not specified for a particular type
+(e.g., <a class="reference internal" href="networks.html#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal"><span class="pre">EnsembleArray</span></code></a>), the type&#8217;s method resolution order will be
+examined to determine the class hierarchy and look for superclasses
+with defined build functions (e.g., <a class="reference internal" href="frontend_api.html#nengo.Network" title="nengo.Network"><code class="xref py py-obj docutils literal"><span class="pre">Network</span></code></a> in the case of
+<a class="reference internal" href="networks.html#nengo.networks.EnsembleArray" title="nengo.networks.EnsembleArray"><code class="xref py py-obj docutils literal"><span class="pre">EnsembleArray</span></code></a>).</p>
+<p>This indirection (calling <a class="reference internal" href="#nengo.builder.Builder.build" title="nengo.builder.Builder.build"><code class="xref py py-obj docutils literal"><span class="pre">Builder.build</span></code></a> instead of the build
+function directly) enables users to augment the build process in their
+own models, rather than having to modify Nengo itself.</p>
+<p>In addition to the parameters listed below, further positional and
+keyword arguments will be passed onto the build function unchanged.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The <a class="reference internal" href="#nengo.builder.Model" title="nengo.builder.Model"><code class="xref py py-obj docutils literal"><span class="pre">Model</span></code></a> instance in which to store build artifacts.</p>
+</div></blockquote>
+<p><strong>obj</strong> : object</p>
+<blockquote class="last">
+<div><p>The object to build into the model.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nengo.builder.Builder.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>nengo_class</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Builder.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Builder.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator for adding a class to the build function registry.</p>
+<p>Raises a warning if a build function already exists for the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nengo_class</strong> : Class</p>
+<blockquote class="last">
+<div><p>The type associated with the build function being decorated.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.Model">
+<em class="property">class </em><code class="descclassname">nengo.builder.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>dt=0.001</em>, <em>label=None</em>, <em>decoder_cache=&lt;nengo.cache.NoDecoderCache object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores artifacts from the build process, which are used by <a class="reference internal" href="#nengo.Simulator" title="nengo.Simulator"><code class="xref py py-obj docutils literal"><span class="pre">Simulator</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dt</strong> : float, optional (Default: 0.001)</p>
+<blockquote>
+<div><p>The length of a simulator timestep, in seconds.</p>
+</div></blockquote>
+<p><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>A name or description to differentiate models.</p>
+</div></blockquote>
+<p><strong>decoder_cache</strong> : DecoderCache, optional (Default: <code class="docutils literal"><span class="pre">NoDecoderCache()</span></code>)</p>
+<blockquote class="last">
+<div><p>Interface to a cache for expensive parts of the build process.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>config</td>
+<td>(Config or None) Build functions can set a config object here to affect sub-builders.</td>
+</tr>
+<tr class="row-even"><td>decoder_cache</td>
+<td>(DecoderCache) Interface to a cache for expensive parts of the build process.</td>
+</tr>
+<tr class="row-odd"><td>dt</td>
+<td>(float) The length of each timestep, in seconds.</td>
+</tr>
+<tr class="row-even"><td>label</td>
+<td>(str or None) A name or description to differentiate models.</td>
+</tr>
+<tr class="row-odd"><td>operators</td>
+<td>(list) List of all operators created in the build process. All operators must be added to this list, as it is used by Simulator.</td>
+</tr>
+<tr class="row-even"><td>params</td>
+<td>(dict) Mapping from objects to namedtuples containing parameters generated in the build process.</td>
+</tr>
+<tr class="row-odd"><td>probes</td>
+<td>(list) List of all probes. Probes must be added to this list in the build process, as this list is used by Simulator.</td>
+</tr>
+<tr class="row-even"><td>seeded</td>
+<td>(dict) All objects are assigned a seed, whether the user defined the seed or it was automatically generated. &#8216;seeded&#8217; keeps track of whether the seed is user-defined. We consider the seed to be user-defined if it was set directly on the object, or if a seed was set on the network in which the object resides, or if a seed was set on any ancestor network of the network in which the object resides.</td>
+</tr>
+<tr class="row-odd"><td>seeds</td>
+<td>(dict) Mapping from objects to the integer seed assigned to that object.</td>
+</tr>
+<tr class="row-even"><td>sig</td>
+<td>(dict) A dictionary of dictionaries that organizes all of the signals created in the build process, as build functions often need to access signals created by other build functions.</td>
+</tr>
+<tr class="row-odd"><td>step</td>
+<td>(Signal) The current step (i.e., how many timesteps have occurred thus far).</td>
+</tr>
+<tr class="row-even"><td>time</td>
+<td>(Signal) The current point in time.</td>
+</tr>
+<tr class="row-odd"><td>toplevel</td>
+<td>(Network) The top-level network being built. This is sometimes useful for accessing network elements after build, or for the network builder to determine if it is the top-level network.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nengo.builder.Model.add_op">
+<code class="descname">add_op</code><span class="sig-paren">(</span><em>op</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Model.add_op"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Model.add_op" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an operator to the model.</p>
+<p>In addition to adding the operator, this method performs additional
+error checking by calling the operator&#8217;s <code class="docutils literal"><span class="pre">make_step</span></code> function.
+Calling <code class="docutils literal"><span class="pre">make_step</span></code> catches errors in which signals are not
+properly initialized early, which aids debugging. For that reason,
+we recommend calling this method over directly accessing
+the <code class="docutils literal"><span class="pre">operators</span></code> attribute.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Model.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>obj</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Model.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Model.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build an object into this model.</p>
+<p>See <a class="reference internal" href="#nengo.builder.Builder.build" title="nengo.builder.Builder.build"><code class="xref py py-obj docutils literal"><span class="pre">Builder.build</span></code></a> for more details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : object</p>
+<blockquote class="last">
+<div><p>The object to build into this model.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.builder.Model.has_built">
+<code class="descname">has_built</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/builder.html#Model.has_built"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.Model.has_built" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the object has already been built in this model.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some objects (e.g. synapses) can be built multiple times,
+and therefore will always result in this method returning
+<code class="docutils literal"><span class="pre">False</span></code> even though they have been built.</p>
+</div>
+<p>This check is implemented by checking if the object is in the
+<code class="docutils literal"><span class="pre">params</span></code> dictionary. Build function should therefore add themselves
+to <code class="docutils literal"><span class="pre">model.params</span></code> if they cannot be built multiple times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : object</p>
+<blockquote class="last">
+<div><p>The object to query.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.network.build_network">
+<code class="descclassname">nengo.builder.network.</code><code class="descname">build_network</code><span class="sig-paren">(</span><em>model</em>, <em>network</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/network.html#build_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.network.build_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.Network" title="nengo.Network"><code class="xref py py-obj docutils literal"><span class="pre">Network</span></code></a> object into a model.</p>
+<p>The network builder does this by mapping each high-level object to its
+associated signals and operators one-by-one, in the following order:</p>
+<ol class="arabic simple">
+<li>Ensembles, nodes, neurons</li>
+<li>Subnetworks (recursively)</li>
+<li>Connections, learning rules</li>
+<li>Probes</li>
+</ol>
+<p>Before calling any of the individual objects&#8217; build functions, random
+number seeds are assigned to objects that did not have a seed explicitly
+set by the user. Whether the seed was assigned manually or automatically
+is tracked, and the decoder cache is only used when the seed is assigned
+manually.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>network</strong> : Network</p>
+<blockquote class="last">
+<div><p>The network to build.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Sets <code class="docutils literal"><span class="pre">model.params[network]</span></code> to <code class="docutils literal"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.ensemble.build_ensemble">
+<code class="descclassname">nengo.builder.ensemble.</code><code class="descname">build_ensemble</code><span class="sig-paren">(</span><em>model</em>, <em>ens</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/ensemble.html#build_ensemble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.ensemble.build_ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an <a class="reference internal" href="frontend_api.html#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-obj docutils literal"><span class="pre">Ensemble</span></code></a> object into a model.</p>
+<p>A brief of summary of what happens in the ensemble build process, in order:</p>
+<ol class="arabic simple">
+<li>Generate evaluation points and encoders.</li>
+<li>Normalize encoders to unit length.</li>
+<li>Determine bias and gain.</li>
+<li>Create neuron input signal</li>
+<li>Add operator for injecting bias.</li>
+<li>Call build function for neuron type.</li>
+<li>Scale encoders by gain and radius.</li>
+<li>Add operators for mulitplying decoded input signal by encoders and
+incrementing the result in the neuron input signal.</li>
+<li>Call build function for injected noise.</li>
+</ol>
+<p>Some of these steps may be altered or omitted depending on the parameters
+of the ensemble, in particular the neuron type. For example, most steps are
+omitted for the <a class="reference internal" href="frontend_api.html#nengo.Direct" title="nengo.Direct"><code class="xref py py-obj docutils literal"><span class="pre">Direct</span></code></a> neuron type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>ens</strong> : Ensemble</p>
+<blockquote class="last">
+<div><p>The ensemble to build.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Sets <code class="docutils literal"><span class="pre">model.params[ens]</span></code> to a <a class="reference internal" href="#nengo.builder.ensemble.BuiltEnsemble" title="nengo.builder.ensemble.BuiltEnsemble"><code class="xref py py-obj docutils literal"><span class="pre">BuiltEnsemble</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.ensemble.BuiltEnsemble">
+<em class="property">class </em><code class="descclassname">nengo.builder.ensemble.</code><code class="descname">BuiltEnsemble</code><a class="reference internal" href="_modules/nengo/builder/ensemble.html#BuiltEnsemble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.ensemble.BuiltEnsemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects the parameters generated in <a class="reference internal" href="#nengo.builder.ensemble.build_ensemble" title="nengo.builder.ensemble.build_ensemble"><code class="xref py py-obj docutils literal"><span class="pre">build_ensemble</span></code></a>.</p>
+<p>These are stored here because in the majority of cases the equivalent
+attribute in the original ensemble is a <code class="xref py py-obj docutils literal"><span class="pre">Distribution</span></code>. The attributes
+of a BuiltEnsemble are the full NumPy arrays used in the simulation.</p>
+<p>See the <a class="reference internal" href="frontend_api.html#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-obj docutils literal"><span class="pre">Ensemble</span></code></a> documentation for more details on each parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>eval_points</strong> : ndarray</p>
+<blockquote>
+<div><p>Evaluation points.</p>
+</div></blockquote>
+<p><strong>encoders</strong> : ndarray</p>
+<blockquote>
+<div><p>Normalized encoders.</p>
+</div></blockquote>
+<p><strong>intercepts</strong> : ndarray</p>
+<blockquote>
+<div><p>X-intercept of each neuron.</p>
+</div></blockquote>
+<p><strong>max_rates</strong> : ndarray</p>
+<blockquote>
+<div><p>Maximum firing rates for each neuron.</p>
+</div></blockquote>
+<p><strong>scaled_encoders</strong> : ndarray</p>
+<blockquote>
+<div><p>Normalized encoders scaled by the gain and radius.
+This quantity is used in the actual simulation, unlike <code class="docutils literal"><span class="pre">encoders</span></code>.</p>
+</div></blockquote>
+<p><strong>gain</strong> : ndarray</p>
+<blockquote>
+<div><p>Gain of each neuron.</p>
+</div></blockquote>
+<p><strong>bias</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Bias current injected into each neuron.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.node.build_node">
+<code class="descclassname">nengo.builder.node.</code><code class="descname">build_node</code><span class="sig-paren">(</span><em>model</em>, <em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/node.html#build_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.node.build_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.Node" title="nengo.Node"><code class="xref py py-obj docutils literal"><span class="pre">Node</span></code></a> object into a model.</p>
+<p>The node build function is relatively simple. It involves creating input
+and output signals, and connecting them with an <a class="reference internal" href="#nengo.builder.Operator" title="nengo.builder.Operator"><code class="xref py py-obj docutils literal"><span class="pre">Operator</span></code></a> that depends
+on the type of <code class="docutils literal"><span class="pre">node.output</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>node</strong> : Node</p>
+<blockquote class="last">
+<div><p>The node to build.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Sets <code class="docutils literal"><span class="pre">model.params[node]</span></code> to <code class="docutils literal"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.connection.build_connection">
+<code class="descclassname">nengo.builder.connection.</code><code class="descname">build_connection</code><span class="sig-paren">(</span><em>model</em>, <em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/connection.html#build_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.connection.build_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal"><span class="pre">Connection</span></code></a> object into a model.</p>
+<p>A brief of summary of what happens in the connection build process,
+in order:</p>
+<ol class="arabic simple">
+<li>Solve for decoders.</li>
+<li>Incorporate transform matrix with decoders to get weights.</li>
+<li>Add operators for computing the function
+or multiplying neural activity by weights.</li>
+<li>Call build function for the synapse.</li>
+<li>Call build function for the learning rule.</li>
+<li>Add operator for applying learning rule delta to weights.</li>
+</ol>
+<p>Some of these steps may be altered or omitted depending on the parameters
+of the connection, in particular the pre and post types.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>conn</strong> : Connection</p>
+<blockquote class="last">
+<div><p>The connection to build.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Sets <code class="docutils literal"><span class="pre">model.params[conn]</span></code> to a <a class="reference internal" href="#nengo.builder.connection.BuiltConnection" title="nengo.builder.connection.BuiltConnection"><code class="xref py py-obj docutils literal"><span class="pre">BuiltConnection</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nengo.builder.connection.BuiltConnection">
+<em class="property">class </em><code class="descclassname">nengo.builder.connection.</code><code class="descname">BuiltConnection</code><a class="reference internal" href="_modules/nengo/builder/connection.html#BuiltConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.connection.BuiltConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects the parameters generated in <a class="reference internal" href="#nengo.builder.connection.build_connection" title="nengo.builder.connection.build_connection"><code class="xref py py-obj docutils literal"><span class="pre">build_connection</span></code></a>.</p>
+<p>These are stored here because in the majority of cases the equivalent
+attribute in the original connection is a <code class="xref py py-obj docutils literal"><span class="pre">Distribution</span></code>. The attributes
+of a BuiltConnection are the full NumPy arrays used in the simulation.</p>
+<p>See the <a class="reference internal" href="frontend_api.html#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal"><span class="pre">Connection</span></code></a> documentation for more details on each parameter.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">decoders</span></code> attribute is obsolete as of Nengo 2.1.0.
+Use the <code class="docutils literal"><span class="pre">weights</span></code> attribute instead.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>eval_points</strong> : ndarray</p>
+<blockquote>
+<div><p>Evaluation points.</p>
+</div></blockquote>
+<p><strong>solver_info</strong> : dict</p>
+<blockquote>
+<div><p>Information dictionary returned by the <a class="reference internal" href="frontend_api.html#nengo.solvers.Solver" title="nengo.solvers.Solver"><code class="xref py py-obj docutils literal"><span class="pre">Solver</span></code></a>.</p>
+</div></blockquote>
+<p><strong>weights</strong> : ndarray</p>
+<blockquote>
+<div><p>Connection weights. May be synaptic connection weights defined in
+the connection&#8217;s transform, or a combination of the decoders
+automatically solved for and the specified transform.</p>
+</div></blockquote>
+<p><strong>transform</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The transform matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.probe.build_probe">
+<code class="descclassname">nengo.builder.probe.</code><code class="descname">build_probe</code><span class="sig-paren">(</span><em>model</em>, <em>probe</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/probe.html#build_probe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.probe.build_probe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.Probe" title="nengo.Probe"><code class="xref py py-obj docutils literal"><span class="pre">Probe</span></code></a> object into a model.</p>
+<p>Under the hood, there are two types of probes:
+connection probes and signal probes.</p>
+<p>Connection probes are those that are built by creating a new <a class="reference internal" href="frontend_api.html#nengo.Connection" title="nengo.Connection"><code class="xref py py-obj docutils literal"><span class="pre">Connection</span></code></a>
+object from the probe&#8217;s target to the probe, and calling that connection&#8217;s
+build function. Creating and building a connection ensure that the result
+of probing the target&#8217;s attribute is the same as would result from that
+target being connected to another object.</p>
+<p>Signal probes are those that are built by finding the correct <a class="reference internal" href="#nengo.builder.Signal" title="nengo.builder.Signal"><code class="xref py py-obj docutils literal"><span class="pre">Signal</span></code></a>
+in the model and calling the build function corresponding to the probe&#8217;s
+synapse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>probe</strong> : Probe</p>
+<blockquote class="last">
+<div><p>The connection to build.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Sets <code class="docutils literal"><span class="pre">model.params[probe]</span></code> to a list.
+<a class="reference internal" href="#nengo.Simulator" title="nengo.Simulator"><code class="xref py py-obj docutils literal"><span class="pre">Simulator</span></code></a> appends to that list when running a simulation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.neurons.build_neurons">
+<code class="descclassname">nengo.builder.neurons.</code><code class="descname">build_neurons</code><span class="sig-paren">(</span><em>model</em>, <em>neurontype</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_neurons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.build_neurons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a> object into a model.</p>
+<p>This build function works with any <a class="reference internal" href="frontend_api.html#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a> that does not require
+extra state, like <a class="reference internal" href="frontend_api.html#nengo.RectifiedLinear" title="nengo.RectifiedLinear"><code class="xref py py-obj docutils literal"><span class="pre">RectifiedLinear</span></code></a> and <a class="reference internal" href="frontend_api.html#nengo.LIFRate" title="nengo.LIFRate"><code class="xref py py-obj docutils literal"><span class="pre">LIFRate</span></code></a>. This function adds a
+<a class="reference internal" href="#nengo.builder.neurons.SimNeurons" title="nengo.builder.neurons.SimNeurons"><code class="xref py py-obj docutils literal"><span class="pre">SimNeurons</span></code></a> operator connecting the input current to the
+neural output signals.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>neurontype</strong> : NeuronType</p>
+<blockquote>
+<div><p>Neuron type to build.</p>
+</div></blockquote>
+<p><strong>neuron</strong> : Neurons</p>
+<blockquote class="last">
+<div><p>The neuron population object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.neurons.NeuronType" title="nengo.neurons.NeuronType"><code class="xref py py-obj docutils literal"><span class="pre">NeuronType</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.neurons.build_lif">
+<code class="descclassname">nengo.builder.neurons.</code><code class="descname">build_lif</code><span class="sig-paren">(</span><em>model</em>, <em>lif</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_lif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.build_lif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.LIF" title="nengo.LIF"><code class="xref py py-obj docutils literal"><span class="pre">LIF</span></code></a> object into a model.</p>
+<p>In addition to adding a <a class="reference internal" href="#nengo.builder.neurons.SimNeurons" title="nengo.builder.neurons.SimNeurons"><code class="xref py py-obj docutils literal"><span class="pre">SimNeurons</span></code></a> operator, this build function sets up
+signals to track the voltage and refractory times for each neuron.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>lif</strong> : LIF</p>
+<blockquote>
+<div><p>Neuron type to build.</p>
+</div></blockquote>
+<p><strong>neuron</strong> : Neurons</p>
+<blockquote class="last">
+<div><p>The neuron population object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.LIF" title="nengo.LIF"><code class="xref py py-obj docutils literal"><span class="pre">LIF</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.neurons.build_alifrate">
+<code class="descclassname">nengo.builder.neurons.</code><code class="descname">build_alifrate</code><span class="sig-paren">(</span><em>model</em>, <em>alifrate</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_alifrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.build_alifrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an <a class="reference internal" href="frontend_api.html#nengo.AdaptiveLIFRate" title="nengo.AdaptiveLIFRate"><code class="xref py py-obj docutils literal"><span class="pre">AdaptiveLIFRate</span></code></a> object into a model.</p>
+<p>In addition to adding a <a class="reference internal" href="#nengo.builder.neurons.SimNeurons" title="nengo.builder.neurons.SimNeurons"><code class="xref py py-obj docutils literal"><span class="pre">SimNeurons</span></code></a> operator, this build function sets up
+signals to track the adaptation term for each neuron.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>alifrate</strong> : AdaptiveLIFRate</p>
+<blockquote>
+<div><p>Neuron type to build.</p>
+</div></blockquote>
+<p><strong>neuron</strong> : Neurons</p>
+<blockquote class="last">
+<div><p>The neuron population object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.AdaptiveLIFRate" title="nengo.AdaptiveLIFRate"><code class="xref py py-obj docutils literal"><span class="pre">AdaptiveLIFRate</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.neurons.build_alif">
+<code class="descclassname">nengo.builder.neurons.</code><code class="descname">build_alif</code><span class="sig-paren">(</span><em>model</em>, <em>alif</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_alif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.build_alif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an <a class="reference internal" href="frontend_api.html#nengo.AdaptiveLIF" title="nengo.AdaptiveLIF"><code class="xref py py-obj docutils literal"><span class="pre">AdaptiveLIF</span></code></a> object into a model.</p>
+<p>In addition to adding a <a class="reference internal" href="#nengo.builder.neurons.SimNeurons" title="nengo.builder.neurons.SimNeurons"><code class="xref py py-obj docutils literal"><span class="pre">SimNeurons</span></code></a> operator, this build function sets up
+signals to track the voltage, refractory time, and adaptation term
+for each neuron.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>alif</strong> : AdaptiveLIF</p>
+<blockquote>
+<div><p>Neuron type to build.</p>
+</div></blockquote>
+<p><strong>neuron</strong> : Neurons</p>
+<blockquote class="last">
+<div><p>The neuron population object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.AdaptiveLIF" title="nengo.AdaptiveLIF"><code class="xref py py-obj docutils literal"><span class="pre">AdaptiveLIF</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.neurons.build_izhikevich">
+<code class="descclassname">nengo.builder.neurons.</code><code class="descname">build_izhikevich</code><span class="sig-paren">(</span><em>model</em>, <em>izhikevich</em>, <em>neurons</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/neurons.html#build_izhikevich"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.neurons.build_izhikevich" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds an <a class="reference internal" href="frontend_api.html#nengo.Izhikevich" title="nengo.Izhikevich"><code class="xref py py-obj docutils literal"><span class="pre">Izhikevich</span></code></a> object into a model.</p>
+<p>In addition to adding a <a class="reference internal" href="#nengo.builder.neurons.SimNeurons" title="nengo.builder.neurons.SimNeurons"><code class="xref py py-obj docutils literal"><span class="pre">SimNeurons</span></code></a> operator, this build function sets up
+signals to track the voltage and recovery terms for each neuron.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>izhikevich</strong> : Izhikevich</p>
+<blockquote>
+<div><p>Neuron type to build.</p>
+</div></blockquote>
+<p><strong>neuron</strong> : Neurons</p>
+<blockquote class="last">
+<div><p>The neuron population object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.Izhikevich" title="nengo.Izhikevich"><code class="xref py py-obj docutils literal"><span class="pre">Izhikevich</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.learning_rules.build_learning_rule">
+<code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">build_learning_rule</code><span class="sig-paren">(</span><em>model</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_learning_rule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.build_learning_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.connection.LearningRule" title="nengo.connection.LearningRule"><code class="xref py py-obj docutils literal"><span class="pre">LearningRule</span></code></a> object into a model.</p>
+<p>A brief of summary of what happens in the learning rule build process,
+in order:</p>
+<ol class="arabic simple">
+<li>Create a delta signal for the weight change.</li>
+<li>Add an operator to increment the weights by delta.</li>
+<li>Call build function for the learning rule type.</li>
+</ol>
+<p>The learning rule system is designed to work with multiple learning rules
+on the same connection. If only one learning rule was to be applied to the
+connection, then we could directly modify the weights, rather than
+calculating the delta here and applying it in <a class="reference internal" href="#nengo.builder.connection.build_connection" title="nengo.builder.connection.build_connection"><code class="xref py py-obj docutils literal"><span class="pre">build_connection</span></code></a>.
+However, with multiple learning rules, we must isolate each delta signal
+in case calculating the delta depends on the weights themselves,
+making the calculation depend on the order of the learning rule
+evaluations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>rule</strong> : LearningRule</p>
+<blockquote class="last">
+<div><p>The learning rule to build.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Sets <code class="docutils literal"><span class="pre">model.params[rule]</span></code> to <code class="docutils literal"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.learning_rules.build_bcm">
+<code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">build_bcm</code><span class="sig-paren">(</span><em>model</em>, <em>bcm</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_bcm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.build_bcm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.BCM" title="nengo.BCM"><code class="xref py py-obj docutils literal"><span class="pre">BCM</span></code></a> object into a model.</p>
+<p>Calls synapse build functions to filter the pre and post activities,
+and adds a <a class="reference internal" href="#nengo.builder.learning_rules.SimBCM" title="nengo.builder.learning_rules.SimBCM"><code class="xref py py-obj docutils literal"><span class="pre">SimBCM</span></code></a> operator to the model to calculate the delta.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>bcm</strong> : BCM</p>
+<blockquote>
+<div><p>Learning rule type to build.</p>
+</div></blockquote>
+<p><strong>rule</strong> : LearningRule</p>
+<blockquote class="last">
+<div><p>The learning rule object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.BCM" title="nengo.BCM"><code class="xref py py-obj docutils literal"><span class="pre">BCM</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.learning_rules.build_oja">
+<code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">build_oja</code><span class="sig-paren">(</span><em>model</em>, <em>oja</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_oja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.build_oja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.BCM" title="nengo.BCM"><code class="xref py py-obj docutils literal"><span class="pre">BCM</span></code></a> object into a model.</p>
+<p>Calls synapse build functions to filter the pre and post activities,
+and adds a <a class="reference internal" href="#nengo.builder.learning_rules.SimOja" title="nengo.builder.learning_rules.SimOja"><code class="xref py py-obj docutils literal"><span class="pre">SimOja</span></code></a> operator to the model to calculate the delta.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>oja</strong> : Oja</p>
+<blockquote>
+<div><p>Learning rule type to build.</p>
+</div></blockquote>
+<p><strong>rule</strong> : LearningRule</p>
+<blockquote class="last">
+<div><p>The learning rule object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.Oja" title="nengo.Oja"><code class="xref py py-obj docutils literal"><span class="pre">Oja</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.learning_rules.build_voja">
+<code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">build_voja</code><span class="sig-paren">(</span><em>model</em>, <em>voja</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_voja"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.build_voja" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.Voja" title="nengo.Voja"><code class="xref py py-obj docutils literal"><span class="pre">Voja</span></code></a> object into a model.</p>
+<p>Calls synapse build functions to filter the post activities,
+and adds a <a class="reference internal" href="#nengo.builder.learning_rules.SimVoja" title="nengo.builder.learning_rules.SimVoja"><code class="xref py py-obj docutils literal"><span class="pre">SimVoja</span></code></a> operator to the model to calculate the delta.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>voja</strong> : Voja</p>
+<blockquote>
+<div><p>Learning rule type to build.</p>
+</div></blockquote>
+<p><strong>rule</strong> : LearningRule</p>
+<blockquote class="last">
+<div><p>The learning rule object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.Voja" title="nengo.Voja"><code class="xref py py-obj docutils literal"><span class="pre">Voja</span></code></a> instance.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.builder.learning_rules.build_pes">
+<code class="descclassname">nengo.builder.learning_rules.</code><code class="descname">build_pes</code><span class="sig-paren">(</span><em>model</em>, <em>pes</em>, <em>rule</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/builder/learning_rules.html#build_pes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.builder.learning_rules.build_pes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a <a class="reference internal" href="frontend_api.html#nengo.PES" title="nengo.PES"><code class="xref py py-obj docutils literal"><span class="pre">PES</span></code></a> object into a model.</p>
+<p>Calls synapse build functions to filter the pre activities,
+and adds several operators to implement the PES learning rule.
+Unlike other learning rules, there is no corresponding <a class="reference internal" href="#nengo.builder.Operator" title="nengo.builder.Operator"><code class="xref py py-obj docutils literal"><span class="pre">Operator</span></code></a>
+subclass for the PES rule. Instead, the rule is implemented with
+generic operators like <a class="reference internal" href="#nengo.builder.operator.ElementwiseInc" title="nengo.builder.operator.ElementwiseInc"><code class="xref py py-obj docutils literal"><span class="pre">ElementwiseInc</span></code></a> and <a class="reference internal" href="#nengo.builder.operator.DotInc" title="nengo.builder.operator.DotInc"><code class="xref py py-obj docutils literal"><span class="pre">DotInc</span></code></a>.
+Generic operators are used because they are more likely to be
+implemented on other backends like Nengo OCL.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : Model</p>
+<blockquote>
+<div><p>The model to build into.</p>
+</div></blockquote>
+<p><strong>pes</strong> : PES</p>
+<blockquote>
+<div><p>Learning rule type to build.</p>
+</div></blockquote>
+<p><strong>rule</strong> : LearningRule</p>
+<blockquote class="last">
+<div><p>The learning rule object corresponding to the neuron type.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Does not modify <code class="docutils literal"><span class="pre">model.params[]</span></code> and can therefore be called
+more than once with the same <a class="reference internal" href="frontend_api.html#nengo.PES" title="nengo.PES"><code class="xref py py-obj docutils literal"><span class="pre">PES</span></code></a> instance.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Release History" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples/config.html" class="btn btn-neutral" title="Configuration system example" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-2014, Applied Brain Research.
+      Last updated on Apr 20, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.1.0-dev',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

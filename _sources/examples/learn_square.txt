@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/learning/learn_square.ipynb
+***********************
+Square Learning example
+***********************
+
+.. notebook:: ../../examples/learning/learn_square.ipynb

@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/spa/question_control.ipynb
+************************
+Question Control example
+************************
+
+.. notebook:: ../../examples/spa/question_control.ipynb

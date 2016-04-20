@@ -32,7 +32,7 @@
   
     <link rel="top" title="Nengo 2.1.0-dev docs" href="index.html"/>
         <link rel="up" title="Developer Guide" href="dev_guide.html"/>
-        <link rel="next" title="Reference simulator API" href="dev_api.html"/>
+        <link rel="next" title="The NEF Algorithm" href="nef_minimal.html"/>
         <link rel="prev" title="Developer Guide" href="dev_guide.html"/> 
 
   
@@ -101,7 +101,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#code-style">Code style</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="dev_api.html">Reference simulator API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nef_minimal.html">The NEF Algorithm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html">Development workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releasing.html">Making Nengo releases</a></li>
@@ -156,127 +155,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<div class="section" id="introduction-for-developers">
+  <div class="section" id="introduction-for-developers">
 <h1>Introduction for developers<a class="headerlink" href="#introduction-for-developers" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="contributing">
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>Please read the <code class="docutils literal"><span class="pre">LICENSE.rst</span></code> file to understand
 what becoming a contributor entails.
-Once you have read and understood the liscence agreement,
+Once you have read and understood the license agreement,
 add yourself to the <code class="docutils literal"><span class="pre">CONTRIBUTORS.rst</span></code> file.
 Note that all pull requests
 must be commited by someone other than the original requestor.</p>
@@ -290,8 +175,7 @@ you should do a developer installation.</p>
 python setup.py develop --user
 </pre></div>
 </div>
-<p>If you use a <code class="docutils literal"><span class="pre">virtualenv</span></code> (recommended!)
-you can omit the <code class="docutils literal"><span class="pre">--user</span></code> flag.</p>
+<p>If you are in a virtual environment, you can omit the <code class="docutils literal"><span class="pre">--user</span></code> flag.</p>
 </div>
 <div class="section" id="how-to-run-unit-tests">
 <h2>How to run unit tests<a class="headerlink" href="#how-to-run-unit-tests" title="Permalink to this headline">¶</a></h2>
@@ -409,7 +293,7 @@ and produce decent output with Sphinx.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dev_api.html" class="btn btn-neutral float-right" title="Reference simulator API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="nef_minimal.html" class="btn btn-neutral float-right" title="The NEF Algorithm" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="dev_guide.html" class="btn btn-neutral" title="Developer Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -422,7 +306,7 @@ and produce decent output with Sphinx.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

@@ -1,1 +1,5 @@
-.. nbinclude:: ../../examples/basic/communication_channel.ipynb
+*****************************
+Communication Channel example
+*****************************
+
+.. notebook:: ../../examples/basic/communication_channel.ipynb

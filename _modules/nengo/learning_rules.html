@@ -129,121 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.learning_rules</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.learning_rules</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">nengo.base</span> <span class="kn">import</span> <span class="n">NengoObjectParam</span>
@@ -261,74 +147,90 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="nb">super</span><span class="p">(</span><span class="n">ConnectionParam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="LearningRuleType"><a class="viewcode-back" href="../../user_api.html#nengo.learning_rules.LearningRuleType">[docs]</a><span class="k">class</span> <span class="nc">LearningRuleType</span><span class="p">(</span><span class="n">FrozenObject</span><span class="p">):</span>
+<div class="viewcode-block" id="LearningRuleType"><a class="viewcode-back" href="../../frontend_api.html#nengo.learning_rules.LearningRuleType">[docs]</a><span class="k">class</span> <span class="nc">LearningRuleType</span><span class="p">(</span><span class="n">FrozenObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for all learning rule objects.</span>
 
-<span class="sd">    To use a learning rule, pass it as a ``learning_rule`` keyword argument to</span>
-<span class="sd">    the Connection on which you want to do learning.</span>
+<span class="sd">    To use a learning rule, pass it as a ``learning_rule_type`` keyword</span>
+<span class="sd">    argument to the `~nengo.Connection` on which you want to do learning.</span>
+
+<span class="sd">    Each learning rule exposes two important pieces of metadata that the</span>
+<span class="sd">    builder uses to determine what information should be stored.</span>
+
+<span class="sd">    The ``error_type`` is the type of the incoming error signal. Options are:</span>
+
+<span class="sd">    * ``&#39;none&#39;``: no error signal</span>
+<span class="sd">    * ``&#39;scalar&#39;``: scalar error signal</span>
+<span class="sd">    * ``&#39;decoded&#39;``: vector error signal in decoded space</span>
+<span class="sd">    * ``&#39;neuron&#39;``: vector error signal in neuron space</span>
+
+<span class="sd">    The ``modifies`` attribute denotes the signal targeted by the rule.</span>
+<span class="sd">    Options are:</span>
+
+<span class="sd">    * ``&#39;encoders&#39;``</span>
+<span class="sd">    * ``&#39;decoders&#39;``</span>
+<span class="sd">    * ``&#39;weights&#39;``</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    learning_rate : float, optional (Default: 1e-6)</span>
+<span class="sd">        A scalar indicating the rate at which ``modifies`` will be adjusted.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    error_type : str</span>
-<span class="sd">        The type (which determines the dimensionality) of the incoming error</span>
-<span class="sd">        signal. Options are &#39;none&#39;: no error signal; &#39;scalar&#39;: scalar error</span>
-<span class="sd">        signal; &#39;decoded&#39;: vector error signal in decoded space;</span>
-<span class="sd">        &#39;neuron&#39;: vector error signal in neuron space.</span>
+<span class="sd">        The type of the incoming error signal. This also determines</span>
+<span class="sd">        the dimensionality of the error signal.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        A scalar indicating the rate at which ``modifies`` will be adjusted.</span>
 <span class="sd">    modifies : str</span>
-<span class="sd">        The signal targeted by the learning rule. Options are &#39;encoders&#39;,</span>
-<span class="sd">        &#39;decoders&#39; (will also be adapted to modify a full weight matrix by</span>
-<span class="sd">        multiplying by the post population encoders), or &#39;weights&#39; (only works</span>
-<span class="sd">        on full weight matrices).</span>
+<span class="sd">        The signal targeted by the learning rule.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
     <span class="n">modifies</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
 
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argreprs</span><span class="p">))</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_argreprs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">([</span><span class="s2">&quot;learning_rate=</span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">]</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">!=</span> <span class="mf">1e-6</span> <span class="k">else</span> <span class="p">[])</span>
-
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argreprs</span><span class="p">))</span></div>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">!=</span> <span class="mf">1e-6</span> <span class="k">else</span> <span class="p">[])</span></div>
 
 
-<div class="viewcode-block" id="PES"><a class="viewcode-back" href="../../user_api.html#nengo.learning_rules.PES">[docs]</a><span class="k">class</span> <span class="nc">PES</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Prescribed Error Sensitivity Learning Rule</span>
+<div class="viewcode-block" id="PES"><a class="viewcode-back" href="../../frontend_api.html#nengo.learning_rules.PES">[docs]</a><span class="k">class</span> <span class="nc">PES</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prescribed Error Sensitivity learning rule.</span>
 
-<span class="sd">    Modifies a connection&#39;s decoders to minimize an error signal.</span>
+<span class="sd">    Modifies a connection&#39;s decoders to minimize an error signal provided</span>
+<span class="sd">    through a connection to the connection&#39;s learning rule.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    pre_tau : float, optional</span>
+<span class="sd">    learning_rate : float, optional (Default: 1e-4)</span>
+<span class="sd">        A scalar indicating the rate at which weights will be adjusted.</span>
+<span class="sd">    pre_tau : float, optional (Default: 0.005)</span>
 <span class="sd">        Filter constant on activities of neurons in pre population.</span>
-<span class="sd">        Defaults to 0.005.</span>
-<span class="sd">    learning_rate : float, optional</span>
-<span class="sd">        A scalar indicating the rate at which decoders will be adjusted.</span>
-<span class="sd">        Defaults to 1e-5.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        A scalar indicating the rate at which weights will be adjusted.</span>
 <span class="sd">    pre_tau : float</span>
 <span class="sd">        Filter constant on activities of neurons in pre population.</span>
-<span class="sd">    learning_rate : float</span>
-<span class="sd">        The given learning rate.</span>
-<span class="sd">    error_connection : Connection</span>
-<span class="sd">        The modulatory connection created to project the error signal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">pre_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;pre_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;decoded&#39;</span>
     <span class="n">modifies</span> <span class="o">=</span> <span class="s1">&#39;decoders&#39;</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;correction&#39;</span><span class="p">,</span> <span class="s1">&#39;activities&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">]</span>
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;correction&#39;</span><span class="p">,</span> <span class="s1">&#39;activities&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">)</span>
+
+    <span class="n">pre_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;pre_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">pre_tau</span><span class="o">=</span><span class="mf">0.005</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">learning_rate</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
@@ -347,42 +249,44 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="k">return</span> <span class="n">args</span></div>
 
 
-<div class="viewcode-block" id="BCM"><a class="viewcode-back" href="../../user_api.html#nengo.learning_rules.BCM">[docs]</a><span class="k">class</span> <span class="nc">BCM</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Bienenstock-Cooper-Munroe learning rule</span>
+<div class="viewcode-block" id="BCM"><a class="viewcode-back" href="../../frontend_api.html#nengo.learning_rules.BCM">[docs]</a><span class="k">class</span> <span class="nc">BCM</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Bienenstock-Cooper-Munroe learning rule.</span>
 
-<span class="sd">    Modifies connection weights.</span>
+<span class="sd">    Modifies connection weights as a function of the presynaptic activity</span>
+<span class="sd">    and the difference between the postsynaptic activity and the average</span>
+<span class="sd">    postsynaptic activity.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    learning_rate : float, optional</span>
-<span class="sd">        A scalar indicating the rate at which decoders will be adjusted.</span>
-<span class="sd">        Defaults to 1e-5.</span>
-<span class="sd">    theta_tau : float, optional</span>
+<span class="sd">    theta_tau : float, optional (Default: 1.0)</span>
 <span class="sd">        A scalar indicating the time constant for theta integration.</span>
-<span class="sd">    pre_tau : float, optional</span>
+<span class="sd">    pre_tau : float, optional (Default: 0.005)</span>
 <span class="sd">        Filter constant on activities of neurons in pre population.</span>
-<span class="sd">    post_tau : float, optional</span>
+<span class="sd">    post_tau : float, optional (Default: None)</span>
 <span class="sd">        Filter constant on activities of neurons in post population.</span>
+<span class="sd">        If None, post_tau will be the same as pre_tau.</span>
+<span class="sd">    learning_rate : float, optional (Default: 1e-9)</span>
+<span class="sd">        A scalar indicating the rate at which weights will be adjusted.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    learning_rate : float</span>
-<span class="sd">        The given learning rate.</span>
-<span class="sd">    theta_tau : float</span>
-<span class="sd">        A scalar indicating the time constant for theta integration.</span>
-<span class="sd">    pre_tau : float</span>
-<span class="sd">        Filter constant on activities of neurons in pre population.</span>
+<span class="sd">        A scalar indicating the rate at which weights will be adjusted.</span>
 <span class="sd">    post_tau : float</span>
 <span class="sd">        Filter constant on activities of neurons in post population.</span>
+<span class="sd">    pre_tau : float</span>
+<span class="sd">        Filter constant on activities of neurons in pre population.</span>
+<span class="sd">    theta_tau : float</span>
+<span class="sd">        A scalar indicating the time constant for theta integration.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+    <span class="n">modifies</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;post_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">)</span>
 
     <span class="n">pre_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;pre_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">post_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;post_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">theta_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;theta_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-    <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
-    <span class="n">modifies</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;post_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_tau</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">post_tau</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">theta_tau</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">):</span>
@@ -405,42 +309,45 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="k">return</span> <span class="n">args</span></div>
 
 
-<div class="viewcode-block" id="Oja"><a class="viewcode-back" href="../../user_api.html#nengo.learning_rules.Oja">[docs]</a><span class="k">class</span> <span class="nc">Oja</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Oja&#39;s learning rule</span>
+<div class="viewcode-block" id="Oja"><a class="viewcode-back" href="../../frontend_api.html#nengo.learning_rules.Oja">[docs]</a><span class="k">class</span> <span class="nc">Oja</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Oja learning rule.</span>
 
-<span class="sd">    Modifies connection weights.</span>
+<span class="sd">    Modifies connection weights according to the Hebbian Oja rule, which</span>
+<span class="sd">    augments typicaly Hebbian coactivity with a &quot;forgetting&quot; term that is</span>
+<span class="sd">    proportional to the weight of the connection and the square of the</span>
+<span class="sd">    postsynaptic activity.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    learning_rate : float, optional</span>
-<span class="sd">        A scalar indicating the rate at which decoders will be adjusted.</span>
-<span class="sd">        Defaults to 1e-5.</span>
-<span class="sd">    beta : float, optional</span>
-<span class="sd">        A scalar governing the amount of forgetting. Larger =&gt; more forgetting.</span>
-<span class="sd">    pre_tau : float, optional</span>
+<span class="sd">    pre_tau : float, optional (Default: 0.005)</span>
 <span class="sd">        Filter constant on activities of neurons in pre population.</span>
-<span class="sd">    post_tau : float, optional</span>
+<span class="sd">    post_tau : float, optional (Default: None)</span>
 <span class="sd">        Filter constant on activities of neurons in post population.</span>
+<span class="sd">        If None, post_tau will be the same as pre_tau.</span>
+<span class="sd">    beta : float, optional (Default: 1.0)</span>
+<span class="sd">        A scalar weight on the forgetting term.</span>
+<span class="sd">    learning_rate : float, optional (Default: 1e-6)</span>
+<span class="sd">        A scalar indicating the rate at which weights will be adjusted.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    learning_rate : float</span>
-<span class="sd">        The given learning rate.</span>
 <span class="sd">    beta : float</span>
-<span class="sd">        A scalar governing the amount of forgetting. Larger =&gt; more forgetting.</span>
-<span class="sd">    pre_tau : float</span>
-<span class="sd">        Filter constant on activities of neurons in pre population.</span>
+<span class="sd">        A scalar weight on the forgetting term.</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        A scalar indicating the rate at which weights will be adjusted.</span>
 <span class="sd">    post_tau : float</span>
 <span class="sd">        Filter constant on activities of neurons in post population.</span>
+<span class="sd">    pre_tau : float</span>
+<span class="sd">        Filter constant on activities of neurons in pre population.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+    <span class="n">modifies</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;pre_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;post_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">)</span>
 
     <span class="n">pre_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;pre_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">post_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;post_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
-    <span class="n">modifies</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pre_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;post_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre_tau</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">post_tau</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
@@ -463,40 +370,39 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="k">return</span> <span class="n">args</span></div>
 
 
-<span class="k">class</span> <span class="nc">Voja</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Vector Oja&#39;s learning rule.</span>
+<div class="viewcode-block" id="Voja"><a class="viewcode-back" href="../../frontend_api.html#nengo.learning_rules.Voja">[docs]</a><span class="k">class</span> <span class="nc">Voja</span><span class="p">(</span><span class="n">LearningRuleType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Vector Oja learning rule.</span>
 
 <span class="sd">    Modifies an ensemble&#39;s encoders to be selective to its inputs.</span>
 
 <span class="sd">    A connection to the learning rule will provide a scalar weight for the</span>
-<span class="sd">    learning rate (minus 1). For instance, 0 is normal learning, -1 is no</span>
+<span class="sd">    learning rate, minus 1. For instance, 0 is normal learning, -1 is no</span>
 <span class="sd">    learning, and less than -1 causes anti-learning or &quot;forgetting&quot;.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    learning_rate : float, optional</span>
-<span class="sd">        A scalar indicating the rate at which encoders will be adjusted.</span>
-<span class="sd">        Defaults to 1e-2.</span>
-<span class="sd">    post_tau : float, optional</span>
+<span class="sd">    post_tau : float, optional (Default: 0.005)</span>
 <span class="sd">        Filter constant on activities of neurons in post population.</span>
+<span class="sd">    learning_rate : float, optional (Default: 1e-2)</span>
+<span class="sd">        A scalar indicating the rate at which encoders will be adjusted.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    learning_rate : float</span>
-<span class="sd">        The given learning rate.</span>
+<span class="sd">        A scalar indicating the rate at which encoders will be adjusted.</span>
 <span class="sd">    post_tau : float</span>
 <span class="sd">        Filter constant on activities of neurons in post population.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">post_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;post_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
     <span class="n">error_type</span> <span class="o">=</span> <span class="s1">&#39;scalar&#39;</span>
     <span class="n">modifies</span> <span class="o">=</span> <span class="s1">&#39;encoders&#39;</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;scaled_encoders&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">]</span>
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;post_filtered&#39;</span><span class="p">,</span> <span class="s1">&#39;scaled_encoders&#39;</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">)</span>
+
+    <span class="n">post_tau</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;post_tau&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">post_tau</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">post_tau</span> <span class="o">=</span> <span class="n">post_tau</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Voja</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Voja</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">LearningRuleTypeParam</span><span class="p">(</span><span class="n">Parameter</span><span class="p">):</span>
@@ -532,7 +438,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

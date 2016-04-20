@@ -150,138 +150,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<div class="section" id="getting-started">
+  <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>To install Nengo, we recommend using <code class="docutils literal"><span class="pre">pip</span></code>.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install nengo
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nengo</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">pip</span></code> will do its best to install
 all of Nengo&#8217;s requirements when it installs Nengo.
 However, if anything goes wrong during this process,
-or if you feel that Nengo is running very slowly,
 you can install Nengo&#8217;s requirements manually
 before doing <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nengo</span></code> again.</p>
 <div class="section" id="installing-numpy">
 <h3>Installing NumPy<a class="headerlink" href="#installing-numpy" title="Permalink to this headline">¶</a></h3>
-<p>Nengo&#8217;s only hard requirement is NumPy,
-and it should be installed first.
+<p>Nengo&#8217;s only required dependency is NumPy,
+and we recommend that you install it first.
 The best way to install NumPy depends
 on several factors, such as your operating system.
 Briefly, what we have found to work best
@@ -290,7 +175,7 @@ on each operating system is:</p>
 <li>Windows: Use <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a> or
 the <a class="reference external" href="https://www.python.org/downloads/">official installer</a> and
 <a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">unofficial binaries</a></li>
-<li>Mac OS X: Use <a class="reference external" href="http://brew.sh/">Homebrew</a> or <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a></li>
+<li>Mac OS X: Use <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a> or <a class="reference external" href="http://brew.sh/">Homebrew</a></li>
 <li>Linux: Use a package manager or install from source</li>
 </ul>
 <p>For more options, see
@@ -302,7 +187,7 @@ For our recommended options, read on.</p>
 <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a> is the best way to get started.
 Anaconda provides an all-in-one solution
 that will install Python, NumPy,
-and all other Nengo dependencies.
+and other optional Nengo dependencies.
 It works on all operating systems (Windows, Mac, Linux)
 and does not require administrator privileges.
 It includes GUI tools,
@@ -312,29 +197,27 @@ for managing your Python installation.</p>
 <div class="section" id="package-managers">
 <h4>Package managers<a class="headerlink" href="#package-managers" title="Permalink to this headline">¶</a></h4>
 <p>If you are comfortable with the command line,
-every operating system has a package manager
-that can install Python and NumPy.</p>
+operating systems other than Windows
+have a package manager that can install Python and NumPy.</p>
 <ul class="simple">
-<li><strong>Windows:</strong> While Windows has the <a class="reference external" href="https://chocolatey.org/">Chocolatey</a> package manager,
-it currently does not have good support for NumPy.
-<a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a> is a capable package manager.</li>
 <li><strong>Mac OS X:</strong> <a class="reference external" href="http://brew.sh/">Homebrew</a> has excellent Python support.
-After installing Homebrew, <code class="docutils literal"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">python</span></code> and <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">numpy</span></code>
-will give you a fast NumPy install.</li>
+After installing Homebrew, <code class="docutils literal"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">python</span></code> and <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">numpy</span></code>.</li>
 <li><strong>Linux:</strong> Linux distributions come with a package manager
 capable of installing Python and NumPy.
-Debian, Ubuntu, and others use <code class="docutils literal"><span class="pre">apt</span></code>:
+In Debian, Ubuntu, and other distributions with <code class="docutils literal"><span class="pre">apt</span></code> use:
 <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-numpy</span></code>.
-Fedora and others use <code class="docutils literal"><span class="pre">yum</span></code>:
-<code class="docutils literal"><span class="pre">sudo</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">python-numpy</span></code>.</li>
+In Fedora and others distributions with <code class="docutils literal"><span class="pre">yum</span></code> use:
+<code class="docutils literal"><span class="pre">sudo</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">python-numpy</span></code>.
+For other package managers,
+try searching the package list for <code class="docutils literal"><span class="pre">numpy</span></code>.</li>
 </ul>
 </div>
 <div class="section" id="from-source">
 <h4>From source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h4>
-<p>If speed is an issue,
+<p>If speed is an issue
 and you know your way around a terminal,
 installing NumPy from source
-is the most flexible and performant.
+is flexible and performant.
 See the detailed instructions
 <a class="reference external" href="http://hunseblog.wordpress.com/2014/09/15/installing-numpy-and-openblas/">here</a>.</p>
 </div>
@@ -359,7 +242,7 @@ listed in <code class="docutils literal"><span class="pre">requirements-test.txt
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Everything in a Nengo model is contained within a
-<code class="xref py py-class docutils literal"><span class="pre">nengo.Network</span></code>. To create a new <code class="docutils literal"><span class="pre">Network</span></code>:</p>
+<a class="reference internal" href="frontend_api.html#nengo.Network" title="nengo.Network"><code class="xref py py-class docutils literal"><span class="pre">nengo.Network</span></code></a>. To create a new <code class="docutils literal"><span class="pre">Network</span></code>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nengo</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span>
 </pre></div>
@@ -371,7 +254,7 @@ When creating a new object, you must place it within a <code class="docutils lit
 block in order to inform Nengo which network your object
 should be placed in.</p>
 <p>There are two objects that make up a basic Nengo model.
-A <code class="xref py py-class docutils literal"><span class="pre">nengo.Ensemble</span></code> is a group of neurons that represents
+A <a class="reference internal" href="frontend_api.html#nengo.Ensemble" title="nengo.Ensemble"><code class="xref py py-class docutils literal"><span class="pre">nengo.Ensemble</span></code></a> is a group of neurons that represents
 information in the form of real valued numbers.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
     <span class="n">my_ensemble</span> <span class="o">=</span> <span class="n">nengo</span><span class="o">.</span><span class="n">Ensemble</span><span class="p">(</span><span class="n">n_neurons</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -390,7 +273,7 @@ we create a <code class="xref py py-class docutils literal"><span class="pre">No
 </div>
 <p>In this case, <code class="docutils literal"><span class="pre">my_node</span></code> emits the number 0.5.</p>
 <p>In most cases, however, we want more dynamic information.
-We can make a <code class="xref py py-class docutils literal"><span class="pre">nengo.Node</span></code> using a function as output
+We can make a <a class="reference internal" href="frontend_api.html#nengo.Node" title="nengo.Node"><code class="xref py py-class docutils literal"><span class="pre">nengo.Node</span></code></a> using a function as output
 instead of a number.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
@@ -527,7 +410,7 @@ check out <a class="reference external" href="examples.html">our extensive set o
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

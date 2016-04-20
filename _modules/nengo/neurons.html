@@ -129,121 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.neurons</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.neurons</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -258,39 +144,25 @@ div.nboutput  > :nth-child(2).stderr {
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="NeuronType"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.NeuronType">[docs]</a><span class="k">class</span> <span class="nc">NeuronType</span><span class="p">(</span><span class="n">FrozenObject</span><span class="p">):</span>
+<div class="viewcode-block" id="NeuronType"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.NeuronType">[docs]</a><span class="k">class</span> <span class="nc">NeuronType</span><span class="p">(</span><span class="n">FrozenObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for Nengo neuron models.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    probeable : tuple</span>
+<span class="sd">        Signals that can be probed in the neuron population.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">probeable</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argreprs</span><span class="p">))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_argreprs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_argreprs</span><span class="p">))</span>
-
-<div class="viewcode-block" id="NeuronType.rates"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.NeuronType.rates">[docs]</a>    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute firing rates (in Hz) for given vector input, ``x``.</span>
-
-<span class="sd">        This default implementation takes the naive approach of running the</span>
-<span class="sd">        step function for a second. This should suffice for most rate-based</span>
-<span class="sd">        neuron types; for spiking neurons it will likely fail.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        x : ndarray</span>
-<span class="sd">            vector-space input</span>
-<span class="sd">        gain : ndarray</span>
-<span class="sd">            gains associated with each neuron</span>
-<span class="sd">        bias : ndarray</span>
-<span class="sd">            bias current associated with each neuron</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">J</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">bias</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">step_math</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span></div>
-
-<div class="viewcode-block" id="NeuronType.gain_bias"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.NeuronType.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
+<div class="viewcode-block" id="NeuronType.gain_bias"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.NeuronType.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the gain and bias needed to satisfy max_rates, intercepts.</span>
 
 <span class="sd">        This takes the neurons, approximates their response function, and then</span>
@@ -306,6 +178,13 @@ div.nboutput  > :nth-child(2).stderr {
 <span class="sd">            Maximum firing rates of neurons.</span>
 <span class="sd">        intercepts : ndarray(dtype=float64)</span>
 <span class="sd">            X-intercepts of neurons.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        gain : ndarray(dtype=float64)</span>
+<span class="sd">            Gain associated with each neuron. Sometimes denoted alpha.</span>
+<span class="sd">        bias : ndarray(dtype=float64)</span>
+<span class="sd">            Bias current associated with each neuron.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">J_max</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">J_steps</span> <span class="o">=</span> <span class="mi">101</span>  <span class="c1"># Odd number so that 0 is a sample</span>
@@ -342,49 +221,103 @@ div.nboutput  > :nth-child(2).stderr {
 
         <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span></div>
 
-    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Neurons must provide step_math&quot;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NeuronType.rates"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.NeuronType.rates">[docs]</a>    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute firing rates (in Hz) for given vector input, ``x``.</span>
+
+<span class="sd">        This default implementation takes the naive approach of running the</span>
+<span class="sd">        step function for a second. This should suffice for most rate-based</span>
+<span class="sd">        neuron types; for spiking neurons it will likely fail.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : ndarray(dtype=float64)</span>
+<span class="sd">            Vector-space input.</span>
+<span class="sd">        gain : ndarray(dtype=float64)</span>
+<span class="sd">            Gains associated with each neuron.</span>
+<span class="sd">        bias : ndarray(dtype=float64)</span>
+<span class="sd">            Bias current associated with each neuron.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">bias</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_math</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="NeuronType.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.NeuronType.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implements the differential equation for this neuron type.</span>
+
+<span class="sd">        At a minimum, NeuronType subclasses must implement this method.</span>
+<span class="sd">        That implementation should modify the ``output`` parameter rather</span>
+<span class="sd">        than returning anything, for efficiency reasons.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dt : float</span>
+<span class="sd">            Simulation timestep.</span>
+<span class="sd">        J : ndarray(dtype=float64)</span>
+<span class="sd">            Input currents associated with each neuron.</span>
+<span class="sd">        output : ndarray(dtype=float64)</span>
+<span class="sd">            Output activities associated with each neuron.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Neurons must provide step_math&quot;</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Direct"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.Direct">[docs]</a><span class="k">class</span> <span class="nc">Direct</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Direct mode. Functions are computed explicitly, instead of in neurons.</span>
+<div class="viewcode-block" id="Direct"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Direct">[docs]</a><span class="k">class</span> <span class="nc">Direct</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Signifies that an ensemble should simulate in direct mode.</span>
+
+<span class="sd">    In direct mode, the ensemble represents and transforms signals perfectly,</span>
+<span class="sd">    rather than through a neural approximation. Note that direct mode ensembles</span>
+<span class="sd">    with recurrent connections can easily diverge; most other neuron types will</span>
+<span class="sd">    instead saturate at a certain high firing rate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">x</span>
+<div class="viewcode-block" id="Direct.gain_bias"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Direct.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Always returns ``None, None``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span></div>
 
-    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+<div class="viewcode-block" id="Direct.rates"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Direct.rates">[docs]</a>    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Always returns ``x``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">x</span></div>
 
-    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">SimulationError</span><span class="p">(</span><span class="s2">&quot;Direct mode neurons shouldn&#39;t be simulated.&quot;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Direct.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Direct.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Raises an error if called.</span>
+
+<span class="sd">        Rather than calling this function, the simulator will detect that</span>
+<span class="sd">        the ensemble is in direct mode, and bypass the neural approximation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">SimulationError</span><span class="p">(</span><span class="s2">&quot;Direct mode neurons shouldn&#39;t be simulated.&quot;</span><span class="p">)</span></div></div>
 
 <span class="c1"># TODO: class BasisFunctions or Population or Express;</span>
 <span class="c1">#       uses non-neural basis functions to emulate neuron saturation,</span>
 <span class="c1">#       but still simulate very fast</span>
 
 
-<div class="viewcode-block" id="RectifiedLinear"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.RectifiedLinear">[docs]</a><span class="k">class</span> <span class="nc">RectifiedLinear</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A rectified linear neuron model.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RectifiedLinear"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.RectifiedLinear">[docs]</a><span class="k">class</span> <span class="nc">RectifiedLinear</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A rectified linear neuron model.</span>
+
+<span class="sd">    Each neuron is modeled as a rectified line. That is, the neuron&#39;s activity</span>
+<span class="sd">    scales linearly with current, unless it passes below zero, at which point</span>
+<span class="sd">    the neural activity will stay at zero.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,)</span>
 
-<div class="viewcode-block" id="RectifiedLinear.gain_bias"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.RectifiedLinear.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return gain and bias given maximum firing rate and x-intercept.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RectifiedLinear.gain_bias"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.RectifiedLinear.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Determine gain and bias by shifting and scaling the lines.&quot;&quot;&quot;</span>
         <span class="n">gain</span> <span class="o">=</span> <span class="n">max_rates</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">intercepts</span><span class="p">)</span>
         <span class="n">bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">intercepts</span> <span class="o">*</span> <span class="n">gain</span>
         <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span></div>
 
-<div class="viewcode-block" id="RectifiedLinear.step_math"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.RectifiedLinear.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute rates in Hz for input current (incl. bias)&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RectifiedLinear.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.RectifiedLinear.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the rectification nonlinearity.&quot;&quot;&quot;</span>
         <span class="n">output</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Sigmoid"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.Sigmoid">[docs]</a><span class="k">class</span> <span class="nc">Sigmoid</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Neuron whose response curve is a sigmoid.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Sigmoid"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Sigmoid">[docs]</a><span class="k">class</span> <span class="nc">Sigmoid</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A neuron model whose response curve is a sigmoid.&quot;&quot;&quot;</span>
+
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,)</span>
 
     <span class="n">tau_ref</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;tau_ref&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau_ref</span><span class="o">=</span><span class="mf">0.002</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Sigmoid</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
@@ -394,25 +327,36 @@ div.nboutput  > :nth-child(2).stderr {
     <span class="k">def</span> <span class="nf">_argreprs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span> <span class="o">==</span> <span class="mf">0.002</span> <span class="k">else</span> <span class="p">[</span><span class="s2">&quot;tau_ref=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Sigmoid.gain_bias"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.Sigmoid.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return gain and bias given maximum firing rate and x-intercept.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Sigmoid.gain_bias"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Sigmoid.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Analytically determine gain, bias.&quot;&quot;&quot;</span>
         <span class="n">lim</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span>
         <span class="n">gain</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.</span> <span class="o">/</span> <span class="p">(</span><span class="n">intercepts</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
             <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">lim</span> <span class="o">-</span> <span class="n">max_rates</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">lim</span> <span class="o">-</span> <span class="n">max_rates</span><span class="p">))</span>
         <span class="n">bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lim</span> <span class="o">/</span> <span class="n">max_rates</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">gain</span>
         <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span></div>
 
-<div class="viewcode-block" id="Sigmoid.step_math"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.Sigmoid.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute rates in Hz for input current (incl. bias)&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Sigmoid.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Sigmoid.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the sigmoid nonlinearity.&quot;&quot;&quot;</span>
         <span class="n">output</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">J</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="LIFRate"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.LIFRate">[docs]</a><span class="k">class</span> <span class="nc">LIFRate</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Rate version of the leaky integrate-and-fire (LIF) neuron model.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LIFRate"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.LIFRate">[docs]</a><span class="k">class</span> <span class="nc">LIFRate</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Non-spiking version of the leaky integrate-and-fire (LIF) neuron model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tau_rc : float</span>
+<span class="sd">        Membrane RC time constant, in seconds. Affects how quickly the membrane</span>
+<span class="sd">        voltage decays to zero in the absence of input (larger = slower decay).</span>
+<span class="sd">    tau_ref : float</span>
+<span class="sd">        Absolute refractory period, in seconds. This is how long the</span>
+<span class="sd">        membrane voltage is held at zero after a spike.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,)</span>
 
     <span class="n">tau_rc</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;tau_rc&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">tau_ref</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;tau_ref&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau_rc</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">tau_ref</span><span class="o">=</span><span class="mf">0.002</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LIFRate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
@@ -428,25 +372,8 @@ div.nboutput  > :nth-child(2).stderr {
             <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;tau_ref=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">args</span>
 
-    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
-        <span class="n">J</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">bias</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
-        <span class="c1"># Use LIFRate&#39;s step_math explicitly to ensure rate approximation</span>
-        <span class="n">LIFRate</span><span class="o">.</span><span class="n">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-
-<div class="viewcode-block" id="LIFRate.gain_bias"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.LIFRate.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the alpha and bias needed to satisfy max_rates, intercepts.</span>
-
-<span class="sd">        Returns gain (alpha) and offset (j_bias) values of neurons.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        max_rates : list of floats</span>
-<span class="sd">            Maximum firing rates of neurons.</span>
-<span class="sd">        intercepts : list of floats</span>
-<span class="sd">            X-intercepts of neurons.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LIFRate.gain_bias"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.LIFRate.gain_bias">[docs]</a>    <span class="k">def</span> <span class="nf">gain_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rates</span><span class="p">,</span> <span class="n">intercepts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Analytically determine gain, bias.&quot;&quot;&quot;</span>
         <span class="n">inv_tau_ref</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">max_rates</span> <span class="o">&gt;</span> <span class="n">inv_tau_ref</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Max rates must be below the inverse &quot;</span>
@@ -459,8 +386,16 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="n">bias</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">intercepts</span>
         <span class="k">return</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span></div>
 
-<div class="viewcode-block" id="LIFRate.step_math"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.LIFRate.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute rates in Hz for input current (incl. bias)&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LIFRate.rates"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.LIFRate.rates">[docs]</a>    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Always use LIFRate to determine rates.&quot;&quot;&quot;</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">bias</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+        <span class="c1"># Use LIFRate&#39;s step_math explicitly to ensure rate approximation</span>
+        <span class="n">LIFRate</span><span class="o">.</span><span class="n">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="LIFRate.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.LIFRate.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the LIFRate nonlinearity.&quot;&quot;&quot;</span>
         <span class="n">j</span> <span class="o">=</span> <span class="n">J</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="n">output</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># faster than output[j &lt;= 0] = 0</span>
         <span class="n">output</span><span class="p">[</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span>
@@ -469,17 +404,32 @@ div.nboutput  > :nth-child(2).stderr {
         <span class="c1"># (nan &gt; 0 -&gt; error), and not pass x &lt; -1 to log1p</span>
 
 
-<div class="viewcode-block" id="LIF"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.LIF">[docs]</a><span class="k">class</span> <span class="nc">LIF</span><span class="p">(</span><span class="n">LIFRate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Spiking version of the leaky integrate-and-fire (LIF) neuron model.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LIF"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.LIF">[docs]</a><span class="k">class</span> <span class="nc">LIF</span><span class="p">(</span><span class="n">LIFRate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Spiking version of the leaky integrate-and-fire (LIF) neuron model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tau_rc : float</span>
+<span class="sd">        Membrane RC time constant, in seconds. Affects how quickly the membrane</span>
+<span class="sd">        voltage decays to zero in the absence of input (larger = slower decay).</span>
+<span class="sd">    tau_ref : float</span>
+<span class="sd">        Absolute refractory period, in seconds. This is how long the</span>
+<span class="sd">        membrane voltage is held at zero after a spike.</span>
+<span class="sd">    min_voltage : float</span>
+<span class="sd">        Minimum value for the membrane voltage. If ``-np.inf``, the voltage</span>
+<span class="sd">        is never clipped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spikes&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;refractory_time&#39;</span><span class="p">)</span>
 
     <span class="n">min_voltage</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;min_voltage&#39;</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spikes&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;refractory_time&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau_rc</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">tau_ref</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">min_voltage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LIF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">tau_rc</span><span class="o">=</span><span class="n">tau_rc</span><span class="p">,</span> <span class="n">tau_ref</span><span class="o">=</span><span class="n">tau_ref</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_voltage</span> <span class="o">=</span> <span class="n">min_voltage</span>
 
-    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">spiked</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">refractory_time</span><span class="p">):</span>
+<div class="viewcode-block" id="LIF.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.LIF.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">spiked</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">refractory_time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the LIF nonlinearity.&quot;&quot;&quot;</span>
 
         <span class="c1"># update voltage using accurate exponential integration scheme</span>
         <span class="n">dV</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">dt</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_rc</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">J</span> <span class="o">-</span> <span class="n">voltage</span><span class="p">)</span>
@@ -502,21 +452,44 @@ div.nboutput  > :nth-child(2).stderr {
 
         <span class="c1"># set spiking neurons&#39; voltages to zero, and ref. time to tau_ref</span>
         <span class="n">voltage</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">refractory_time</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span> <span class="o">+</span> <span class="n">spiketime</span></div>
+        <span class="n">refractory_time</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_ref</span> <span class="o">+</span> <span class="n">spiketime</span></div></div>
 
 
-<div class="viewcode-block" id="AdaptiveLIFRate"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.AdaptiveLIFRate">[docs]</a><span class="k">class</span> <span class="nc">AdaptiveLIFRate</span><span class="p">(</span><span class="n">LIFRate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Adaptive rate version of the LIF neuron model.</span>
+<div class="viewcode-block" id="AdaptiveLIFRate"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.AdaptiveLIFRate">[docs]</a><span class="k">class</span> <span class="nc">AdaptiveLIFRate</span><span class="p">(</span><span class="n">LIFRate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Adaptive non-spiking version of the LIF neuron model.</span>
+
+<span class="sd">    Works as the LIF model, except with adapation state ``n``, which is</span>
+<span class="sd">    subtracted from the input current. Its dynamics are::</span>
+
+<span class="sd">        tau_n dn/dt = -n</span>
+
+<span class="sd">    where ``n`` is incremented by ``inc_n`` when the neuron spikes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tau_n : float</span>
+<span class="sd">        Adaptation time constant. Affects how quickly the adaptation state</span>
+<span class="sd">        decays to zero in the absence of spikes (larger = slower decay).</span>
+<span class="sd">    inc_n : float</span>
+<span class="sd">        Adaptation increment. How much the adaptation state is increased after</span>
+<span class="sd">        each spike.</span>
+<span class="sd">    tau_rc : float</span>
+<span class="sd">        Membrane RC time constant, in seconds. Affects how quickly the membrane</span>
+<span class="sd">        voltage decays to zero in the absence of input (larger = slower decay).</span>
+<span class="sd">    tau_ref : float</span>
+<span class="sd">        Absolute refractory period, in seconds. This is how long the</span>
+<span class="sd">        membrane voltage is held at zero after a spike.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] Koch, Christof. Biophysics of Computation: Information Processing</span>
-<span class="sd">       in Single Neurons. Oxford University Press, 1999.</span>
+<span class="sd">       in Single Neurons. Oxford University Press, 1999. p. 339</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="s1">&#39;adaptation&#39;</span><span class="p">)</span>
 
     <span class="n">tau_n</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;tau_n&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">inc_n</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;inc_n&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="s1">&#39;adaptation&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau_n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inc_n</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="o">**</span><span class="n">lif_args</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">AdaptiveLIFRate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">lif_args</span><span class="p">)</span>
@@ -532,40 +505,64 @@ div.nboutput  > :nth-child(2).stderr {
             <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;inc_n=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">inc_n</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">args</span>
 
-<div class="viewcode-block" id="AdaptiveLIFRate.step_math"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.AdaptiveLIFRate.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">adaptation</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute rates for input current (incl. bias)&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AdaptiveLIFRate.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.AdaptiveLIFRate.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">adaptation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the AdaptiveLIFRate nonlinearity.&quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">adaptation</span>
         <span class="n">LIFRate</span><span class="o">.</span><span class="n">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">+=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inc_n</span> <span class="o">*</span> <span class="n">output</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="AdaptiveLIF"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.AdaptiveLIF">[docs]</a><span class="k">class</span> <span class="nc">AdaptiveLIF</span><span class="p">(</span><span class="n">AdaptiveLIFRate</span><span class="p">,</span> <span class="n">LIF</span><span class="p">):</span>
+<div class="viewcode-block" id="AdaptiveLIF"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.AdaptiveLIF">[docs]</a><span class="k">class</span> <span class="nc">AdaptiveLIF</span><span class="p">(</span><span class="n">AdaptiveLIFRate</span><span class="p">,</span> <span class="n">LIF</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adaptive spiking version of the LIF neuron model.</span>
+
+<span class="sd">    Works as the LIF model, except with adapation state ``n``, which is</span>
+<span class="sd">    subtracted from the input current. Its dynamics are::</span>
+
+<span class="sd">        tau_n dn/dt = -n</span>
+
+<span class="sd">    where ``n`` is incremented by ``inc_n`` when the neuron spikes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tau_n : float</span>
+<span class="sd">        Adaptation time constant. Affects how quickly the adaptation state</span>
+<span class="sd">        decays to zero in the absence of spikes (larger = slower decay).</span>
+<span class="sd">    inc_n : float</span>
+<span class="sd">        Adaptation increment. How much the adaptation state is increased after</span>
+<span class="sd">        each spike.</span>
+<span class="sd">    tau_rc : float</span>
+<span class="sd">        Membrane RC time constant, in seconds. Affects how quickly the membrane</span>
+<span class="sd">        voltage decays to zero in the absence of input (larger = slower decay).</span>
+<span class="sd">    tau_ref : float</span>
+<span class="sd">        Absolute refractory period, in seconds. This is how long the</span>
+<span class="sd">        membrane voltage is held at zero after a spike.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] Koch, Christof. Biophysics of Computation: Information Processing</span>
-<span class="sd">       in Single Neurons. Oxford University Press, 1999.</span>
+<span class="sd">       in Single Neurons. Oxford University Press, 1999. p. 339</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spikes&#39;</span><span class="p">,</span> <span class="s1">&#39;adaptation&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;refractory_time&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AdaptiveLIF.step_math"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.AdaptiveLIF.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">adaptation</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute rates for input current (incl. bias)&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AdaptiveLIF.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.AdaptiveLIF.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">adaptation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the AdaptiveLIF nonlinearity.&quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">adaptation</span>
         <span class="n">LIF</span><span class="o">.</span><span class="n">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span> <span class="o">-</span> <span class="n">n</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">+=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inc_n</span> <span class="o">*</span> <span class="n">output</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Izhikevich"><a class="viewcode-back" href="../../user_api.html#nengo.neurons.Izhikevich">[docs]</a><span class="k">class</span> <span class="nc">Izhikevich</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
+<div class="viewcode-block" id="Izhikevich"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Izhikevich">[docs]</a><span class="k">class</span> <span class="nc">Izhikevich</span><span class="p">(</span><span class="n">NeuronType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Izhikevich neuron model.</span>
 
-<span class="sd">    Implementation based on the original paper [1]_.</span>
-<span class="sd">    Note that we rename some variables for our clarity.</span>
+<span class="sd">    This implementation is based on the original paper [1]_;</span>
+<span class="sd">    however, we rename some variables for clarity.</span>
 <span class="sd">    What was originally &#39;v&#39; we term &#39;voltage&#39;, which represents the membrane</span>
 <span class="sd">    potential of each neuron. What was originally &#39;u&#39; we term &#39;recovery&#39;,</span>
 <span class="sd">    which represents membrane recovery, &quot;which accounts for the activation</span>
-<span class="sd">    of K+ ionic currents and inactivation of Na+ ionic currents&quot;.</span>
+<span class="sd">    of K+ ionic currents and inactivation of Na+ ionic currents.&quot;</span>
+<span class="sd">    The &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, and &#39;d&#39; parameters are also renamed</span>
+<span class="sd">    (see the parameters below).</span>
 
 <span class="sd">    We use default values that correspond to regular spiking (&#39;RS&#39;) neurons.</span>
 <span class="sd">    For other classes of neurons, set the parameters as follows.</span>
@@ -578,17 +575,15 @@ div.nboutput  > :nth-child(2).stderr {
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tau_recovery : float</span>
-<span class="sd">        (Originally &#39;a&#39;) Ttime scale of the recovery varaible. Default: 0.02</span>
-<span class="sd">    coupling : float</span>
+<span class="sd">    tau_recovery : float, optional (Default: 0.02)</span>
+<span class="sd">        (Originally &#39;a&#39;) Time scale of the recovery varaible.</span>
+<span class="sd">    coupling : float, optional (Default: 0.2)</span>
 <span class="sd">        (Originally &#39;b&#39;) How sensitive recovery is to subthreshold</span>
-<span class="sd">        fluctuations of voltage. Default: 0.2</span>
-<span class="sd">    reset_voltage : float</span>
+<span class="sd">        fluctuations of voltage.</span>
+<span class="sd">    reset_voltage : float, optional (Default: -65.)</span>
 <span class="sd">        (Originally &#39;c&#39;) The voltage to reset to after a spike, in millivolts.</span>
-<span class="sd">        Default: -65</span>
-<span class="sd">    reset_recovery : float</span>
+<span class="sd">    reset_recovery : float, optional (Default: 8.)</span>
 <span class="sd">        (Originally &#39;d&#39;) The recovery value to reset to after a spike.</span>
-<span class="sd">        Default: 8.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -597,14 +592,15 @@ div.nboutput  > :nth-child(2).stderr {
 <span class="sd">       (http://www.izhikevich.org/publications/spikes.pdf)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spikes&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;recovery&#39;</span><span class="p">)</span>
+
     <span class="n">tau_recovery</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;tau_recovery&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_open</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">coupling</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;coupling&#39;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">reset_voltage</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;reset_voltage&#39;</span><span class="p">)</span>
     <span class="n">reset_recovery</span> <span class="o">=</span> <span class="n">NumberParam</span><span class="p">(</span><span class="s1">&#39;reset_recovery&#39;</span><span class="p">)</span>
-    <span class="n">probeable</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;spikes&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;recovery&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau_recovery</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                 <span class="n">reset_voltage</span><span class="o">=-</span><span class="mi">65</span><span class="p">,</span> <span class="n">reset_recovery</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+                 <span class="n">reset_voltage</span><span class="o">=-</span><span class="mf">65.</span><span class="p">,</span> <span class="n">reset_recovery</span><span class="o">=</span><span class="mf">8.</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Izhikevich</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tau_recovery</span> <span class="o">=</span> <span class="n">tau_recovery</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coupling</span> <span class="o">=</span> <span class="n">coupling</span>
@@ -620,18 +616,23 @@ div.nboutput  > :nth-child(2).stderr {
                 <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)))</span>
         <span class="n">add</span><span class="p">(</span><span class="s2">&quot;tau_recovery&quot;</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
         <span class="n">add</span><span class="p">(</span><span class="s2">&quot;coupling&quot;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
-        <span class="n">add</span><span class="p">(</span><span class="s2">&quot;reset_voltage&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">65</span><span class="p">)</span>
-        <span class="n">add</span><span class="p">(</span><span class="s2">&quot;reset_recovery&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span><span class="s2">&quot;reset_voltage&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span><span class="s2">&quot;reset_recovery&quot;</span><span class="p">,</span> <span class="mf">8.</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">args</span>
 
-    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
+<div class="viewcode-block" id="Izhikevich.rates"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Izhikevich.rates">[docs]</a>    <span class="k">def</span> <span class="nf">rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">gain</span><span class="p">,</span> <span class="n">bias</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Estimates steady-state firing rate given gain and bias.</span>
+
+<span class="sd">        Uses the `nengo.utils.neurons.settled_firingrate` helper function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">J</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">bias</span>
         <span class="n">voltage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
         <span class="n">recovery</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">settled_firingrate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_math</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="p">[</span><span class="n">voltage</span><span class="p">,</span> <span class="n">recovery</span><span class="p">],</span>
-                                  <span class="n">settle_time</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">sim_time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+                                  <span class="n">settle_time</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">sim_time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">spiked</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">recovery</span><span class="p">):</span>
+<div class="viewcode-block" id="Izhikevich.step_math"><a class="viewcode-back" href="../../frontend_api.html#nengo.neurons.Izhikevich.step_math">[docs]</a>    <span class="k">def</span> <span class="nf">step_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">spiked</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">recovery</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implement the Izhikevich nonlinearity.&quot;&quot;&quot;</span>
         <span class="c1"># Numerical instability occurs for very low inputs.</span>
         <span class="c1"># We&#39;ll clip them be greater than some value that was chosen by</span>
         <span class="c1"># looking at the simulations for many parameter sets.</span>
@@ -651,7 +652,7 @@ div.nboutput  > :nth-child(2).stderr {
 
         <span class="n">dU</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_recovery</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coupling</span> <span class="o">*</span> <span class="n">voltage</span> <span class="o">-</span> <span class="n">recovery</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1000</span>
         <span class="n">recovery</span><span class="p">[:]</span> <span class="o">+=</span> <span class="n">dU</span> <span class="o">*</span> <span class="n">dt</span>
-        <span class="n">recovery</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">recovery</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_recovery</span></div>
+        <span class="n">recovery</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">recovery</span><span class="p">[</span><span class="n">spiked</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_recovery</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">NeuronTypeParam</span><span class="p">(</span><span class="n">Parameter</span><span class="p">):</span>
@@ -672,7 +673,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 

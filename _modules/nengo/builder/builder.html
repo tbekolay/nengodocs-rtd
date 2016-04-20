@@ -129,121 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput > div,
-div.nbinput div[class^=highlight],
-div.nbinput div[class^=highlight] pre,
-div.nboutput,
-div.nboutput > div,
-div.nboutput div[class^=highlight],
-div.nboutput div[class^=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput > :first-child pre {
-    color: navy;
-}
-
-/* output prompt */
-div.nboutput > :first-child pre {
-    color: darkred;
-}
-
-/* all prompts */
-div.nbinput > :first-child[class^=highlight],
-div.nboutput > :first-child[class^=highlight],
-div.nboutput > :first-child {
-    min-width: 11ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-
-/* input/output area */
-div.nbinput > :nth-child(2)[class^=highlight],
-div.nboutput > :nth-child(2),
-div.nboutput > :nth-child(2)[class^=highlight] {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-}
-
-/* input area */
-div.nbinput > :nth-child(2)[class^=highlight] {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput  > :nth-child(2).stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansiblack { color: black; }
-.ansired { color: darkred; }
-.ansigreen { color: darkgreen; }
-.ansiyellow { color: #c4a000; }
-.ansiblue { color: darkblue; }
-.ansipurple { color: darkviolet; }
-.ansicyan { color: steelblue; }
-/* See https://github.com/jupyter/nbconvert/issues/174 */
-.ansigray { color: gray; }  /* nbconvert CSS */
-.ansigrey { color: gray; }  /* nbconvert HTML output */
-
-.ansibgblack { background-color: black; }
-.ansibgred { background-color: red; }
-.ansibggreen { background-color: green; }
-.ansibgyellow { background-color: yellow; }
-.ansibgblue { background-color: blue; }
-.ansibgpurple { background-color: magenta; }
-.ansibgcyan { background-color: cyan; }
-.ansibggray { background-color: gray; }
-
-.ansibold { font-weight: bold; }
-</style>
-<h1>Source code for nengo.builder.builder</h1><div class="highlight"><pre>
+  <h1>Source code for nengo.builder.builder</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -255,46 +141,55 @@ div.nboutput  > :nth-child(2).stderr {
 <span class="kn">from</span> <span class="nn">nengo.exceptions</span> <span class="kn">import</span> <span class="n">BuildError</span>
 
 
-<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Output of the Builder, used by the Simulator.</span>
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Stores artifacts from the build process, which are used by `.Simulator`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dt : float, optional (Default: 0.001)</span>
+<span class="sd">        The length of a simulator timestep, in seconds.</span>
+<span class="sd">    label : str, optional (Default: None)</span>
+<span class="sd">        A name or description to differentiate models.</span>
+<span class="sd">    decoder_cache : DecoderCache, optional (Default: ``NoDecoderCache()``)</span>
+<span class="sd">        Interface to a cache for expensive parts of the build process.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    config : Config instance or None</span>
+<span class="sd">    config : Config or None</span>
 <span class="sd">        Build functions can set a config object here to affect sub-builders.</span>
-<span class="sd">    decoder_cache : DecoderCache instance</span>
-<span class="sd">        An object that will be used to cache decoders for faster builds.</span>
+<span class="sd">    decoder_cache : DecoderCache</span>
+<span class="sd">        Interface to a cache for expensive parts of the build process.</span>
 <span class="sd">    dt : float</span>
 <span class="sd">        The length of each timestep, in seconds.</span>
 <span class="sd">    label : str or None</span>
-<span class="sd">        A name or description to differentiate different models.</span>
-<span class="sd">    operators : list of Operator instances</span>
+<span class="sd">        A name or description to differentiate models.</span>
+<span class="sd">    operators : list</span>
 <span class="sd">        List of all operators created in the build process.</span>
 <span class="sd">        All operators must be added to this list, as it is used by Simulator.</span>
-<span class="sd">    params : dict (NengoObject -&gt; namedtuple)</span>
+<span class="sd">    params : dict</span>
 <span class="sd">        Mapping from objects to namedtuples containing parameters generated</span>
 <span class="sd">        in the build process.</span>
-<span class="sd">    probes : list of Probe</span>
+<span class="sd">    probes : list</span>
 <span class="sd">        List of all probes. Probes must be added to this list in the build</span>
 <span class="sd">        process, as this list is used by Simulator.</span>
-<span class="sd">    seeded : dict (NengoObject -&gt; bool)</span>
+<span class="sd">    seeded : dict</span>
 <span class="sd">        All objects are assigned a seed, whether the user defined the seed</span>
 <span class="sd">        or it was automatically generated. &#39;seeded&#39; keeps track of whether</span>
 <span class="sd">        the seed is user-defined. We consider the seed to be user-defined</span>
 <span class="sd">        if it was set directly on the object, or if a seed was set on the</span>
 <span class="sd">        network in which the object resides, or if a seed was set on any</span>
 <span class="sd">        ancestor network of the network in which the object resides.</span>
-<span class="sd">    seeds : dict (NengoObject -&gt; int)</span>
+<span class="sd">    seeds : dict</span>
 <span class="sd">        Mapping from objects to the integer seed assigned to that object.</span>
-<span class="sd">    sig : dict (str -&gt; dict (object -&gt; Signal))</span>
+<span class="sd">    sig : dict</span>
 <span class="sd">        A dictionary of dictionaries that organizes all of the signals</span>
 <span class="sd">        created in the build process, as build functions often need to</span>
 <span class="sd">        access signals created by other build functions.</span>
-<span class="sd">    step : Signal(dtype=int64)</span>
+<span class="sd">    step : Signal</span>
 <span class="sd">        The current step (i.e., how many timesteps have occurred thus far).</span>
-<span class="sd">    time : Signal(dtype=float64)</span>
+<span class="sd">    time : Signal</span>
 <span class="sd">        The current point in time.</span>
-<span class="sd">    toplevel : Network instance</span>
+<span class="sd">    toplevel : Network</span>
 <span class="sd">        The top-level network being built.</span>
 <span class="sd">        This is sometimes useful for accessing network elements after build,</span>
 <span class="sd">        or for the network builder to determine if it is the top-level network.</span>
@@ -327,40 +222,112 @@ div.nboutput  > :nth-child(2).stderr {
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Model: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
 
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Builder</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="Model.add_op"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Model.add_op">[docs]</a>    <span class="k">def</span> <span class="nf">add_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add an operator to the model.</span>
 
-    <span class="k">def</span> <span class="nf">add_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+<span class="sd">        In addition to adding the operator, this method performs additional</span>
+<span class="sd">        error checking by calling the operator&#39;s ``make_step`` function.</span>
+<span class="sd">        Calling ``make_step`` catches errors in which signals are not</span>
+<span class="sd">        properly initialized early, which aids debugging. For that reason,</span>
+<span class="sd">        we recommend calling this method over directly accessing</span>
+<span class="sd">        the ``operators`` attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
         <span class="c1"># Fail fast by trying make_step with a temporary sigdict</span>
         <span class="n">signals</span> <span class="o">=</span> <span class="n">SignalDict</span><span class="p">()</span>
         <span class="n">op</span><span class="o">.</span><span class="n">init_signals</span><span class="p">(</span><span class="n">signals</span><span class="p">)</span>
-        <span class="n">op</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">signals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>
+        <span class="n">op</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">signals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Model.has_built"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.Model.has_built">[docs]</a>    <span class="k">def</span> <span class="nf">has_built</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns true if obj has built parameters.</span>
+<div class="viewcode-block" id="Model.build"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Model.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build an object into this model.</span>
 
-<span class="sd">        Some objects (e.g. synapses) do not add params and can be built more</span>
-<span class="sd">        than once (i.e. this function returns false), allowing re-use.</span>
+<span class="sd">        See `.Builder.build` for more details.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : object</span>
+<span class="sd">            The object to build into this model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Builder</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.has_built"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Model.has_built">[docs]</a>    <span class="k">def</span> <span class="nf">has_built</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns true if the object has already been built in this model.</span>
+
+<span class="sd">        .. note:: Some objects (e.g. synapses) can be built multiple times,</span>
+<span class="sd">                  and therefore will always result in this method returning</span>
+<span class="sd">                  ``False`` even though they have been built.</span>
+
+<span class="sd">        This check is implemented by checking if the object is in the</span>
+<span class="sd">        ``params`` dictionary. Build function should therefore add themselves</span>
+<span class="sd">        to ``model.params`` if they cannot be built multiple times.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : object</span>
+<span class="sd">            The object to query.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span></div></div>
 
 
-<div class="viewcode-block" id="Builder"><a class="viewcode-back" href="../../../dev_api.html#nengo.builder.Builder">[docs]</a><span class="k">class</span> <span class="nc">Builder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Builder"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Builder">[docs]</a><span class="k">class</span> <span class="nc">Builder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Manages the build functions known to the Nengo build process.</span>
+
+<span class="sd">    Consists of two class methods to encapsulate the build function registry.</span>
+<span class="sd">    All build functions should use the `.Builder.register` method as a</span>
+<span class="sd">    decorator. For example::</span>
+
+<span class="sd">        @nengo.builder.Builder.register(MyRule)</span>
+<span class="sd">        def build_my_rule(model, my_rule, rule):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    registers a build function for ``MyRule`` objects.</span>
+
+<span class="sd">    Build functions should not be called directly, but instead called through</span>
+<span class="sd">    the `.Model.build` method. `.Model.build` uses the `.Builder.build` method</span>
+<span class="sd">    to ensure that the correct build function is called based on the type of</span>
+<span class="sd">    the object passed to it.</span>
+<span class="sd">    For example, to build the learning rule type ``my_rule`` from above, do::</span>
+
+<span class="sd">        model.build(my_rule, connection.learning_rule)</span>
+
+<span class="sd">    This will call the ``build_my_rule`` function from above with the arguments</span>
+<span class="sd">    ``model, my_rule, connection.learning_rule``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    builders : dict</span>
+<span class="sd">        Mapping from types to the build function associated with that type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">builders</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">nengo_class</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">register_builder</span><span class="p">(</span><span class="n">build_fn</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">nengo_class</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">builders</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Type &#39;</span><span class="si">%s</span><span class="s2">&#39; already has a builder. Overwriting.&quot;</span>
-                              <span class="o">%</span> <span class="n">nengo_class</span><span class="p">)</span>
-            <span class="n">cls</span><span class="o">.</span><span class="n">builders</span><span class="p">[</span><span class="n">nengo_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_fn</span>
-            <span class="k">return</span> <span class="n">build_fn</span>
-        <span class="k">return</span> <span class="n">register_builder</span>
+<div class="viewcode-block" id="Builder.build"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Builder.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build ``obj`` into ``model``.</span>
 
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="sd">        This method looks up the appropriate build function for ``obj`` and</span>
+<span class="sd">        calls with the model and other arguments provided.</span>
+
+<span class="sd">        Note that if a build function is not specified for a particular type</span>
+<span class="sd">        (e.g., `.EnsembleArray`), the type&#39;s method resolution order will be</span>
+<span class="sd">        examined to determine the class hierarchy and look for superclasses</span>
+<span class="sd">        with defined build functions (e.g., `.Network` in the case of</span>
+<span class="sd">        `.EnsembleArray`).</span>
+
+<span class="sd">        This indirection (calling `.Builder.build` instead of the build</span>
+<span class="sd">        function directly) enables users to augment the build process in their</span>
+<span class="sd">        own models, rather than having to modify Nengo itself.</span>
+
+<span class="sd">        In addition to the parameters listed below, further positional and</span>
+<span class="sd">        keyword arguments will be passed onto the build function unchanged.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : Model</span>
+<span class="sd">            The `.Model` instance in which to store build artifacts.</span>
+<span class="sd">        obj : object</span>
+<span class="sd">            The object to build into the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">has_built</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
             <span class="c1"># TODO: Prevent this at pre-build validation time.</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Object </span><span class="si">%s</span><span class="s2"> has already been built.&quot;</span> <span class="o">%</span> <span class="n">obj</span><span class="p">)</span>
@@ -374,6 +341,25 @@ div.nboutput  > :nth-child(2).stderr {
                 <span class="s2">&quot;Cannot build object of type </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">builders</span><span class="p">[</span><span class="n">obj_cls</span><span class="p">](</span><span class="n">model</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Builder.register"><a class="viewcode-back" href="../../../backend_api.html#nengo.builder.Builder.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">nengo_class</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A decorator for adding a class to the build function registry.</span>
+
+<span class="sd">        Raises a warning if a build function already exists for the class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nengo_class : Class</span>
+<span class="sd">            The type associated with the build function being decorated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">register_builder</span><span class="p">(</span><span class="n">build_fn</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nengo_class</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">builders</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Type &#39;</span><span class="si">%s</span><span class="s2">&#39; already has a builder. Overwriting.&quot;</span>
+                              <span class="o">%</span> <span class="n">nengo_class</span><span class="p">)</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">builders</span><span class="p">[</span><span class="n">nengo_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_fn</span>
+            <span class="k">return</span> <span class="n">build_fn</span>
+        <span class="k">return</span> <span class="n">register_builder</span></div></div>
 </pre></div>
 
            </div>
@@ -386,7 +372,7 @@ div.nboutput  > :nth-child(2).stderr {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 06, 2016.
+      Last updated on Apr 20, 2016.
 
     </p>
   </div> 
