@@ -32,7 +32,7 @@
   
     <link rel="top" title="Nengo 2.1.0-dev docs" href="../index.html"/>
         <link rel="up" title="Networks" href="../networks.html"/>
-        <link rel="next" title="Reference simulator" href="../backend_api.html"/>
+        <link rel="next" title="Semantic Pointer Architecture" href="../spa.html"/>
         <link rel="prev" title="Advanced network design example" href="network_design_advanced.html"/> 
 
   
@@ -93,6 +93,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Configuration system example</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../spa.html">Semantic Pointer Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../backend_api.html">Reference simulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html">Release History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html">Nengo history</a></li>
@@ -1754,7 +1755,7 @@ without changing core Nengo objects.</p>
 
 <div class="output_text output_subarea ">
 <pre>
-&lt;IPython.core.display.Javascript at 0x7fa3852898d0&gt;
+&lt;IPython.core.display.Javascript at 0x7f12e12878d0&gt;
 </pre>
 </div>
 
@@ -1764,50 +1765,50 @@ without changing core Nengo objects.</p>
 
 <div class="output_html rendered_html output_subarea output_pyout">
 
-        <a id="996625566" href="javascript:toggle_input_996625566()"
+        <a id="19434326" href="javascript:toggle_input_19434326()"
           >Show Input</a>
 
         <script type="text/javascript">
-        var toggle_input_996625566;
+        var toggle_input_19434326;
         (function() {
             if (typeof jQuery == 'undefined') {
                 // no jQuery
-                var link_996625566 = document.getElementById("996625566");
-                var cell = link_996625566;
+                var link_19434326 = document.getElementById("19434326");
+                var cell = link_19434326;
                 while (cell.className.split(' ')[0] != "cell") {
                     cell = cell.parentNode;
                 }
-                var input_996625566;
+                var input_19434326;
                 for (var i = 0; i < cell.children.length; i++) {
                     if (cell.children[i].className.split(' ')[0] == "input")
-                        input_996625566 = cell.children[i];
+                        input_19434326 = cell.children[i];
                 }
-                input_996625566.style.display = "none"; // hide
+                input_19434326.style.display = "none"; // hide
 
-                toggle_input_996625566 = function() {
-                    if (input_996625566.style.display == "none") {
-                        input_996625566.style.display = ""; // show
-                        link_996625566.innerHTML = "Hide Input";
+                toggle_input_19434326 = function() {
+                    if (input_19434326.style.display == "none") {
+                        input_19434326.style.display = ""; // show
+                        link_19434326.innerHTML = "Hide Input";
                     } else {
-                        input_996625566.style.display = "none"; // hide
-                        link_996625566.innerHTML = "Show Input";
+                        input_19434326.style.display = "none"; // hide
+                        link_19434326.innerHTML = "Show Input";
                     }
                 }
 
             } else {
                 // jQuery
-                var link_996625566 = $("a[id='996625566']");
-                var cell_996625566 = link_996625566.parents("div.cell:first");
-                var input_996625566 = cell_996625566.children("div.input");
-                input_996625566.hide();
+                var link_19434326 = $("a[id='19434326']");
+                var cell_19434326 = link_19434326.parents("div.cell:first");
+                var input_19434326 = cell_19434326.children("div.input");
+                input_19434326.hide();
 
-                toggle_input_996625566 = function() {
-                    if (input_996625566.is(':hidden')) {
-                        input_996625566.slideDown();
-                        link_996625566[0].innerHTML = "Hide Input";
+                toggle_input_19434326 = function() {
+                    if (input_19434326.is(':hidden')) {
+                        input_19434326.slideDown();
+                        link_19434326[0].innerHTML = "Hide Input";
                     } else {
-                        input_996625566.slideUp();
-                        link_996625566[0].innerHTML = "Show Input";
+                        input_19434326.slideUp();
+                        link_19434326[0].innerHTML = "Show Input";
                     }
                 }
             }
@@ -1936,9 +1937,9 @@ by printing it.</p>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
 No parameters configured for Connection.
-No parameters configured for Node.
-No parameters configured for Probe.
 No parameters configured for Ensemble.
+No parameters configured for Probe.
+No parameters configured for Node.
 
 </pre>
 </div>
@@ -2287,13 +2288,6 @@ Current defaults for Node:
   seed: None
   size_in: None
   size_out: None
-Current defaults for Probe:
-  attr: None
-  label: None
-  sample_every: None
-  seed: None
-  solver: ConnectionDefault
-  synapse: None
 Current defaults for Ensemble:
   bias: None
   dimensions: None
@@ -2309,6 +2303,13 @@ Current defaults for Ensemble:
   noise: None
   radius: 1.5
   seed: None
+Current defaults for Probe:
+  attr: None
+  label: None
+  sample_every: None
+  seed: None
+  solver: ConnectionDefault
+  synapse: None
 
 In &apos;subnet&apos; context:
 Current defaults for Ensemble:
@@ -2716,7 +2717,7 @@ when creating a new attribute.</p>
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
-/home/tbekolay/Code/nengo/nengo/base.py:73: SyntaxWarning: Creating new attribute &apos;memory_location&apos; on &apos;&lt;Ensemble (unlabeled) at 0x7fa385289250&gt;&apos;. Did you mean to change an existing attribute?
+/home/tbekolay/Code/nengo/nengo/base.py:73: SyntaxWarning: Creating new attribute &apos;memory_location&apos; on &apos;&lt;Ensemble (unlabeled) at 0x7f12e1287150&gt;&apos;. Did you mean to change an existing attribute?
   SyntaxWarning)
 
 </pre>
@@ -2880,7 +2881,7 @@ for examples.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../backend_api.html" class="btn btn-neutral float-right" title="Reference simulator" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../spa.html" class="btn btn-neutral float-right" title="Semantic Pointer Architecture" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="network_design_advanced.html" class="btn btn-neutral" title="Advanced network design example" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -2893,7 +2894,7 @@ for examples.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 20, 2016.
+      Last updated on Apr 21, 2016.
 
     </p>
   </div> 

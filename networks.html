@@ -93,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="examples/config.html">Configuration system example</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="spa.html">Semantic Pointer Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backend_api.html">Reference simulator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Release History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="history.html">Nengo history</a></li>
@@ -295,7 +296,7 @@ of this ensemble array.</p>
 
 <dl class="method">
 <dt id="nengo.networks.EnsembleArray.add_output">
-<code class="descname">add_output</code><span class="sig-paren">(</span><em>name</em>, <em>function</em>, <em>**conn_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/ensemblearray.html#EnsembleArray.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.EnsembleArray.add_output" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_output</code><span class="sig-paren">(</span><em>name</em>, <em>function</em>, <em>synapse=None</em>, <em>**conn_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/ensemblearray.html#EnsembleArray.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.EnsembleArray.add_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a node that collects the decoded output of all ensembles.</p>
 <p>By default, this is called once in <code class="docutils literal"><span class="pre">__init__</span></code> with <code class="docutils literal"><span class="pre">function=None</span></code>.
 However, this can be called multiple times with different functions,
@@ -304,11 +305,11 @@ downstream ensembles with different functions.</p>
 <p>Note that in addition to the parameters below, parameters affecting
 all of the connections from the sub-ensembles to the new node
 can be passed to this function. For example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ea</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="n">nengo</span><span class="o">.</span><span class="n">Lowpass</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ea</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">nengo</span><span class="o">.</span><span class="n">solers</span><span class="o">.</span><span class="n">Lstsq</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>creates a new output with the decoded value of each sub-ensemble
-filtered with a 100 ms lowpass synapse model.</p>
+<p>creates a new output with the decoders of each connection solved for
+with the <a class="reference internal" href="frontend_api.html#nengo.solvers.Lstsq" title="nengo.solvers.Lstsq"><code class="xref py py-obj docutils literal"><span class="pre">Lstsq</span></code></a> solver.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -319,10 +320,19 @@ filtered with a 100 ms lowpass synapse model.</p>
 set on the ensemble array.</p>
 </div></blockquote>
 <p><strong>function</strong> : callable or iterable of callables</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The function to compute across the connection from sub-ensembles
 to the new output node. If function is an iterable, it must be
 an iterable consisting of one function for each sub-ensemble.</p>
+</div></blockquote>
+<p><strong>synapse</strong> : Synapse, optional (Default: None)</p>
+<blockquote class="last">
+<div><p>The synapse model with which to filter the connections from
+sub-ensembles to the new output node. This is kept separate from
+the other <code class="docutils literal"><span class="pre">conn_kwargs</span></code> because this defaults to None rather
+than the default synapse model. In almost all cases, the synapse
+should stay as None, and instead applied to the connection from
+the output node.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -458,7 +468,7 @@ ganglia. Biological Cybernetics 84, 401-423.</td></tr>
 <td>(EnsembleArray) Striatal D1 ensembles.</td>
 </tr>
 <tr class="row-even"><td>net.strD2</td>
-<td>(EnsembleArray) Straital D2 ensembles.</td>
+<td>(EnsembleArray) Striatal D2 ensembles.</td>
 </tr>
 </tbody>
 </table>
@@ -535,152 +545,214 @@ defaults through modifying <code class="docutils literal"><span class="pre">net.
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="nengo.networks.InputGatedMemory">
-<code class="descclassname">nengo.networks.</code><code class="descname">InputGatedMemory</code><span class="sig-paren">(</span><em>n_neurons</em>, <em>dimensions</em>, <em>feedback=1.0</em>, <em>difference_gain=1.0</em>, <em>recurrent_synapse=0.1</em>, <em>difference_synapse=None</em>, <em>net=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/workingmemory.html#InputGatedMemory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.InputGatedMemory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stores a given vector in memory, with input controlled by a gate.</p>
+<dl class="class">
+<dt id="nengo.networks.AssociativeMemory">
+<em class="property">class </em><code class="descclassname">nengo.networks.</code><code class="descname">AssociativeMemory</code><span class="sig-paren">(</span><em>input_vectors</em>, <em>output_vectors=None</em>, <em>n_neurons=50</em>, <em>threshold=0.3</em>, <em>input_scales=1.0</em>, <em>inhibitable=False</em>, <em>label=None</em>, <em>seed=None</em>, <em>add_to_container=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Associative memory network.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_neurons</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>input_vectors: array_like</strong></p>
 <blockquote>
-<div><p>Number of neurons per dimension in the vector.</p>
+<div><p>The list of vectors to be compared against.</p>
 </div></blockquote>
-<p><strong>dimensions</strong> : int</p>
+<p><strong>output_vectors: array_like, optional (Default: None)</strong></p>
 <blockquote>
-<div><p>Dimensionality of the vector.</p>
+<div><p>The list of vectors to be produced for each match. If None, the
+associative memory will be autoassociative (cleanup memory).</p>
 </div></blockquote>
-<p><strong>feedback</strong> : float, optional (Default: 1.0)</p>
+<p><strong>n_neurons: int, optional (Default: 50)</strong></p>
 <blockquote>
-<div><p>Strength of the recurrent connection from the memory to itself.</p>
+<div><p>The number of neurons for each of the ensemble (where each ensemble
+represents each item in the input_vectors list).</p>
 </div></blockquote>
-<p><strong>difference_gain</strong> : float, optional (Default: 1.0)</p>
+<p><strong>threshold: float, optional (Default: 0.3)</strong></p>
 <blockquote>
-<div><p>Strength of the connection from the difference ensembles to the
-memory ensembles.</p>
+<div><p>The association activation threshold.</p>
 </div></blockquote>
-<p><strong>recurrent_synapse</strong> : float, optional (Default: 0.1)</p>
-<p><strong>difference_synapse</strong> : Synapse (Default: None)</p>
+<p><strong>input_scales: float or array_like, optional (Default: 1.0)</strong></p>
 <blockquote>
-<div><p>If None, ...</p>
+<div><p>Scaling factor to apply on each of the input vectors. Note that it
+is possible to scale each vector independently.</p>
 </div></blockquote>
-<p><strong>net</strong> : Network, optional (Default: None)</p>
+<p><strong>inhibitable: bool, optional (Default: False)</strong></p>
 <blockquote>
-<div><p>A network in which the network components will be built.
-This is typically used to provide a custom set of Nengo object
-defaults through modifying <code class="docutils literal"><span class="pre">net.config</span></code>.</p>
+<div><p>Flag to indicate if the entire associative memory module is
+inhibitable (entire thing can be shut off). The input gain into
+the inhibitory connection is 1.5.</p>
 </div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>net</strong> : Network</p>
+<p><strong>label</strong> : str, optional (Default: None)</p>
+<blockquote>
+<div><p>A name for the ensemble. Used for debugging and visualization.</p>
+</div></blockquote>
+<p><strong>seed</strong> : int, optional (Default: None)</p>
+<blockquote>
+<div><p>The seed used for random number generation.</p>
+</div></blockquote>
+<p><strong>add_to_container</strong> : bool, optional (Default: None)</p>
 <blockquote class="last">
-<div><p>The newly built memory network, or the provided <code class="docutils literal"><span class="pre">net</span></code>.</p>
+<div><p>Determines if the network will be added to the current container.
+If None, will be true if currently in a Network context.</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="4%" />
-<col width="96%" />
-</colgroup>
+<dl class="attribute">
+<dt id="nengo.networks.AssociativeMemory.am_ens_config">
+<code class="descname">am_ens_config</code><a class="headerlink" href="#nengo.networks.AssociativeMemory.am_ens_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Config) Defaults for associative memory ensemble creation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.networks.AssociativeMemory.default_ens_config">
+<code class="descname">default_ens_config</code><a class="headerlink" href="#nengo.networks.AssociativeMemory.default_ens_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Config) Defaults for other ensemble creation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nengo.networks.AssociativeMemory.thresh_ens_config">
+<code class="descname">thresh_ens_config</code><a class="headerlink" href="#nengo.networks.AssociativeMemory.thresh_ens_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Config) Defaults for threshold ensemble creation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_input_mapping">
+<code class="descname">add_input_mapping</code><span class="sig-paren">(</span><em>name</em>, <em>input_vectors</em>, <em>input_scales=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_input_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_input_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a set of input vectors to the associative memory network.</p>
+<p>Creates a transform with the given input vectors between the
+a named input node and associative memory element input to enable the
+inputs to be mapped onto ensembles of the Associative Memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td>net.diff</td>
-<td>(EnsembleArray) Represents the difference between the desired vector and the current vector represented by <code class="docutils literal"><span class="pre">mem</span></code>.</td>
-</tr>
-<tr class="row-even"><td>net.gate</td>
-<td>(Node) With input of 0, the network is not gated, and <code class="docutils literal"><span class="pre">mem</span></code> will be updated to minimize <code class="docutils literal"><span class="pre">diff</span></code>. With input greater than 0, the network will be increasingly gated such that <code class="docutils literal"><span class="pre">mem</span></code> will retain its current value, and <code class="docutils literal"><span class="pre">diff</span></code> will be inhibited.</td>
-</tr>
-<tr class="row-odd"><td>net.input</td>
-<td>(Node) The desired vector.</td>
-</tr>
-<tr class="row-even"><td>net.mem</td>
-<td>(EnsembleArray) Integrative population that stores the vector.</td>
-</tr>
-<tr class="row-odd"><td>net.output</td>
-<td>(Node) The vector currently represented by <code class="docutils literal"><span class="pre">mem</span></code>.</td>
-</tr>
-<tr class="row-even"><td>net.reset</td>
-<td>(Node) With positive input, the <code class="docutils literal"><span class="pre">mem</span></code> population will be inhibited, effectively wiping out the vector currently being remembered.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name: str</strong></p>
+<blockquote>
+<div><p>Name to use for the input node. This name will be used as the name
+of the attribute for the associative memory network.</p>
+</div></blockquote>
+<p><strong>input_vectors: array_like</strong></p>
+<blockquote>
+<div><p>The list of vectors to be compared against.</p>
+</div></blockquote>
+<p><strong>input_scales: float or array_like, optional (Default: 1.0)</strong></p>
+<blockquote class="last">
+<div><p>Scaling factor to apply on each of the input vectors. Note that it
+is possible to scale each vector independently.</p>
+</div></blockquote>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="nengo.networks.Product">
-<code class="descclassname">nengo.networks.</code><code class="descname">Product</code><span class="sig-paren">(</span><em>n_neurons</em>, <em>dimensions</em>, <em>input_magnitude=1.0</em>, <em>net=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/product.html#Product"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.Product" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the element-wise product of two equally sized vectors.</p>
-<p>The network used to calculate the product is described in
-<a class="reference external" href="http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network">Gosmann, 2015</a>. A simpler version of this network can be found in the
-<a class="reference external" href="http://pythonhosted.org/nengo/examples/multiplication.html">Multiplication example</a>.</p>
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_output_mapping">
+<code class="descname">add_output_mapping</code><span class="sig-paren">(</span><em>name</em>, <em>output_vectors</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_output_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_output_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds another output to the associative memory network.</p>
+<p>Creates a transform with the given output vectors between the
+associative memory element output and a named output node to enable the
+selection of output vectors by the associative memory.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_neurons</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name: str</strong></p>
 <blockquote>
-<div><p>Number of neurons per dimension in the vector.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">These neurons will be distributed evently across two
-ensembles. If an odd number of neurons is specified, the
-extra neuron will not be used.</p>
-</div>
+<div><p>Name to use for the output node. This name will be used as
+the name of the attribute for the associative memory network.</p>
 </div></blockquote>
-<p><strong>dimensions</strong> : int</p>
-<blockquote>
-<div><p>Number of dimensions in each of the vectors to be multiplied.</p>
-</div></blockquote>
-<p><strong>input_magnitude</strong> : float, optional (Default: 1.)</p>
-<blockquote>
-<div><p>The expected magnitude of the vectors to be multiplied.
-This value is used to determine the radius of the ensembles
-computing the element-wise product.</p>
-</div></blockquote>
-<p><strong>net</strong> : Network, optional (Default: None)</p>
-<blockquote>
-<div><p>A network in which the network components will be built.
-This is typically used to provide a custom set of Nengo object
-defaults through modifying <code class="docutils literal"><span class="pre">net.config</span></code>.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>net</strong> : Network</p>
+<p><strong>output_vectors: array_like</strong></p>
 <blockquote class="last">
-<div><p>The newly built product network, or the provided <code class="docutils literal"><span class="pre">net</span></code>.</p>
+<div><p>The list of vectors to be produced for each match.</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Attributes</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="11%" />
-<col width="89%" />
-</colgroup>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_default_output_vector">
+<code class="descname">add_default_output_vector</code><span class="sig-paren">(</span><em>output_vector</em>, <em>output_name='output'</em>, <em>n_neurons=50</em>, <em>min_activation_value=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_default_output_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_default_output_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a default output vector to the associative memory network.</p>
+<p>The default output vector is chosen if the input matches none of
+the given input vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
 <tbody valign="top">
-<tr class="row-odd"><td>net.A</td>
-<td>(Node) The first vector to be multiplied.</td>
-</tr>
-<tr class="row-even"><td>net.B</td>
-<td>(Node) The second vector to be multiplied.</td>
-</tr>
-<tr class="row-odd"><td>net.output</td>
-<td>(Node) The resulting product.</td>
-</tr>
-<tr class="row-even"><td>net.sq1</td>
-<td>(EnsembleArray) Represents the first squared term. See <a class="reference external" href="http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network">Gosmann, 2015</a> for details.</td>
-</tr>
-<tr class="row-odd"><td>net.sq2</td>
-<td>(EnsembleArray) Represents the second squared term. See <a class="reference external" href="http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network">Gosmann, 2015</a> for details.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output_vector: array_like</strong></p>
+<blockquote>
+<div><p>The vector to be produced if the input value matches none of
+the vectors in the input vector list.</p>
+</div></blockquote>
+<p><strong>output_name: str, optional (Default: &#8216;output&#8217;)</strong></p>
+<blockquote>
+<div><p>The name of the input to which the default output vector
+should be applied.</p>
+</div></blockquote>
+<p><strong>n_neurons: int, optional (Default: 50)</strong></p>
+<blockquote>
+<div><p>Number of neurons to use for the default output vector ensemble.</p>
+</div></blockquote>
+<p><strong>min_activation_value: float, optional (Default: 0.5)</strong></p>
+<blockquote class="last">
+<div><p>Minimum activation value (i.e. threshold) to use to disable
+the default output vector.</p>
+</div></blockquote>
+</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_wta_network">
+<code class="descname">add_wta_network</code><span class="sig-paren">(</span><em>inhibit_scale=1.5</em>, <em>inhibit_synapse=0.005</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_wta_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_wta_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a winner-take-all (WTA) network to associative memory output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inhibit_scale: float, optional (Default: 1.5)</strong></p>
+<blockquote>
+<div><p>Mutual inhibition scaling factor.</p>
+</div></blockquote>
+<p><strong>inhibit_synapse: float, optional (Default: 0.005)</strong></p>
+<blockquote class="last">
+<div><p>Mutual inhibition synapse time constant.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nengo.networks.AssociativeMemory.add_threshold_to_outputs">
+<code class="descname">add_threshold_to_outputs</code><span class="sig-paren">(</span><em>n_neurons=50</em>, <em>inhibit_scale=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/assoc_mem.html#AssociativeMemory.add_threshold_to_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.AssociativeMemory.add_threshold_to_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a thresholded output to the associative memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_neurons: int, optional (Default: 50)</strong></p>
+<blockquote>
+<div><p>Number of neurons to use for the default output vector ensemble.</p>
+</div></blockquote>
+<p><strong>inhibit_scale: float, optional (Default: 10)</strong></p>
+<blockquote class="last">
+<div><p>Mutual inhibition scaling factor.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="function">
@@ -906,6 +978,154 @@ defaults through modifying <code class="docutils literal"><span class="pre">net.
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="nengo.networks.Product">
+<code class="descclassname">nengo.networks.</code><code class="descname">Product</code><span class="sig-paren">(</span><em>n_neurons</em>, <em>dimensions</em>, <em>input_magnitude=1.0</em>, <em>net=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/product.html#Product"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.Product" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the element-wise product of two equally sized vectors.</p>
+<p>The network used to calculate the product is described in
+<a class="reference external" href="http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network">Gosmann, 2015</a>. A simpler version of this network can be found in the
+<a class="reference external" href="http://pythonhosted.org/nengo/examples/multiplication.html">Multiplication example</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_neurons</strong> : int</p>
+<blockquote>
+<div><p>Number of neurons per dimension in the vector.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These neurons will be distributed evently across two
+ensembles. If an odd number of neurons is specified, the
+extra neuron will not be used.</p>
+</div>
+</div></blockquote>
+<p><strong>dimensions</strong> : int</p>
+<blockquote>
+<div><p>Number of dimensions in each of the vectors to be multiplied.</p>
+</div></blockquote>
+<p><strong>input_magnitude</strong> : float, optional (Default: 1.)</p>
+<blockquote>
+<div><p>The expected magnitude of the vectors to be multiplied.
+This value is used to determine the radius of the ensembles
+computing the element-wise product.</p>
+</div></blockquote>
+<p><strong>net</strong> : Network, optional (Default: None)</p>
+<blockquote>
+<div><p>A network in which the network components will be built.
+This is typically used to provide a custom set of Nengo object
+defaults through modifying <code class="docutils literal"><span class="pre">net.config</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>net</strong> : Network</p>
+<blockquote class="last">
+<div><p>The newly built product network, or the provided <code class="docutils literal"><span class="pre">net</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>net.A</td>
+<td>(Node) The first vector to be multiplied.</td>
+</tr>
+<tr class="row-even"><td>net.B</td>
+<td>(Node) The second vector to be multiplied.</td>
+</tr>
+<tr class="row-odd"><td>net.output</td>
+<td>(Node) The resulting product.</td>
+</tr>
+<tr class="row-even"><td>net.sq1</td>
+<td>(EnsembleArray) Represents the first squared term. See <a class="reference external" href="http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network">Gosmann, 2015</a> for details.</td>
+</tr>
+<tr class="row-odd"><td>net.sq2</td>
+<td>(EnsembleArray) Represents the second squared term. See <a class="reference external" href="http://nbviewer.jupyter.org/github/ctn-archive/technical-reports/blob/master/Precise-multiplications-with-the-NEF.ipynb#An-alternative-network">Gosmann, 2015</a> for details.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nengo.networks.InputGatedMemory">
+<code class="descclassname">nengo.networks.</code><code class="descname">InputGatedMemory</code><span class="sig-paren">(</span><em>n_neurons</em>, <em>dimensions</em>, <em>feedback=1.0</em>, <em>difference_gain=1.0</em>, <em>recurrent_synapse=0.1</em>, <em>difference_synapse=None</em>, <em>net=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nengo/networks/workingmemory.html#InputGatedMemory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nengo.networks.InputGatedMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a given vector in memory, with input controlled by a gate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_neurons</strong> : int</p>
+<blockquote>
+<div><p>Number of neurons per dimension in the vector.</p>
+</div></blockquote>
+<p><strong>dimensions</strong> : int</p>
+<blockquote>
+<div><p>Dimensionality of the vector.</p>
+</div></blockquote>
+<p><strong>feedback</strong> : float, optional (Default: 1.0)</p>
+<blockquote>
+<div><p>Strength of the recurrent connection from the memory to itself.</p>
+</div></blockquote>
+<p><strong>difference_gain</strong> : float, optional (Default: 1.0)</p>
+<blockquote>
+<div><p>Strength of the connection from the difference ensembles to the
+memory ensembles.</p>
+</div></blockquote>
+<p><strong>recurrent_synapse</strong> : float, optional (Default: 0.1)</p>
+<p><strong>difference_synapse</strong> : Synapse (Default: None)</p>
+<blockquote>
+<div><p>If None, ...</p>
+</div></blockquote>
+<p><strong>net</strong> : Network, optional (Default: None)</p>
+<blockquote>
+<div><p>A network in which the network components will be built.
+This is typically used to provide a custom set of Nengo object
+defaults through modifying <code class="docutils literal"><span class="pre">net.config</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>net</strong> : Network</p>
+<blockquote class="last">
+<div><p>The newly built memory network, or the provided <code class="docutils literal"><span class="pre">net</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>net.diff</td>
+<td>(EnsembleArray) Represents the difference between the desired vector and the current vector represented by <code class="docutils literal"><span class="pre">mem</span></code>.</td>
+</tr>
+<tr class="row-even"><td>net.gate</td>
+<td>(Node) With input of 0, the network is not gated, and <code class="docutils literal"><span class="pre">mem</span></code> will be updated to minimize <code class="docutils literal"><span class="pre">diff</span></code>. With input greater than 0, the network will be increasingly gated such that <code class="docutils literal"><span class="pre">mem</span></code> will retain its current value, and <code class="docutils literal"><span class="pre">diff</span></code> will be inhibited.</td>
+</tr>
+<tr class="row-odd"><td>net.input</td>
+<td>(Node) The desired vector.</td>
+</tr>
+<tr class="row-even"><td>net.mem</td>
+<td>(EnsembleArray) Integrative population that stores the vector.</td>
+</tr>
+<tr class="row-odd"><td>net.output</td>
+<td>(Node) The vector currently represented by <code class="docutils literal"><span class="pre">mem</span></code>.</td>
+</tr>
+<tr class="row-even"><td>net.reset</td>
+<td>(Node) With positive input, the <code class="docutils literal"><span class="pre">mem</span></code> population will be inhibited, effectively wiping out the vector currently being remembered.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
@@ -928,7 +1148,7 @@ defaults through modifying <code class="docutils literal"><span class="pre">net.
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 20, 2016.
+      Last updated on Apr 21, 2016.
 
     </p>
   </div> 

@@ -482,9 +482,9 @@
     <span class="n">model</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span>
         <span class="n">ElementwiseInc</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="s1">&#39;common&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">delta</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">))</span>
     <span class="n">model</span><span class="o">.</span><span class="n">sig</span><span class="p">[</span><span class="n">rule</span><span class="p">][</span><span class="s1">&#39;delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>  <span class="c1"># updates delta</span>
 
-    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># no build-time info to return</span></div>
+    <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c1"># by default, no build-time info to return</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">learning_rule_type</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>  <span class="c1"># updates delta</span></div>
 
 
 <span class="nd">@Builder.register</span><span class="p">(</span><span class="n">BCM</span><span class="p">)</span>
@@ -712,7 +712,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 20, 2016.
+      Last updated on Apr 21, 2016.
 
     </p>
   </div> 

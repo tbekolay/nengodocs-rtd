@@ -319,7 +319,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_output</span></div>
 
     <span class="nd">@with_self</span>
-<div class="viewcode-block" id="EnsembleArray.add_output"><a class="viewcode-back" href="../../../networks.html#nengo.networks.EnsembleArray.add_output">[docs]</a>    <span class="k">def</span> <span class="nf">add_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="EnsembleArray.add_output"><a class="viewcode-back" href="../../../networks.html#nengo.networks.EnsembleArray.add_output">[docs]</a>    <span class="k">def</span> <span class="nf">add_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">synapse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Adds a node that collects the decoded output of all ensembles.</span>
 
 <span class="sd">        By default, this is called once in ``__init__`` with ``function=None``.</span>
@@ -331,10 +331,10 @@
 <span class="sd">        all of the connections from the sub-ensembles to the new node</span>
 <span class="sd">        can be passed to this function. For example::</span>
 
-<span class="sd">            ea.add_output(&#39;output&#39;, None, synapse=nengo.Lowpass(0.1))</span>
+<span class="sd">            ea.add_output(&#39;output&#39;, None, solver=nengo.solers.Lstsq())</span>
 
-<span class="sd">        creates a new output with the decoded value of each sub-ensemble</span>
-<span class="sd">        filtered with a 100 ms lowpass synapse model.</span>
+<span class="sd">        creates a new output with the decoders of each connection solved for</span>
+<span class="sd">        with the `.Lstsq` solver.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -345,11 +345,15 @@
 <span class="sd">            The function to compute across the connection from sub-ensembles</span>
 <span class="sd">            to the new output node. If function is an iterable, it must be</span>
 <span class="sd">            an iterable consisting of one function for each sub-ensemble.</span>
+<span class="sd">        synapse : Synapse, optional (Default: None)</span>
+<span class="sd">            The synapse model with which to filter the connections from</span>
+<span class="sd">            sub-ensembles to the new output node. This is kept separate from</span>
+<span class="sd">            the other ``conn_kwargs`` because this defaults to None rather</span>
+<span class="sd">            than the default synapse model. In almost all cases, the synapse</span>
+<span class="sd">            should stay as None, and instead applied to the connection from</span>
+<span class="sd">            the output node.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dims_per_ens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions_per_ensemble</span>
-
-        <span class="c1"># Unless explicitly desired, we should not set a synapse.</span>
-        <span class="n">conn_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;synapse&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
         <span class="c1"># get output size for each ensemble</span>
         <span class="n">sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_ensembles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -377,8 +381,9 @@
         <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ea_ensembles</span><span class="p">):</span>
-            <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]],</span>
-                             <span class="n">function</span><span class="o">=</span><span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">)</span>
+            <span class="n">nengo</span><span class="o">.</span><span class="n">Connection</span><span class="p">(</span>
+                <span class="n">e</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]],</span> <span class="n">function</span><span class="o">=</span><span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">synapse</span><span class="o">=</span><span class="n">synapse</span><span class="p">,</span> <span class="o">**</span><span class="n">conn_kwargs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">output</span></div></div>
 </pre></div>
@@ -393,7 +398,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2013-2014, Applied Brain Research.
-      Last updated on Apr 20, 2016.
+      Last updated on Apr 21, 2016.
 
     </p>
   </div> 
